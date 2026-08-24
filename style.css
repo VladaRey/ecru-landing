@@ -262,6 +262,29 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   .versus { grid-template-columns: 1fr 2fr; }
 }
 
+/* Стенограма чату: доказ того, що помічник говорить реченнями,
+   а не віддає бал. Не імітація інтерфейсу — цитата. */
+.chat {
+  max-width: var(--measure);
+  margin-block: 1.5rem;
+  padding: 1.25rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+
+.chat p { margin: 0 0 0.6rem; max-width: none; }
+.chat p:last-child { margin-bottom: 0; }
+
+.chat__them { color: var(--ink); }
+.chat__you { color: var(--muted); font-size: 0.95rem; }
+
+.chat__them--verdict {
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rule);
+  font-weight: 600;
+}
+
 @media (min-width: 48rem) {
   body { font-size: 18px; }
   .section { padding-block: 5.5rem; }
