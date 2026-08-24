@@ -188,6 +188,17 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   color: var(--accent);
 }
 
+/* Поки повідомлення немає, місце під нього резервувати не треба:
+   на вузькому екрані це давало помітний мертвий проміжок під кнопкою. */
+.form-note:empty { min-height: 0; }
+
+/* На вузькому екрані поле й кнопка все одно переносяться — хай тоді
+   кнопка буде на всю ширину, інакше вона виглядає обрізаною. */
+@media (max-width: 29.99rem) {
+  .waitlist input,
+  .waitlist button { flex: 1 1 100%; }
+}
+
 .fineprint { font-size: 0.88rem; color: var(--muted); }
 
 .trustbar { padding-block: 1.5rem; }
@@ -338,8 +349,12 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   body { font-size: 18px; }
   .section { padding-block: 5.5rem; }
   .hero { padding-block: 4rem 5rem; }
+}
 
-  /* Текст ліворуч, доказ праворуч — і навпаки через .split--flip. */
+/* Дві колонки — лише коли текстовій справді вистачає місця. На 768px вона
+   виходила 360px, тобто 40 знаків у рядку, і скриншот шириною 320px важив
+   стільки ж, скільки текст. До 64rem секції складаються одна під одну. */
+@media (min-width: 64rem) {
   .split {
     display: grid;
     grid-template-columns: 1fr minmax(0, 320px);
@@ -349,7 +364,7 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 
   /* Перевертаючи порядок, треба перевернути й самі колонки: order переставляє
      дітей між треками, а не треки між собою. Без цього текст потрапляв у вузьку
-     колонку 320px, а скриншот розтягувався на широку — саме так і виглядало. */
+     колонку 320px, а скриншот розтягувався на широку. */
   .split--flip { grid-template-columns: minmax(0, 320px) 1fr; }
   .split--flip > :first-child { order: 2; }
 }
