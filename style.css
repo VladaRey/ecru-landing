@@ -1,0 +1,151 @@
+/* Ecru landing — plain CSS, no build step, mobile first.
+   Everything is local: the fonts sit in assets/fonts and nothing is fetched. */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/InterVariable-Italic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* Ecru — небілений льон. Це і колір продукту, і колір сторінки. */
+  --paper: #ede7dc;
+  --paper-raised: #f5f1e9;
+  --ink: #22201d;
+  --muted: #6b655c;
+  --rule: #d6cec0;
+  --accent: #9a5b3d;      /* палена глина — єдина акцентна лінія */
+  --ink-dark: #ece7de;
+  --paper-dark: #1c1a17;
+
+  --measure: 34rem;       /* ширина колонки тексту */
+  --gap: 1rem;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  font-synthesis-weight: none;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; text-underline-offset: 0.2em; }
+
+h1, h2, h3 {
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 0 0 0.6em;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 5.5vw, 2.4rem); }
+h3 { font-size: 1.1rem; }
+
+p { margin: 0 0 1em; max-width: var(--measure); }
+
+.wrap {
+  width: 100%;
+  max-width: 62rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.section { padding-block: 3.5rem; border-top: 1px solid var(--rule); }
+.section:first-of-type { border-top: 0; }
+
+/* Ярлик над заголовком: нумерує аргумент, не кричить. */
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+}
+
+.lede { font-size: 1.15rem; color: var(--muted); }
+
+/* Скриншот телефона: рамка тонка, бо доказ — це вміст екрана, а не мокап. */
+.shot {
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--paper-raised);
+  max-width: 320px;
+  margin-inline: auto;
+}
+
+.shot img { width: 100%; }
+
+.shot figcaption {
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 0.6rem 0.8rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* Помітна заглушка замість скриншота, якого ще немає.
+   Мокапів не малюємо — краще видима дірка, ніж вигадка. */
+.shot--missing {
+  aspect-ratio: 9 / 19.5;
+  display: grid;
+  place-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: repeating-linear-gradient(
+    45deg, var(--paper-raised), var(--paper-raised) 10px, var(--paper) 10px, var(--paper) 20px
+  );
+}
+
+.dark {
+  background: var(--paper-dark);
+  color: var(--ink-dark);
+  border-top-color: var(--paper-dark);
+}
+
+.dark .eyebrow { color: #c9895f; }
+.dark .lede { color: #a8a096; }
+
+@media (min-width: 48rem) {
+  body { font-size: 18px; }
+  .section { padding-block: 5.5rem; }
+
+  /* Текст ліворуч, доказ праворуч — і навпаки через .split--flip. */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, 320px);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .split--flip > :first-child { order: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
