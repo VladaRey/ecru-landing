@@ -4,10 +4,59 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ecru — your whole wardrobe, and a straight answer about it</title>
+    <meta
+      name="description"
+      content="Ecru catalogs the clothes you own, builds outfits from them, and tells you in one sentence why two things go together. No AI. No account. Nothing leaves your phone." />
+    <meta name="color-scheme" content="light" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Ecru</h1>
-    <p>Deploy check. The real page lands here.</p>
+    <header class="section hero">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow">Ecru</p>
+          <h1>Your whole wardrobe, and a straight answer about it.</h1>
+          <p class="lede">
+            Ecru catalogs what you own, builds outfits from it, and remembers what you wore.
+            Every time it says two things go together, it tells you why — in one sentence.
+          </p>
+
+          <form class="waitlist" data-endpoint="" novalidate>
+            <label class="sr-only" for="hero-email">Email address</label>
+            <input
+              id="hero-email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="you@example.com" />
+            <button type="submit">Join the waitlist</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </form>
+
+          <p class="fineprint">No account · No server · Works in airplane mode</p>
+        </div>
+
+        <figure class="shot">
+          <div class="shot--missing">Screenshot pending: item card with a pair-score explanation open</div>
+        </figure>
+      </div>
+    </header>
+
+    <section class="section trustbar" aria-label="What Ecru is">
+      <div class="wrap">
+        <ul>
+          <li>No account</li>
+          <li>No server</li>
+          <li>No AI</li>
+          <li>Offline</li>
+          <li>4 languages</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Sections 3–13 land here in Tasks 9–11 -->
+
+    <script src="waitlist.js" defer></script>
   </body>
 </html>
