@@ -337,6 +337,7 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 @media (min-width: 48rem) {
   body { font-size: 18px; }
   .section { padding-block: 5.5rem; }
+  .hero { padding-block: 4rem 5rem; }
 
   /* Текст ліворуч, доказ праворуч — і навпаки через .split--flip. */
   .split {
@@ -346,6 +347,10 @@ p { margin: 0 0 1em; max-width: var(--measure); }
     align-items: center;
   }
 
+  /* Перевертаючи порядок, треба перевернути й самі колонки: order переставляє
+     дітей між треками, а не треки між собою. Без цього текст потрапляв у вузьку
+     колонку 320px, а скриншот розтягувався на широку — саме так і виглядало. */
+  .split--flip { grid-template-columns: minmax(0, 320px) 1fr; }
   .split--flip > :first-child { order: 2; }
 }
 
