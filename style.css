@@ -285,6 +285,55 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   font-weight: 600;
 }
 
+.manifesto { display: grid; gap: 2rem; margin-block: 2rem; }
+.manifesto h3 { color: var(--paper); }
+.manifesto p { color: #b8b0a4; max-width: none; }
+.dark .fineprint { color: #8d867c; }
+
+.limits { margin: 0; padding: 0; list-style: none; max-width: 46rem; }
+
+.limits li {
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.limits li:last-child { border-bottom: 1px solid var(--rule); }
+
+.faq { max-width: 46rem; }
+
+.faq details { border-top: 1px solid var(--rule); }
+.faq details:last-child { border-bottom: 1px solid var(--rule); }
+
+.faq summary {
+  padding: 0.9rem 0;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+
+.faq summary::after {
+  content: '+';
+  float: right;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.faq details[open] summary::after { content: '−'; }
+.faq details p { padding-bottom: 0.9rem; color: var(--muted); }
+
+.cta { text-align: center; }
+.cta .lede, .cta .fineprint { margin-inline: auto; }
+.cta .waitlist { margin-inline: auto; }
+
+.site-footer { padding-block: 2.5rem; color: var(--muted); font-size: 0.9rem; }
+.site-footer p { max-width: none; }
+
+@media (min-width: 40rem) {
+  .manifesto { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (min-width: 48rem) {
   body { font-size: 18px; }
   .section { padding-block: 5.5rem; }

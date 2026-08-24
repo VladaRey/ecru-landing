@@ -260,6 +260,144 @@
       </div>
     </section>
 
+    <section class="section dark" id="manifesto">
+      <div class="wrap">
+        <h2>No AI. No cloud. No account.</h2>
+        <p class="lede">
+          Not a privacy posture bolted on afterwards — the two architectural decisions
+          that made everything above possible.
+        </p>
+
+        <div class="manifesto">
+          <div>
+            <h3>No AI</h3>
+            <p>
+              Color is arithmetic over pixels. Harmony is a color formula with published
+              weights. That is exactly why it can explain itself in a sentence: there is
+              a reason to read out.
+            </p>
+          </div>
+          <div>
+            <h3>No backend</h3>
+            <p>
+              No server, no account, no internet. Your wardrobe is SQLite on the phone and
+              photographs in the app's own storage. There is no account to delete because
+              there was never one to make.
+            </p>
+          </div>
+          <div>
+            <h3>The trade</h3>
+            <p>
+              You do the cataloging. In return nothing about your clothes, your face, or
+              your habits is uploaded anywhere, and the app works in airplane mode because
+              it never needed the plane's wifi.
+            </p>
+          </div>
+        </div>
+
+        <p class="fineprint">
+          Straight from the app's own settings screen: <em>“Your wardrobe lives only on
+          this phone. Deleting the app erases it along with the photos — ‘Save photo to
+          gallery’ on an item screen is what leaves a copy outside the app.”</em>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="limits">
+      <div class="wrap">
+        <p class="eyebrow">07 · What it doesn't do</p>
+        <h2>Better said now than discovered later.</h2>
+
+        <ul class="limits">
+          <li><strong>Doesn't recognize clothes from a photo.</strong> You choose the category and the pattern by tapping a list.</li>
+          <li><strong>Doesn't use a network.</strong> No account, no sync, no cloud backup. Saving a photo to your gallery is the only way anything leaves.</li>
+          <li><strong>Doesn't judge cut, fit, or size.</strong> Only color, pattern, occasion, and season.</li>
+          <li><strong>Doesn't ask what you thought of an outfit</strong> and doesn't learn from you.</li>
+          <li><strong>Your color type never changes the sort order.</strong> Harmony always sets it.</li>
+          <li><strong>The fitting room has no free-text input.</strong> Buttons only, deliberately.</li>
+          <li><strong>The fitting room never writes to your wardrobe by itself.</strong> It hands you a pre-filled add screen; you decide.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="wrap">
+        <p class="eyebrow">08 · Questions</p>
+        <h2>Fair things to ask.</h2>
+
+        <div class="faq">
+          <details>
+            <summary>Is it genuinely offline?</summary>
+            <p>Yes. There is no server to talk to. Everything runs on the phone, and the app works with the network off.</p>
+          </details>
+          <details>
+            <summary>Do I need an account?</summary>
+            <p>No. There is no sign-up, no login, and no profile stored anywhere but on your device.</p>
+          </details>
+          <details>
+            <summary>How long does cataloging actually take?</summary>
+            <p>About ninety seconds for the first items, faster after that — picking a subcategory fills in formality and warmth for you. Nineteen items is roughly half an hour, once.</p>
+          </details>
+          <details>
+            <summary>Why refuse AI when it would be faster?</summary>
+            <p>Because a model that cuts out a background can't tell you why two things go together. The explanations on every score exist because the score is a formula, not a guess.</p>
+          </details>
+          <details>
+            <summary>What if the photo lies about the color?</summary>
+            <p>Tap the sheet to set the white point and the frame is recomputed from it — that is what rescues a shot taken under a yellow bulb. You can also pick the shade from a palette by hand, and lock it. In a shop, where there is no sheet, there is a “white is here” tap for a price tag or a wall.</p>
+          </details>
+          <details>
+            <summary>Which languages?</summary>
+            <p>Ukrainian, English, Polish, and Spanish. It follows your system language when that is one of the four, and you can switch it in the profile.</p>
+          </details>
+          <details>
+            <summary>What happens if I delete the app?</summary>
+            <p>Your wardrobe goes with it, photographs included. That is the cost of having no server. “Save photo to gallery” on an item screen is the one thing that leaves a copy outside.</p>
+          </details>
+          <details>
+            <summary>When does it ship, and what does it cost?</summary>
+            <p>It is free, and there is no release date to promise yet. The waitlist gets one email when it is out.</p>
+          </details>
+          <details>
+            <summary>Is this related to other products called Ecru?</summary>
+            <p>No. Ecru here is the color of unbleached linen, which is what this app measures. It has no connection to any other company, brand, or app using the same word.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="wrap">
+        <h2>One email, when it's out.</h2>
+        <p class="lede">No newsletter, no drip sequence, no launch countdown.</p>
+
+        <form class="waitlist" data-endpoint="" novalidate>
+          <label class="sr-only" for="cta-email">Email address</label>
+          <input
+            id="cta-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="you@example.com" />
+          <button type="submit">Join the waitlist</button>
+          <p class="form-note" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="fineprint">No account · No server · Works in airplane mode</p>
+      </div>
+    </section>
+
+    <footer class="section site-footer">
+      <div class="wrap">
+        <p>Ecru — an offline personal wardrobe app. Ukrainian · English · Polish · Spanish.</p>
+        <p class="fineprint">
+          An independent project, not affiliated with any other company, brand, or
+          application using the name Ecru.
+        </p>
+      </div>
+    </footer>
+
     <script src="waitlist.js" defer></script>
   </body>
 </html>
