@@ -206,6 +206,62 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   color: var(--muted);
 }
 
+/* «92 %» проти речення — це і є весь аргумент сторінки, тож він
+   поставлений поруч, а не описаний словами. */
+.versus {
+  display: grid;
+  gap: 1px;
+  margin-block: 2rem;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.versus__cell { padding: 1.5rem; background: var(--paper-raised); }
+.versus__cell--them { color: var(--muted); }
+
+.versus__label {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.versus__score {
+  margin: 0;
+  font-size: 2.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.versus__reason {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  max-width: none;
+}
+
+.reasons {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
+}
+
+.reasons li {
+  padding: 0.7rem 0 0.7rem 1.1rem;
+  border-top: 1px solid var(--rule);
+  border-left: 2px solid var(--accent);
+}
+
+.reasons li:last-child { border-bottom: 1px solid var(--rule); }
+
+@media (min-width: 40rem) {
+  .versus { grid-template-columns: 1fr 2fr; }
+}
+
 @media (min-width: 48rem) {
   body { font-size: 18px; }
   .section { padding-block: 5.5rem; }
