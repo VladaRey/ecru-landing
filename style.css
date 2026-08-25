@@ -382,6 +382,40 @@ a:hover { color: var(--accent-hover); }
   font-weight: 500;
 }
 
+/* Перемикача мов немає в жодному артборді канваса — це третій свідомий
+   відступ від макета. Тримаємо його максимально тихим: моно, дрібно, тим
+   самим кольором, що й посилання навігації. */
+.nav__langs,
+.site-footer__langs {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+
+.nav__langs { display: none; }
+
+/* Селектор навмисно довший за .nav__links a:not(.nav__cta) вище: та
+   правило задає посиланням шапки 0.9375rem, і без цього посилання
+   перемикача були б більші за поточну мову поруч. */
+.nav__links .nav__langs a,
+.site-footer__langs a {
+  color: var(--prose);
+  font-size: inherit;
+}
+
+.nav__links .nav__langs a:hover,
+.site-footer__langs a:hover { color: var(--accent); }
+
+.nav__langs [aria-current],
+.site-footer__langs [aria-current] { color: var(--ink); }
+
+@media (min-width: 64rem) {
+  .nav__langs { display: inline-flex; }
+}
+
 @media (min-width: 64rem) {
   .nav__links a:not(.nav__cta) { display: inline; }
 

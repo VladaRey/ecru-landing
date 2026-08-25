@@ -1,9 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{@lang}}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{meta.title}}</title>
+    <link rel="canonical" href="{{@canonical}}" />
+    {{@alternates}}
     <meta
       name="description"
       content="{{meta.description}}" />
@@ -24,6 +26,7 @@
           <a href="#why">{{nav.why}}</a>
           <a href="#limits">{{nav.limits}}</a>
           <a class="nav__cta" href="#waitlist">{{nav.cta}}</a>
+          <span class="nav__langs">{{@langswitch}}</span>
         </nav>
       </div>
     </header>
@@ -508,6 +511,7 @@
           <p>{{footer.langs}}</p>
         </div>
         <p class="site-footer__meta">
+          <span class="site-footer__langs">{{@langswitch}}</span>
           <span>{{footer.cookies}}</span>
           <a href="#waitlist">{{footer.waitlist}}</a>
           <span>{{footer.copyright}}</span>
