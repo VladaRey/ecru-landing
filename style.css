@@ -100,6 +100,13 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 
 .shot img { width: 100%; }
 
+.shots-pair { display: grid; gap: 1.5rem; }
+
+@media (min-width: 30rem) {
+  .shots-pair { grid-template-columns: 1fr 1fr; }
+  .shots-pair .shot { max-width: none; }
+}
+
 .shot figcaption {
   font-size: 0.85rem;
   color: var(--muted);
