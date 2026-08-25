@@ -33,7 +33,8 @@ function checkKeys(template, strings, lang) {
 
 // Додати мову — дописати код сюди і покласти поруч i18n/<code>.json.
 // Тека, hreflang і перемикач виводяться звідси, руками нічого не дублюється.
-const LANGS = ['en', 'uk'];
+// TODO(Task 8): повернути 'uk' — словника i18n/uk.json ще немає.
+const LANGS = ['en'];
 const DEFAULT_LANG = 'en';
 const SITE = 'https://vladarey.github.io/ecru-landing/';
 
