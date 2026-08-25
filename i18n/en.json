@@ -118,5 +118,10 @@
   "footer.cookies": "This page sets no tracking cookies",
   "footer.waitlist": "Waitlist",
   "footer.copyright": "© 2026",
-  "footer.note": "An independent project, not affiliated with any other company, brand, or application using the name Ecru."
+  "footer.note": "An independent project, not affiliated with any other company, brand, or application using the name Ecru.",
+  "form.invalid": "That does not look like an email address.",
+  "form.unwired": "The waitlist is not connected yet, so nothing was sent. Check back shortly.",
+  "form.sending": "Sending…",
+  "form.ok": "You are on the list. No other mail, ever.",
+  "form.fail": "That did not go through. Try again in a moment."
 }

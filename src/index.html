@@ -43,7 +43,12 @@
             {{hero.lede}}
           </p>
 
-          <form class="waitlist" data-endpoint="" novalidate>
+          <form class="waitlist" data-endpoint=""
+                data-msg-invalid="{{form.invalid}}"
+                data-msg-unwired="{{form.unwired}}"
+                data-msg-sending="{{form.sending}}"
+                data-msg-ok="{{form.ok}}"
+                data-msg-fail="{{form.fail}}" novalidate>
             <label class="sr-only" for="hero-email">{{form.label}}</label>
             <input
               id="hero-email"
@@ -485,7 +490,12 @@
             {{finale.lede}}
           </p>
 
-          <form class="waitlist" data-endpoint="" novalidate>
+          <form class="waitlist" data-endpoint=""
+                data-msg-invalid="{{form.invalid}}"
+                data-msg-unwired="{{form.unwired}}"
+                data-msg-sending="{{form.sending}}"
+                data-msg-ok="{{form.ok}}"
+                data-msg-fail="{{form.fail}}" novalidate>
             <label class="sr-only" for="cta-email">{{form.label}}</label>
             <input
               id="cta-email"
