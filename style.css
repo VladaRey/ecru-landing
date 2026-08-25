@@ -118,21 +118,6 @@ p { margin: 0 0 1em; max-width: var(--measure); }
   border-top: 1px solid var(--rule);
 }
 
-/* Помітна заглушка замість скриншота, якого ще немає.
-   Мокапів не малюємо — краще видима дірка, ніж вигадка. */
-.shot--missing {
-  aspect-ratio: 9 / 19.5;
-  display: grid;
-  place-content: center;
-  padding: 1.5rem;
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--muted);
-  background: repeating-linear-gradient(
-    45deg, var(--paper-raised), var(--paper-raised) 10px, var(--paper) 10px, var(--paper) 20px
-  );
-}
-
 .dark {
   background: var(--paper-dark);
   color: var(--ink-dark);
