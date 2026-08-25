@@ -25,9 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      # Кроку збірки немає навмисне: сайт — це те, що лежить у репозиторії.
+      # Сайт більше не є тим, що лежить у репозиторії: сторінка на кожну мову
+      # збирається з src/index.html та i18n/*.json. setup-node не потрібен —
+      # на ubuntu-latest Node уже є, а залежностей у build.js немає.
+      - run: node build.js
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
       - id: deployment
         uses: actions/deploy-pages@v4

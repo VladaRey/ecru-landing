@@ -132,6 +132,20 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+/* У Instrument Serif кирилиці немає зовсім — не підмножини бракує, а самих
+   гліфів. Без цього всі заголовки українською тихо падали б у Georgia, і
+   титульне обличчя сторінки на /uk/ було б чужим. Беремо IBM Plex Serif:
+   родина Plex уже на сторінці, тож шрифтова система лишається однією.
+   Діапазон — тільки кирилиця, тому en, pl і de не змінюються ні на піксель. */
+@font-face {
+  font-family: 'Ecru Display Cyrillic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-serif-400-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
 /* ── токени ──────────────────────────────────────────────────────────── */
 
 :root {
@@ -171,7 +185,7 @@
   --no: #a33a2e;
   --no-rule: #e8d2ce;
 
-  --display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --display: 'Instrument Serif', 'Ecru Display Cyrillic', 'Iowan Old Style', Georgia, serif;
   --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
@@ -309,6 +323,16 @@ a:hover { color: var(--accent-hover); }
   margin-top: 0.75rem;
 }
 
+/* Plex Serif має довші виносні елементи й більший x-height за Instrument
+   Serif, тож на line-height 1.06 українські рядки сходяться: хвіст «р»
+   впирається у наступний рядок, а крапки «ї» — у «д» над ними. Правка
+   тільки для української — латинські сторінки лишаються такими, як у
+   канвасі. Трекінг не чіпаємо: letter-spacing: 0 розводить рядки ще на
+   один і лишає «неї.» саме, а тіснота була вертикальна, не горизонтальна. */
+:lang(uk) .display {
+  line-height: 1.1;
+}
+
 .lede {
   font-size: clamp(1rem, 0.9071rem + 0.381vw, 1.25rem);
   line-height: 1.6;
@@ -380,6 +404,40 @@ a:hover { color: var(--accent-hover); }
 .nav__cta {
   font-size: 0.875rem;
   font-weight: 500;
+}
+
+/* Перемикача мов немає в жодному артборді канваса — це третій свідомий
+   відступ від макета. Тримаємо його максимально тихим: моно, дрібно, тим
+   самим кольором, що й посилання навігації. */
+.nav__langs,
+.site-footer__langs {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+
+.nav__langs { display: none; }
+
+/* Селектор навмисно довший за .nav__links a:not(.nav__cta) вище: та
+   правило задає посиланням шапки 0.9375rem, і без цього посилання
+   перемикача були б більші за поточну мову поруч. */
+.nav__links .nav__langs a,
+.site-footer__langs a {
+  color: var(--prose);
+  font-size: inherit;
+}
+
+.nav__links .nav__langs a:hover,
+.site-footer__langs a:hover { color: var(--accent); }
+
+.nav__langs [aria-current],
+.site-footer__langs [aria-current] { color: var(--ink); }
+
+@media (min-width: 64rem) {
+  .nav__langs { display: inline-flex; }
 }
 
 @media (min-width: 64rem) {

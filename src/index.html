@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="{{@lang}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{meta.title}}</title>
+    <link rel="canonical" href="{{@canonical}}" />
+    {{@alternates}}
+    <meta
+      name="description"
+      content="{{meta.description}}" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f5f1e8" />
+    <link rel="stylesheet" href="{{@base}}style.css" />
+  </head>
+  <body>
+    <!-- ── шапка ──────────────────────────────────────────────────── -->
+    <header class="nav">
+      <div class="wrap nav__inner">
+        <a class="nav__brand" href="#top">
+          <span class="display nav__wordmark">Ecru</span>
+          <span class="eyebrow">{{nav.tagline}}</span>
+        </a>
+        <nav class="nav__links" aria-label="{{nav.aria}}">
+          <a href="#how">{{nav.how}}</a>
+          <a href="#why">{{nav.why}}</a>
+          <a href="#limits">{{nav.limits}}</a>
+          <a class="nav__cta" href="#waitlist">{{nav.cta}}</a>
+          <span class="nav__langs">{{@langswitch}}</span>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ── 1 · герой ──────────────────────────────────────────────── -->
+    <section class="section" id="top">
+      <div class="wrap hero__inner">
+        <div>
+          <p class="eyebrow">{{hero.eyebrow}}</p>
+          <h1 class="display hero__title">
+            {{hero.title}}
+          </h1>
+          <p class="lede hero__lede">
+            {{hero.lede}}
+          </p>
+
+          <form class="waitlist" data-endpoint=""
+                data-msg-invalid="{{form.invalid}}"
+                data-msg-unwired="{{form.unwired}}"
+                data-msg-sending="{{form.sending}}"
+                data-msg-ok="{{form.ok}}"
+                data-msg-fail="{{form.fail}}" novalidate>
+            <label class="sr-only" for="hero-email">{{form.label}}</label>
+            <input
+              id="hero-email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="{{form.placeholder}}" />
+            <button type="submit">{{form.submit}}</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </form>
+
+          <p class="fineprint">
+            {{hero.fineprint}}
+          </p>
+        </div>
+
+        <picture>
+          <source srcset="{{@base}}assets/shots/pairs.webp" type="image/webp" />
+          <img
+            class="shot shot--lift hero__shot"
+            src="{{@base}}assets/shots/pairs.jpg"
+            width="540" height="1200"
+            loading="eager" fetchpriority="high" decoding="async"
+            alt="{{hero.alt}}" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- ── 2 · смуга довіри ───────────────────────────────────────── -->
+    <section class="trust" aria-label="{{trust.aria}}">
+      <dl class="wrap trust__inner">
+        <div>
+          <dt>{{trust.upload.dt}}</dt>
+          <dd>{{trust.upload.dd}}</dd>
+        </div>
+        <div>
+          <dt>{{trust.account.dt}}</dt>
+          <dd>{{trust.account.dd}}</dd>
+        </div>
+        <div>
+          <dt>{{trust.model.dt}}</dt>
+          <dd>{{trust.model.dd}}</dd>
+        </div>
+        <div>
+          <dt>{{trust.langs.dt}}</dt>
+          <dd>{{trust.langs.dd}}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ── 3 · знати, що маєш ─────────────────────────────────────── -->
+    <section class="section" id="how">
+      <div class="wrap own">
+        <div>
+          <p class="eyebrow">{{own.eyebrow}}</p>
+          <h2 class="display h-section">{{own.h}}</h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{own.lede}}
+          </p>
+          <p class="prose" style="margin-top: 1.25rem">
+            {{own.p}}
+          </p>
+          <p class="callout">
+            {{own.callout}}
+          </p>
+        </div>
+
+        <div class="own__shots">
+          <picture>
+            <source srcset="{{@base}}assets/shots/shoot.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/shoot.jpg"
+              width="460" height="1022"
+              loading="lazy" decoding="async"
+              alt="{{shoot.alt}}" />
+          </picture>
+          <picture>
+            <source srcset="{{@base}}assets/shots/wardrobe.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/wardrobe.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{wardrobe.alt}}" />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4 · число проти причини ────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap">
+        <div style="max-width: 47.5rem">
+          <p class="eyebrow">{{wedge.eyebrow}}</p>
+          <h2 class="display h-wide">
+            {{wedge.h}}
+          </h2>
+        </div>
+
+        <div class="wedge__grid">
+          <div class="wedge__body">
+            <div class="score-card">
+              <p class="eyebrow">{{wedge.score.eyebrow}}</p>
+              <div class="score-card__row">
+                <p class="score-card__number">92%</p>
+                <p class="score-card__note">
+                  {{wedge.score.note}}
+                </p>
+              </div>
+            </div>
+
+            <div class="reason-card">
+              <p class="eyebrow">{{wedge.reason.eyebrow}}</p>
+              <ul>
+                <li>{{quote.reason1}}</li>
+                <li>{{quote.reason2}}</li>
+                <li>{{quote.reason3}}</li>
+                <li>{{quote.reason4}}</li>
+              </ul>
+            </div>
+
+            <p class="prose">
+              {{wedge.p}}
+            </p>
+          </div>
+
+          <picture>
+            <source srcset="{{@base}}assets/shots/item.webp" type="image/webp" />
+            <img
+              class="shot shot--lift wedge__shot"
+              src="{{@base}}assets/shots/item.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{item.alt}}" />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5 · попросити або зібрати ──────────────────────────────── -->
+    <section class="section">
+      <div class="wrap">
+        <div style="max-width: 43.75rem">
+          <p class="eyebrow">{{ask.eyebrow}}</p>
+          <h2 class="display h-section">{{ask.h}}</h2>
+        </div>
+
+        <div class="ask">
+          <div>
+            <picture>
+              <source srcset="{{@base}}assets/shots/outfits.webp" type="image/webp" />
+              <img
+                class="shot"
+                src="{{@base}}assets/shots/outfits.jpg"
+                width="540" height="1200"
+                loading="lazy" decoding="async"
+                alt="{{outfits.alt}}" />
+            </picture>
+            <h3>{{ask.ask.h}}</h3>
+            <p class="prose">
+              {{ask.ask.p}}
+            </p>
+          </div>
+          <div>
+            <picture>
+              <source srcset="{{@base}}assets/shots/builder.webp" type="image/webp" />
+              <img
+                class="shot"
+                src="{{@base}}assets/shots/builder.jpg"
+                width="540" height="1200"
+                loading="lazy" decoding="async"
+                alt="{{builder.alt}}" />
+            </picture>
+            <h3>{{ask.build.h}}</h3>
+            <p class="prose">
+              {{ask.build.p}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6 · календар ───────────────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap calendar">
+        <div class="calendar__text">
+          <p class="eyebrow">{{calendar.eyebrow}}</p>
+          <h2 class="display h-section">{{calendar.h}}</h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{calendar.lede}}
+          </p>
+        </div>
+
+        <picture>
+          <source srcset="{{@base}}assets/shots/calendar.webp" type="image/webp" />
+          <img
+            class="shot shot--lift calendar__shot"
+            src="{{@base}}assets/shots/calendar.jpg"
+            width="540" height="1200"
+            loading="lazy" decoding="async"
+            alt="{{calendar.alt}}" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- ── 7 · колірний тип ───────────────────────────────────────── -->
+    <section class="section">
+      <div class="wrap colortype">
+        <div>
+          <p class="eyebrow">{{colortype.eyebrow}}</p>
+          <h2 class="display h-section">
+            {{colortype.h}}
+          </h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{colortype.lede}}
+          </p>
+
+          <ul class="points">
+            <li>
+              <span class="points__n" aria-hidden="true">01</span>
+              <p class="prose">
+                {{colortype.point1}}
+              </p>
+            </li>
+            <li>
+              <span class="points__n" aria-hidden="true">02</span>
+              <p class="prose">
+                {{colortype.point2}}
+              </p>
+            </li>
+            <li>
+              <span class="points__n" aria-hidden="true">03</span>
+              <p class="prose">
+                {{colortype.point3}}
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <picture>
+          <source srcset="{{@base}}assets/shots/colortype.webp" type="image/webp" />
+          <img
+            class="shot shot--lift colortype__shot"
+            src="{{@base}}assets/shots/colortype.jpg"
+            width="540" height="1200"
+            loading="lazy" decoding="async"
+            alt="{{colortype.alt}}" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- ── 8 · примірочна ─────────────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap">
+        <div style="max-width: 45rem">
+          <p class="eyebrow">{{shop.eyebrow}}</p>
+          <h2 class="display h-wide">{{shop.h}}</h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{shop.lede}}
+          </p>
+        </div>
+
+        <div class="shop__grid">
+          <picture>
+            <source srcset="{{@base}}assets/shots/fitcolor.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/fitcolor.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{fitcolor.alt}}" />
+          </picture>
+          <picture>
+            <source srcset="{{@base}}assets/shots/verdict.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/verdict.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{verdict.alt}}" />
+          </picture>
+
+          <div class="shop__notes">
+            <div>
+              <h3>{{shop.note1.h}}</h3>
+              <p class="prose">
+                {{shop.note1.p}}
+              </p>
+            </div>
+            <div>
+              <h3>{{shop.note2.h}}</h3>
+              <p class="prose">
+                {{shop.note2.p}}
+              </p>
+            </div>
+            <div>
+              <h3>{{shop.note3.h}}</h3>
+              <p class="prose">
+                {{shop.note3.p}}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <ul class="verdicts">
+          <li class="yes">{{quote.verdict.yes}}</li>
+          <li class="maybe">{{quote.verdict.maybe}}</li>
+          <li class="no">{{quote.verdict.no}}</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 9 · маніфест ───────────────────────────────────────────── -->
+    <section class="section dark manifesto" id="why">
+      <div class="wrap">
+        <div style="max-width: 51.25rem">
+          <p class="eyebrow">{{manifesto.eyebrow}}</p>
+          <h2 class="display manifesto__title">{{manifesto.h}}</h2>
+        </div>
+
+        <div class="manifesto__cols">
+          <div>
+            <h3 class="display">{{manifesto.model.h}}</h3>
+            <p>
+              {{manifesto.model.p1}}
+            </p>
+            <p>
+              {{manifesto.model.p2}}
+            </p>
+          </div>
+          <div>
+            <h3 class="display">{{manifesto.server.h}}</h3>
+            <p>
+              {{manifesto.server.p1}}
+            </p>
+            <p>
+              {{manifesto.server.p2}}
+            </p>
+          </div>
+        </div>
+
+        <p class="manifesto__coda">
+          {{manifesto.coda}}
+        </p>
+      </div>
+    </section>
+
+    <!-- ── 10 · чого не робить ────────────────────────────────────── -->
+    <section class="section" id="limits">
+      <div class="wrap">
+        <div style="max-width: 43.75rem">
+          <p class="eyebrow">{{limits.eyebrow}}</p>
+          <h2 class="display h-section">{{limits.h}}</h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{limits.lede}}
+          </p>
+        </div>
+
+        <ul class="limits">
+          <li>
+            <h3>{{limits.recognise.h}}</h3>
+            <p>{{limits.recognise.p}}</p>
+          </li>
+          <li>
+            <h3>{{limits.fit.h}}</h3>
+            <p>{{limits.fit.p}}</p>
+          </li>
+          <li>
+            <h3>{{limits.backup.h}}</h3>
+            <p>{{limits.backup.p}}</p>
+          </li>
+          <li>
+            <h3>{{limits.taste.h}}</h3>
+            <p>{{limits.taste.p}}</p>
+          </li>
+          <li>
+            <h3>{{limits.shop.h}}</h3>
+            <p>{{limits.shop.p}}</p>
+          </li>
+          <li>
+            <h3>{{limits.first.h}}</h3>
+            <p>{{limits.first.p}}</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 11 · питання ───────────────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap faq">
+        <div>
+          <p class="eyebrow">{{faq.eyebrow}}</p>
+          <h2 class="display faq__title">{{faq.h}}</h2>
+        </div>
+
+        <div class="faq__list">
+          <div>
+            <h3>{{faq.cost.q}}</h3>
+            <p class="prose">
+              {{faq.cost.a}}
+            </p>
+          </div>
+          <div>
+            <h3>{{faq.paper.q}}</h3>
+            <p class="prose">
+              {{faq.paper.a}}
+            </p>
+          </div>
+          <div>
+            <h3>{{faq.move.q}}</h3>
+            <p class="prose">
+              {{faq.move.a}}
+            </p>
+          </div>
+          <div>
+            <h3>{{faq.suits.q}}</h3>
+            <p class="prose">
+              {{faq.suits.a}}
+            </p>
+          </div>
+          <div>
+            <h3>{{faq.when.q}}</h3>
+            <p class="prose">
+              {{faq.when.a}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 12 · фінальний заклик ──────────────────────────────────── -->
+    <section class="section finale" id="waitlist">
+      <div class="wrap">
+        <div class="finale__inner">
+          <h2 class="display">{{finale.h}}</h2>
+          <p class="lede">
+            {{finale.lede}}
+          </p>
+
+          <form class="waitlist" data-endpoint=""
+                data-msg-invalid="{{form.invalid}}"
+                data-msg-unwired="{{form.unwired}}"
+                data-msg-sending="{{form.sending}}"
+                data-msg-ok="{{form.ok}}"
+                data-msg-fail="{{form.fail}}" novalidate>
+            <label class="sr-only" for="cta-email">{{form.label}}</label>
+            <input
+              id="cta-email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="{{form.placeholder}}" />
+            <button type="submit">{{form.submit}}</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </form>
+
+          <p class="fineprint">{{finale.fineprint}}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 13 · підвал ────────────────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <div class="site-footer__brand">
+          <span class="display site-footer__wordmark">Ecru</span>
+          <p>{{footer.langs}}</p>
+        </div>
+        <p class="site-footer__meta">
+          <span class="site-footer__langs">{{@langswitch}}</span>
+          <span>{{footer.cookies}}</span>
+          <a href="#waitlist">{{footer.waitlist}}</a>
+          <span>{{footer.copyright}}</span>
+        </p>
+      </div>
+      <p class="wrap site-footer__note">
+        {{footer.note}}
+      </p>
+    </footer>
+
+    <script src="{{@base}}waitlist.js" defer></script>
+  </body>
+</html>
