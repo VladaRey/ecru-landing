@@ -1,370 +1,1086 @@
 /* Ecru landing — plain CSS, no build step, mobile first.
-   Everything is local: the fonts sit in assets/fonts and nothing is fetched. */
+   Верстка йде за макетом Claude Design «Ecru Landing»: артборд 1440 (desktop)
+   і 390 (phone). Проміжні значення — clamp() між цими двома точками, тому
+   між 390 і 1440 сторінка тягнеться рівно так, як задумано в макеті.
 
+   Усе локальне: шрифти лежать у assets/fonts, з мережі не тягнеться нічого.
+   Це не педантизм — сторінка обіцяє «нічого не йде на сервер», і запит до
+   fonts.gstatic.com на першому ж екрані був би тією самою обіцянкою навпаки. */
+
+/* ── шрифти ──────────────────────────────────────────────────────────── */
+
+/* IBM Plex Sans з Google Fonts — варіативний: один файл на підмножину
+   покриває всю вагу 100–700, тому окремих файлів на 500 і 600 немає. */
 @font-face {
-  font-family: 'Inter';
-  src: url('assets/fonts/InterVariable.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'IBM Plex Sans';
   font-style: normal;
+  font-weight: 100 700;
   font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('assets/fonts/InterVariable-Italic.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: italic;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 100 700;
   font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
+/* Кирилиця тут заради одного рядка в підвалі — «Українська». */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-sans-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+/* IBM Plex Mono — статичний, і лише 400: жирного моноширинного в макеті немає. */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/ibm-plex-mono-400-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+
+
+
+/* Instrument Serif — тільки заголовки, тільки латиниця. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/instrument-serif-400-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/instrument-serif-400-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ── токени ──────────────────────────────────────────────────────────── */
 
 :root {
-  /* Ecru — небілений льон. Це і колір продукту, і колір сторінки. */
-  --paper: #ede7dc;
-  --paper-raised: #f5f1e9;
-  --ink: #22201d;
-  --muted: #6b655c;
-  --rule: #d6cec0;
-  /* Палена глина — єдина акцентна лінія. Точний тон обраний за контрастом:
-     #9a5b3d давав 4.33:1 на паперовому тлі, тобто нижче за поріг AA (4.5),
-     а цим кольором набрано і надзаголовки, і текст помилки у формі.
-     #8f5236 дає 4.98:1 при тому ж відтінку. */
-  --accent: #8f5236;
-  --ink-dark: #ece7de;
-  --paper-dark: #1c1a17;
+  /* Ecru — небілений льон. Три тони паперу: полотно, смуга секції, смуга шапки. */
+  --paper: #f5f1e8;
+  --paper-band: #ede7d9;
+  --paper-bar: #f0ebdf;
+  --surface: #ffffff;
 
-  --measure: 34rem;       /* ширина колонки тексту */
-  --gap: 1rem;
+  --ink: #14110e;
+  --prose: #4a4239;
+  --muted: #6e6355;
+  --muted-bar: #6b6257;
+  --placeholder: #7a7062;
+
+  --rule: #e4dccb;
+  --rule-card: #e0d7c5;
+  --rule-field: #d8cfbd;
+  --rule-shot: #ded6c6;
+  --rule-faq: #dfd5c1;
+
+  /* Палена глина — єдиний акцент. 4.6:1 на паперовому тлі і 5.2:1 білим
+     по акценту, тобто AA і для тексту посилань, і для напису на кнопці. */
+  --accent: #c2410c;
+  --accent-hover: #8f2f09;
+
+  /* Темна секція — маніфест і картка «що каже Ecru». */
+  --on-dark: #f5f1e8;
+  --on-dark-prose: #c6bcac;
+  --on-dark-muted: #9a8f7e;
+
+  /* Вердикти примірочної. Кожен перевірений на білому: 5.0, 5.4 і 6.6:1. */
+  --yes: #2e7d4f;
+  --yes-rule: #cfe0d3;
+  --maybe: #8a6508;
+  --maybe-rule: #e5dbc0;
+  --no: #a33a2e;
+  --no-rule: #e8d2ce;
+
+  --display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Вертикаль секції та горизонтальні поля — між 390 і 1440 тягнуться лінійно. */
+  --section-y: clamp(3.25rem, 1.7179rem + 6.2857vw, 7.375rem);
+  --pad-x: clamp(1.375rem, 0.7714rem + 2.4762vw, 3rem);
+
+  --shot-radius: clamp(1rem, 0.7143rem + 0.7619vw, 1.5rem);
 }
 
 *,
 *::before,
 *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: 17px;
-  line-height: 1.55;
-  font-synthesis-weight: none;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.625;
+  -webkit-font-smoothing: antialiased;
 }
 
-img { max-width: 100%; height: auto; display: block; }
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 
-a { color: inherit; text-underline-offset: 0.2em; }
+/* <picture> тут лише носій webp-джерела. display:contents прибирає його
+   з дерева розкладки, щоб елементом сітки лишався сам <img> — інакше
+   класи на картинці (.hero__shot і решта) втратили б свого батька. */
+picture { display: contents; }
 
+/* display:contents піднімає дітей <picture> у сітку — а <source> у Chrome
+   не має display:none за замовчуванням і сам стає елементом сітки, з'їдаючи
+   колонку і зіштовхуючи картинку в наступний рядок. */
+picture > source { display: none; }
+
+/* Без text-wrap: balance — у макеті заголовки ламаються жадібно, і
+   балансування зсуває їх на інші рядки, ніж намальовано. */
 h1, h2, h3 {
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin: 0 0 0.6em;
-  text-wrap: balance;
-}
-
-h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
-h2 { font-size: clamp(1.6rem, 5.5vw, 2.4rem); }
-h3 { font-size: 1.1rem; }
-
-p { margin: 0 0 1em; max-width: var(--measure); }
-
-.wrap {
-  width: 100%;
-  max-width: 62rem;
-  margin-inline: auto;
-  padding-inline: 1.25rem;
-}
-
-.section { padding-block: 3.5rem; border-top: 1px solid var(--rule); }
-.section:first-of-type { border-top: 0; }
-
-/* Ярлик над заголовком: нумерує аргумент, не кричить. */
-.eyebrow {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 0.75rem;
-}
-
-.lede { font-size: 1.15rem; color: var(--muted); }
-
-/* Скриншот телефона: рамка тонка, бо доказ — це вміст екрана, а не мокап. */
-.shot {
-  border: 1px solid var(--rule);
-  border-radius: 14px;
-  overflow: hidden;
-  background: var(--paper-raised);
-  max-width: 320px;
-  margin-inline: auto;
-}
-
-.shot img { width: 100%; }
-
-.shots-pair { display: grid; gap: 1.5rem; }
-
-@media (min-width: 30rem) {
-  .shots-pair { grid-template-columns: 1fr 1fr; }
-  .shots-pair .shot { max-width: none; }
-}
-
-.shot figcaption {
-  font-size: 0.85rem;
-  color: var(--muted);
-  padding: 0.6rem 0.8rem;
-  border-top: 1px solid var(--rule);
-}
-
-.dark {
-  background: var(--paper-dark);
-  color: var(--ink-dark);
-  border-top-color: var(--paper-dark);
-}
-
-.dark .eyebrow { color: #c9895f; }
-.dark .lede { color: #a8a096; }
-
-.sr-only {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.hero { padding-block: 3rem 4rem; }
-
-.waitlist {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  max-width: var(--measure);
-  margin-block: 1.5rem 0.75rem;
-}
-
-.waitlist input {
-  flex: 1 1 14rem;
-  min-width: 0;
-  padding: 0.8rem 0.9rem;
-  font: inherit;
-  color: var(--ink);
-  background: var(--paper-raised);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-}
-
-.waitlist input:focus-visible,
-.waitlist button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.waitlist button {
-  flex: 0 0 auto;
-  padding: 0.8rem 1.4rem;
-  font: inherit;
-  font-weight: 600;
-  color: var(--paper-raised);
-  background: var(--ink);
-  border: 1px solid var(--ink);
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.waitlist button:disabled { opacity: 0.5; cursor: default; }
-
-.form-note {
-  flex: 1 0 100%;
   margin: 0;
-  min-height: 1.4em;
-  font-size: 0.9rem;
-  color: var(--accent);
-}
-
-/* Поки повідомлення немає, місце під нього резервувати не треба:
-   на вузькому екрані це давало помітний мертвий проміжок під кнопкою. */
-.form-note:empty { min-height: 0; }
-
-/* На вузькому екрані поле й кнопка все одно переносяться — хай тоді
-   кнопка буде на всю ширину, інакше вона виглядає обрізаною. */
-@media (max-width: 29.99rem) {
-  .waitlist input,
-  .waitlist button { flex: 1 1 100%; }
-}
-
-.fineprint { font-size: 0.88rem; color: var(--muted); }
-
-.trustbar { padding-block: 1.5rem; }
-
-.trustbar ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* «92 %» проти речення — це і є весь аргумент сторінки, тож він
-   поставлений поруч, а не описаний словами. */
-.versus {
-  display: grid;
-  gap: 1px;
-  margin-block: 2rem;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.versus__cell { padding: 1.5rem; background: var(--paper-raised); }
-.versus__cell--them { color: var(--muted); }
-
-.versus__label {
-  margin: 0 0 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.versus__score {
-  margin: 0;
-  font-size: 2.75rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-}
-
-.versus__reason {
-  margin: 0;
-  font-size: 1.15rem;
-  line-height: 1.4;
-  max-width: none;
-}
-
-.reasons {
-  margin: 0 0 1.5rem;
-  padding: 0;
-  list-style: none;
-  max-width: var(--measure);
-}
-
-.reasons li {
-  padding: 0.7rem 0 0.7rem 1.1rem;
-  border-top: 1px solid var(--rule);
-  border-left: 2px solid var(--accent);
-}
-
-.reasons li:last-child { border-bottom: 1px solid var(--rule); }
-
-@media (min-width: 40rem) {
-  .versus { grid-template-columns: 1fr 2fr; }
-}
-
-/* Стенограма чату: доказ того, що помічник говорить реченнями,
-   а не віддає бал. Не імітація інтерфейсу — цитата. */
-.chat {
-  max-width: var(--measure);
-  margin-block: 1.5rem;
-  padding: 1.25rem;
-  background: var(--paper-raised);
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-}
-
-.chat p { margin: 0 0 0.6rem; max-width: none; }
-.chat p:last-child { margin-bottom: 0; }
-
-.chat__them { color: var(--ink); }
-.chat__you { color: var(--muted); font-size: 0.95rem; }
-
-.chat__them--verdict {
-  padding-top: 0.6rem;
-  border-top: 1px solid var(--rule);
-  font-weight: 600;
-}
-
-.manifesto { display: grid; gap: 2rem; margin-block: 2rem; }
-.manifesto h3 { color: var(--paper); }
-.manifesto p { color: #b8b0a4; max-width: none; }
-.dark .fineprint { color: #8d867c; }
-
-.limits { margin: 0; padding: 0; list-style: none; max-width: 46rem; }
-
-.limits li {
-  padding: 0.9rem 0;
-  border-top: 1px solid var(--rule);
-}
-
-.limits li:last-child { border-bottom: 1px solid var(--rule); }
-
-.faq { max-width: 46rem; }
-
-.faq details { border-top: 1px solid var(--rule); }
-.faq details:last-child { border-bottom: 1px solid var(--rule); }
-
-.faq summary {
-  padding: 0.9rem 0;
-  font-weight: 600;
-  cursor: pointer;
-  list-style: none;
-}
-
-.faq summary::-webkit-details-marker { display: none; }
-
-.faq summary::after {
-  content: '+';
-  float: right;
-  color: var(--accent);
   font-weight: 400;
 }
 
-.faq details[open] summary::after { content: '−'; }
-.faq details p { padding-bottom: 0.9rem; color: var(--muted); }
+p { margin: 0; }
 
-.cta { text-align: center; }
-.cta .lede, .cta .fineprint { margin-inline: auto; }
-.cta .waitlist { margin-inline: auto; }
-
-.site-footer { padding-block: 2.5rem; color: var(--muted); font-size: 0.9rem; }
-.site-footer p { max-width: none; }
-
-@media (min-width: 40rem) {
-  .manifesto { grid-template-columns: repeat(3, 1fr); }
+a {
+  color: var(--accent);
+  text-decoration: none;
 }
 
-@media (min-width: 48rem) {
-  body { font-size: 18px; }
-  .section { padding-block: 5.5rem; }
-  .hero { padding-block: 4rem 5rem; }
+a:hover { color: var(--accent-hover); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* Дві колонки — лише коли текстовій справді вистачає місця. На 768px вона
-   виходила 360px, тобто 40 знаків у рядку, і скриншот шириною 320px важив
-   стільки ж, скільки текст. До 64rem секції складаються одна під одну. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── каркас ──────────────────────────────────────────────────────────── */
+
+.wrap {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-left: var(--pad-x);
+  padding-right: var(--pad-x);
+}
+
+.section {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
+}
+
+/* Смуги, якими макет ділить сторінку на такти. */
+.band {
+  background: var(--paper-band);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.dark {
+  background: var(--ink);
+  color: var(--on-dark);
+}
+
+.dark .eyebrow { color: var(--on-dark-muted); }
+
+/* ── типографіка ─────────────────────────────────────────────────────── */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: clamp(0.6875rem, 0.6503rem + 0.0952vw, 0.75rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.display {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+}
+
+.h-section {
+  font-size: clamp(2.125rem, 1.7071rem + 1.7143vw, 3.25rem);
+  margin-top: 0.75rem;
+}
+
+.h-wide {
+  font-size: clamp(2.125rem, 1.5679rem + 2.2857vw, 3.625rem);
+  margin-top: 0.75rem;
+}
+
+.lede {
+  font-size: clamp(1rem, 0.9071rem + 0.381vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--prose);
+  text-wrap: pretty;
+}
+
+.prose {
+  font-size: clamp(1rem, 0.9536rem + 0.1905vw, 1.0625rem);
+  line-height: 1.64;
+  color: var(--prose);
+  text-wrap: pretty;
+}
+
+.prose strong,
+.lede strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.fineprint {
+  font-family: var(--mono);
+  font-size: clamp(0.71875rem, 0.6816rem + 0.0952vw, 0.78125rem);
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+/* ── шапка ───────────────────────────────────────────────────────────── */
+
+.nav {
+  border-bottom: 1px solid var(--rule);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: clamp(3.75rem, 3.1548rem + 2.4381vw, 4.75rem);
+}
+
+.nav__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  color: var(--ink);
+}
+
+.nav__brand:hover { color: var(--ink); }
+
+.nav__wordmark {
+  font-size: clamp(1.4375rem, 1.3446rem + 0.381vw, 1.6875rem);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.nav__links a:not(.nav__cta) {
+  display: none;
+  color: var(--prose);
+  font-size: 0.9375rem;
+}
+
+.nav__links a:not(.nav__cta):hover { color: var(--accent); }
+
+.nav__cta {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
 @media (min-width: 64rem) {
-  .split {
+  .nav__links a:not(.nav__cta) { display: inline; }
+
+  .nav__cta {
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 0.9375rem;
+    padding: 0.6875rem 1.375rem;
+    border-radius: 999px;
+  }
+
+  .nav__cta:hover {
+    background: var(--accent-hover);
+    color: #ffffff;
+  }
+}
+
+/* ── знімки ──────────────────────────────────────────────────────────── */
+
+/* Знімки телефона — 540×1200. Без стелі на ширину вони роздуваються
+   більше за натуральний розмір і починають муляти пікселями. */
+.shot {
+  width: 100%;
+  max-width: 21.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: var(--shot-radius);
+  border: 1px solid var(--rule-shot);
+  box-shadow: 0 18px 40px -18px rgba(20, 17, 14, 0.32);
+}
+
+.shot--lift {
+  box-shadow: 0 30px 60px -24px rgba(20, 17, 14, 0.42);
+}
+
+/* ── форма очікування ────────────────────────────────────────────────── */
+
+.waitlist {
+  display: grid;
+  gap: 0.625rem;
+  margin-top: 1.625rem;
+  max-width: 31.25rem;
+}
+
+.waitlist input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--rule-field);
+  border-radius: 12px;
+  padding: 0.9375rem 1.125rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.waitlist input::placeholder { color: var(--placeholder); }
+
+.waitlist button {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 0.9375rem 1.625rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.waitlist button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.waitlist button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* Порожній .form-note лишається в DOM: aria-live, який то з'являється,
+   то зникає, частина скрінрідерів просто не озвучує. Порожній він має
+   нульову висоту, тож коштує рівно один grid-gap. */
+.form-note {
+  grid-column: 1 / -1;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--accent);
+  margin: 0;
+}
+
+.waitlist + .fineprint { margin-top: 1rem; }
+
+@media (min-width: 34rem) {
+  .waitlist {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+/* ── 1 · герой ───────────────────────────────────────────────────────── */
+
+.hero__title {
+  font-size: clamp(2.75rem, 2.2857rem + 1.9048vw, 4rem);
+  margin-top: 0.875rem;
+}
+
+.hero__lede {
+  margin-top: 1.125rem;
+  max-width: 32.5rem;
+}
+
+.hero__shot { margin-top: 2rem; }
+
+/* На телефоні рядок під формою стоїть по центру — так в артборді 390. */
+.hero__inner .fineprint { text-align: center; }
+
+@media (min-width: 64rem) {
+  .hero__inner {
     display: grid;
-    grid-template-columns: 1fr minmax(0, 320px);
+    grid-template-columns: 7fr 5fr;
     gap: 3rem;
     align-items: center;
   }
 
-  /* Перевертаючи порядок, треба перевернути й самі колонки: order переставляє
-     дітей між треками, а не треки між собою. Без цього текст потрапляв у вузьку
-     колонку 320px, а скриншот розтягувався на широку. */
-  .split--flip { grid-template-columns: minmax(0, 320px) 1fr; }
-  .split--flip > :first-child { order: 2; }
+  /* У макеті заголовок розбито жорсткими <br> на три рядки — так він
+     тримає висоту поряд з вертикальним знімком телефона. Тут те саме
+     робить стеля ширини: 512px лежить між «Your whole wardrobe,» (466)
+     і «Your whole wardrobe, and» (558), тож перенос падає туди ж, але
+     на вужчому екрані рядки перебудуються самі. */
+  .hero__title {
+    margin-top: 1.375rem;
+    max-width: 32rem;
+  }
+
+  .hero__inner .fineprint { text-align: left; }
+  .hero__lede { margin-top: 1.875rem; }
+  .waitlist { margin-top: 2.375rem; }
+
+  .hero__shot {
+    margin: 0 0 0 auto;
+    max-width: 21.25rem;
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+/* ── 2 · смуга довіри ────────────────────────────────────────────────── */
+
+.trust {
+  background: var(--paper-bar);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.trust__inner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.5rem;
+  padding-top: 1.625rem;
+  padding-bottom: 1.625rem;
+  list-style: none;
+  margin: 0;
+}
+
+.trust dt {
+  font-size: clamp(0.875rem, 0.8378rem + 0.0952vw, 1rem);
+  font-weight: 600;
+}
+
+.trust dd {
+  margin: 0.3125rem 0 0;
+  font-size: clamp(0.8125rem, 0.7753rem + 0.0952vw, 0.875rem);
+  line-height: 1.45;
+  color: var(--muted-bar);
+}
+
+@media (min-width: 48rem) {
+  .trust__inner {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.5rem;
+    padding-top: 2.125rem;
+    padding-bottom: 2.125rem;
+  }
+}
+
+/* ── 3 · знати, що маєш ──────────────────────────────────────────────── */
+
+.own__shots {
+  display: grid;
+  gap: 1.125rem;
+  margin-top: 1.625rem;
+}
+
+.callout {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--prose);
+}
+
+@media (min-width: 64rem) {
+  .own {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .own__shots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.375rem;
+    margin-top: 0;
+  }
+
+  .own__shots .shot { max-width: 15rem; }
+
+  /* Другий знімок опущено — щоб пара читалась як розворот, а не як таблиця. */
+  .own__shots .shot:last-child { margin-top: 3rem; }
+
+  .callout { margin-top: 1.875rem; }
+}
+
+/* ── 4 · число проти причини ─────────────────────────────────────────── */
+
+.wedge__body {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.score-card {
+  background: var(--surface);
+  border: 1px solid var(--rule-card);
+  border-radius: 18px;
+  padding: 1.25rem 1.25rem;
+}
+
+.score-card__row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-top: 0.75rem;
+}
+
+/* 92% — 3.9:1 на білому. Це нижче за 4.5, тому число мусить лишатися
+   великим: на 34px і вище поріг AA для великого тексту — 3:1. */
+.score-card__number {
+  font-family: var(--mono);
+  font-size: clamp(2.125rem, 1.9018rem + 0.5714vw, 2.875rem);
+  line-height: 1;
+  color: #8a8073;
+  letter-spacing: -0.02em;
+}
+
+.score-card__note {
+  font-size: clamp(0.875rem, 0.8378rem + 0.0952vw, 1rem);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.reason-card {
+  background: var(--ink);
+  border-radius: 18px;
+  padding: 1.25rem;
+}
+
+.reason-card .eyebrow { color: var(--on-dark-muted); }
+
+.reason-card ul {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6875rem;
+}
+
+.reason-card li {
+  font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.125rem);
+  line-height: 1.5;
+  color: var(--on-dark);
+}
+
+@media (min-width: 48rem) {
+  .score-card { padding: 1.875rem 2rem; }
+  .score-card__row { gap: 1.25rem; margin-top: 1.125rem; }
+  .reason-card { padding: 1.875rem 2rem; }
+  .reason-card .eyebrow { color: var(--on-dark-muted); }
+
+.reason-card ul { gap: 0.8125rem; margin-top: 1.125rem; }
+}
+
+@media (min-width: 64rem) {
+  .wedge__grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 3.5rem;
+  }
+
+  .wedge__body { margin-top: 0; }
+  .wedge__shot { max-width: 20rem; }
+}
+
+/* ── 5 · попросити або зібрати ───────────────────────────────────────── */
+
+.ask {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 1.625rem;
+}
+
+.ask h3 {
+  font-size: clamp(1.125rem, 1.0507rem + 0.381vw, 1.375rem);
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.ask p { margin-top: 0.5rem; }
+
+@media (min-width: 48rem) {
+  .ask {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.5rem;
+    margin-top: 3.25rem;
+  }
+}
+
+/* ── 6 · календар ────────────────────────────────────────────────────── */
+
+.calendar__shot { margin-top: 1.5rem; }
+
+@media (min-width: 64rem) {
+  .calendar {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* У макеті знімок стоїть ліворуч, але в потоці розмітки текст іде першим —
+     інакше на телефоні читання починалося б із картинки. */
+  .calendar__shot {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0 auto 0 0;
+    max-width: 20rem;
+  }
+
+  .calendar__text {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* ── 7 · колірний тип ────────────────────────────────────────────────── */
+
+.points {
+  display: grid;
+  gap: 1.125rem;
+  margin-top: 1.75rem;
+  list-style: none;
+  padding: 0;
+}
+
+.points li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.points__n {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--accent);
+  padding-top: 0.3125rem;
+  flex: none;
+}
+
+.colortype__shot { margin-top: 1.5rem; }
+
+@media (min-width: 64rem) {
+  .colortype {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .points { margin-top: 2rem; }
+
+  .colortype__shot {
+    margin: 0 0 0 auto;
+    max-width: 20.625rem;
+  }
+}
+
+/* ── 8 · примірочна ──────────────────────────────────────────────────── */
+
+.shop__grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.shop__notes {
+  display: grid;
+  gap: 1.625rem;
+}
+
+.shop__notes h3 {
+  font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.1875rem);
+  font-weight: 600;
+}
+
+.shop__notes p { margin-top: 0.5rem; }
+
+.verdicts {
+  display: grid;
+  gap: 0.5625rem;
+  margin-top: 1.375rem;
+  list-style: none;
+  padding: 0;
+}
+
+.verdicts li {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.6875rem 1.25rem;
+  font-size: clamp(0.9375rem, 0.9003rem + 0.0952vw, 1rem);
+  font-weight: 500;
+  text-align: center;
+}
+
+.verdicts .yes { color: var(--yes); border-color: var(--yes-rule); }
+.verdicts .maybe { color: var(--maybe); border-color: var(--maybe-rule); }
+.verdicts .no { color: var(--no); border-color: var(--no-rule); }
+
+@media (min-width: 48rem) {
+  .verdicts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    margin-top: 2.75rem;
+  }
+
+  .verdicts li {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+  }
+}
+
+@media (min-width: 64rem) {
+  .shop__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.75rem;
+    align-items: center;
+    margin-top: 3.5rem;
+  }
+
+  .shop__grid .shot { max-width: 18.75rem; }
+}
+
+/* ── 9 · маніфест ────────────────────────────────────────────────────── */
+
+.manifesto__title {
+  font-size: clamp(2.375rem, 1.8179rem + 2.2857vw, 3.875rem);
+  margin-top: 0.875rem;
+  color: var(--on-dark);
+}
+
+.manifesto__cols {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.manifesto h3 {
+  font-size: clamp(1.5625rem, 1.4rem + 0.6667vw, 2rem);
+  color: var(--on-dark);
+}
+
+.manifesto p {
+  font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--on-dark-prose);
+  margin-top: 0.625rem;
+}
+
+.manifesto__coda {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--on-dark-muted);
+  margin-top: 2.5rem;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 64rem) {
+  .manifesto__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+    margin-top: 3.5rem;
+  }
+
+  .manifesto p { margin-top: 1rem; }
+  .manifesto__coda { margin-top: 3.5rem; }
+}
+
+/* ── 10 · чого не робить ─────────────────────────────────────────────── */
+
+.limits {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.limits li {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 1.125rem 1.25rem;
+}
+
+.limits h3 {
+  font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.125rem);
+  font-weight: 600;
+}
+
+.limits p {
+  font-size: clamp(0.9375rem, 0.9003rem + 0.0952vw, 1rem);
+  line-height: 1.55;
+  color: var(--prose);
+  margin-top: 0.375rem;
+}
+
+@media (min-width: 48rem) {
+  .limits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .limits {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin-top: 2.875rem;
+  }
+
+  .limits li { padding: 1.625rem 1.75rem; }
+}
+
+/* ── 11 · питання ────────────────────────────────────────────────────── */
+
+.faq__title {
+  font-size: clamp(2.125rem, 1.8464rem + 1.1429vw, 2.875rem);
+  margin-top: 0.75rem;
+}
+
+.faq__list {
+  display: grid;
+  gap: 1.375rem;
+  margin-top: 1.5rem;
+}
+
+.faq__list > div {
+  border-bottom: 1px solid var(--rule-faq);
+  padding-bottom: 1.375rem;
+}
+
+.faq__list > div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.faq h3 {
+  font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.1875rem);
+  font-weight: 600;
+}
+
+.faq p { margin-top: 0.5rem; }
+
+@media (min-width: 64rem) {
+  .faq {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    gap: 3rem;
+  }
+
+  .faq__list {
+    gap: 1.625rem;
+    margin-top: 0;
+  }
+
+  .faq__list > div { padding-bottom: 1.625rem; }
+}
+
+/* ── 12 · фінальний заклик ───────────────────────────────────────────── */
+
+.finale {
+  text-align: center;
+}
+
+.finale__inner {
+  max-width: 48.75rem;
+  margin: 0 auto;
+}
+
+.finale h2 {
+  font-size: clamp(2.5rem, 1.9429rem + 2.2857vw, 4rem);
+}
+
+.finale .lede { margin-top: 1rem; }
+
+.finale .waitlist {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.finale .waitlist input { text-align: left; }
+
+@media (min-width: 64rem) {
+  .finale .lede { margin-top: 1.5rem; }
+  .finale .waitlist { margin-top: 2.5rem; }
+}
+
+/* ── 13 · підвал ─────────────────────────────────────────────────────── */
+
+.site-footer {
+  background: var(--paper-bar);
+  border-top: 1px solid var(--rule);
+}
+
+.site-footer__inner {
+  padding-top: 1.625rem;
+  padding-bottom: 1.625rem;
+  text-align: center;
+  display: grid;
+  gap: 0.3125rem;
+}
+
+.site-footer__wordmark {
+  font-size: 1.3125rem;
+}
+
+.site-footer p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.site-footer__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.875rem;
+}
+
+@media (min-width: 64rem) {
+  .site-footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    text-align: left;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .site-footer__brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .site-footer__wordmark { font-size: 1.5rem; }
+  .site-footer p { font-size: 0.875rem; }
+  .site-footer__meta { justify-content: flex-end; }
+}
+
+/* Рядок про назву — окремим тактом під підвалом: у флекс-рядок він не
+   влазить, а викидати його не можна, поки назва Ecru не перевірена. */
+.site-footer__note {
+  padding-bottom: 1.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (min-width: 64rem) {
+  .site-footer__inner { padding-bottom: 1.5rem; }
+
+  .site-footer__note {
+    padding-bottom: 2.5rem;
+    text-align: left;
+  }
 }

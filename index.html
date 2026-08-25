@@ -6,19 +6,40 @@
     <title>Ecru — your whole wardrobe, and a straight answer about it</title>
     <meta
       name="description"
-      content="Ecru catalogs the clothes you own, builds outfits from them, and tells you in one sentence why two things go together. No AI. No account. Nothing leaves your phone." />
+      content="Ecru catalogues what you own, builds outfits from it, and remembers what you wore. Every time it says two things go together, it tells you why — in one sentence. No model, no server, no account." />
     <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f5f1e8" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="section hero">
-      <div class="wrap split">
+    <!-- ── шапка ──────────────────────────────────────────────────── -->
+    <header class="nav">
+      <div class="wrap nav__inner">
+        <a class="nav__brand" href="#top">
+          <span class="display nav__wordmark">Ecru</span>
+          <span class="eyebrow">wardrobe</span>
+        </a>
+        <nav class="nav__links" aria-label="Sections">
+          <a href="#how">How it works</a>
+          <a href="#why">Why no AI</a>
+          <a href="#limits">What it doesn't do</a>
+          <a class="nav__cta" href="#waitlist">Join the waitlist</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ── 1 · герой ──────────────────────────────────────────────── -->
+    <section class="section" id="top">
+      <div class="wrap hero__inner">
         <div>
-          <p class="eyebrow">Ecru</p>
-          <h1>Your whole wardrobe, and a straight answer about it.</h1>
-          <p class="lede">
-            Ecru catalogs what you own, builds outfits from it, and remembers what you wore.
-            Every time it says two things go together, it tells you why — in one sentence.
+          <p class="eyebrow">Early access · Free</p>
+          <h1 class="display hero__title">
+            Your whole wardrobe, and a straight answer about it.
+          </h1>
+          <p class="lede hero__lede">
+            Ecru catalogues what you own, builds outfits from it, and remembers what you
+            wore. Every time it says two things go together, it tells you <em>why</em> —
+            in one sentence.
           </p>
 
           <form class="waitlist" data-endpoint="" novalidate>
@@ -29,443 +50,531 @@
               type="email"
               required
               autocomplete="email"
-              placeholder="you@example.com" />
-            <button type="submit">Join the waitlist</button>
+              placeholder="your@email.com" />
+            <button type="submit">Get early access</button>
             <p class="form-note" role="status" aria-live="polite"></p>
           </form>
 
-          <p class="fineprint">No account · No server · Works in airplane mode</p>
+          <p class="fineprint">
+            The app makes no account &nbsp;·&nbsp; talks to no server &nbsp;·&nbsp; works
+            in airplane mode
+          </p>
         </div>
 
-        <figure class="shot">
-          <picture>
-            <source srcset="assets/shots/01-hero.webp" type="image/webp" />
-            <img
-              src="assets/shots/01-hero.png"
-              width="640" height="1422"
-              loading="eager" fetchpriority="high" decoding="async"
-              alt="An item card in Ecru with the pair-score explanation open: score 88, the verdict “Wear as is”, and the reason — one item is neutral, so it will sit under any colour, and both are solid, so there is nothing to clash." />
-          </picture>
-          <figcaption>Tap any score and it tells you why.</figcaption>
-        </figure>
-      </div>
-    </header>
-
-    <section class="section trustbar" aria-label="What Ecru is">
-      <div class="wrap">
-        <ul>
-          <li>No account</li>
-          <li>No server</li>
-          <li>No AI</li>
-          <li>Offline</li>
-          <li>4 languages</li>
-        </ul>
+        <picture>
+          <source srcset="assets/shots/pairs.webp" type="image/webp" />
+          <img
+            class="shot shot--lift hero__shot"
+            src="assets/shots/pairs.jpg"
+            width="540" height="1200"
+            loading="eager" fetchpriority="high" decoding="async"
+            alt="An item card in Ecru: the measured colour of a dress, and under “What to wear it with” two pairs scored 88 and 30, each with the reason spelled out beneath it." />
+        </picture>
       </div>
     </section>
 
-    <section class="section" id="own">
-      <div class="wrap split">
+    <!-- ── 2 · смуга довіри ───────────────────────────────────────── -->
+    <section class="trust" aria-label="What Ecru is">
+      <dl class="wrap trust__inner">
+        <div>
+          <dt>Nothing is uploaded</dt>
+          <dd>Your wardrobe lives in a database on your phone.</dd>
+        </div>
+        <div>
+          <dt>No account to make</dt>
+          <dd>No email, no password, no profile on a server.</dd>
+        </div>
+        <div>
+          <dt>No model, no guessing</dt>
+          <dd>Colour is arithmetic on pixels. That's the whole trick.</dd>
+        </div>
+        <div>
+          <dt>Four languages</dt>
+          <dd>Ukrainian, English, Polish, Spanish.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ── 3 · знати, що маєш ─────────────────────────────────────── -->
+    <section class="section" id="how">
+      <div class="wrap own">
         <div>
           <p class="eyebrow">01 · Know what you own</p>
-          <h2>You photograph it. Ecru measures it.</h2>
-          <p>
-            Ecru has no idea what a cardigan looks like and never pretends otherwise.
-            You lay the item on a sheet of paper, photograph both in one frame, then tap
-            the sheet and tap the item. The sheet is the reference; the tap is the
-            measurement. The category you pick yourself, from seven categories and
-            fifty-six subcategories.
+          <h2 class="display h-section">It starts with a sheet of paper.</h2>
+          <p class="lede" style="margin-top: 1rem">
+            Ecru does not try to recognise your clothes. You photograph a piece on a sheet
+            of paper, tap the paper, then tap the garment — and the app <em>measures</em>
+            the colour against that reference instead of estimating it.
           </p>
-          <p>
-            That costs about ninety seconds an item. Apps that cut the background with AI
-            do it in seconds. What the rest of that minute and a half buys you is a catalog
-            that is right, and a color that was measured rather than guessed.
+          <p class="prose" style="margin-top: 1.25rem">
+            About ninety seconds an item. That is slower than an app which cuts the
+            background out for you, and it is exactly why nothing about your wardrobe ever
+            has to leave the phone.
           </p>
-          <p>
-            When the measurement fails, it says so: <em>“Don’t put a white sheet under a
-            white item — they’ll blend together and there’ll be nothing to measure.”</em>
+          <p class="callout">
+            The rules sit on the screen where you shoot, not buried in a help page —
+            including the one nobody warns you about:
+            <strong>don't put a white sheet under a white garment.</strong> They blend, and
+            there is nothing left to measure.
           </p>
         </div>
 
-        <div class="shots-pair">
-          <figure class="shot">
-            <picture>
-              <source srcset="assets/shots/02-capture.webp" type="image/webp" />
-              <img
-                src="assets/shots/02-capture.png"
-                width="640" height="1422"
-                loading="lazy" decoding="async"
-                alt="The capture rules screen in Ecru, listing how to photograph an item next to a sheet of paper, with a gray, white and dark sheet switch." />
-            </picture>
-            <figcaption>The rules sit on the screen, not in a help page.</figcaption>
-          </figure>
-
-          <figure class="shot">
-            <picture>
-              <source srcset="assets/shots/03-grid.webp" type="image/webp" />
-              <img
-                src="assets/shots/03-grid.png"
-                width="640" height="1422"
-                loading="lazy" decoding="async"
-                alt="Ecru's wardrobe grid: three columns of item thumbnails, each with a dot showing its measured color, and a counter reading 8 items." />
-            </picture>
-            <figcaption>Every item, its measured color, and a count you can trust.</figcaption>
-          </figure>
+        <div class="own__shots">
+          <picture>
+            <source srcset="assets/shots/shoot.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="assets/shots/shoot.jpg"
+              width="460" height="1022"
+              loading="lazy" decoding="async"
+              alt="The New item screen in Ecru, listing the capture rules — lay the garment on a sheet of paper, keep both in frame — with a grey, white and dark sheet switch." />
+          </picture>
+          <picture>
+            <source srcset="assets/shots/wardrobe.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="assets/shots/wardrobe.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="Ecru's wardrobe grid: three columns of items, each with a dot showing its measured colour, and a counter reading 16 items." />
+          </picture>
         </div>
       </div>
     </section>
 
-    <section class="section" id="pairs">
+    <!-- ── 4 · число проти причини ────────────────────────────────── -->
+    <section class="section band">
       <div class="wrap">
-        <p class="eyebrow">02 · Know what goes with what</p>
-        <h2>The rest of the category returns a number. Ecru returns a sentence.</h2>
-
-        <div class="versus">
-          <div class="versus__cell versus__cell--them">
-            <p class="versus__label">What you usually get</p>
-            <p class="versus__score">92%</p>
-          </div>
-          <div class="versus__cell versus__cell--us">
-            <p class="versus__label">What Ecru gives you</p>
-            <p class="versus__reason">
-              Both items are neutral — a pairing that never lets you down
-            </p>
-          </div>
+        <div style="max-width: 47.5rem">
+          <p class="eyebrow">02 · Know what goes with what</p>
+          <h2 class="display h-wide">
+            Every other app hands you a number. Ecru hands you a reason.
+          </h2>
         </div>
 
-        <p>
-          Tap a score anywhere in the app and it opens the reason for that particular
-          pair. Not a generic explanation of the algorithm — the reason for those two
-          items:
-        </p>
-
-        <ul class="reasons">
-          <li>One hue, different lightness — monochrome that does not blur</li>
-          <li>The hues are neither related nor contrasting — separate them with a neutral</li>
-          <li>Two identical patterns (check) fight each other</li>
-          <li>Items from different seasons — together you will be either too hot or too cold</li>
-          <li>Different occasions: one item is far dressier. Bring the other up with shoes</li>
-        </ul>
-
-        <div class="split">
-          <div>
-            <h3>Why the number behaves the way it does</h3>
-            <p>
-              Four parts — color, occasion, season, pattern — weighted 0.45, 0.23, 0.20
-              and 0.12, and <strong>multiplied rather than added</strong>. The app puts it
-              this way: <em>“That is why the total follows the weakest part: a down jacket
-              and linen shorts can match perfectly on colour and still not be an outfit.”</em>
-            </p>
-            <p>
-              Hard vetoes work separately. A gap of three levels in warmth or occasion
-              caps the score no matter how well the colors agree.
-            </p>
-          </div>
-
-          <figure class="shot">
-            <picture>
-              <source srcset="assets/shots/04-pairs.webp" type="image/webp" />
-              <img
-                src="assets/shots/04-pairs.png"
-                width="640" height="1422"
-                loading="lazy" decoding="async"
-                alt="An item card in Ecru showing the “What to wear it with” block: several pairs from the wardrobe, each with its own score." />
-            </picture>
-            <figcaption>Best pairs first, each score tappable.</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="wear">
-      <div class="wrap split split--flip">
-        <div>
-          <p class="eyebrow">03 · Decide what to wear</p>
-          <h2>Ask for outfits, or build one yourself.</h2>
-          <p>
-            The generator works through your wardrobe and hands back complete outfits,
-            best score first. “Generate more” appends a new batch instead of wiping the
-            last one. When the combinations run out, it says so rather than padding:
-            <em>“No new combinations found — you’ve exhausted your wardrobe. Add more items.”</em>
-          </p>
-          <p>
-            Or build it yourself across six slots. Each slot only offers items that work
-            with what you have already chosen — put on a dress and the Bottom and
-            Second-layer slots disappear entirely, because nothing goes there. Lock a
-            slot you like, tap Shuffle, and the rest reassembles around it.
-          </p>
-        </div>
-
-        <figure class="shot">
-          <picture>
-            <source srcset="assets/shots/05-builder.webp" type="image/webp" />
-            <img
-              src="assets/shots/05-builder.png"
-              width="640" height="1422"
-              loading="lazy" decoding="async"
-              alt="Ecru's outfit builder with the Bottom slot locked to a pair of jeans and the remaining slots narrowed to items that work with it." />
-          </picture>
-          <figcaption>Lock what you like; the rest reassembles.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section" id="calendar">
-      <div class="wrap split">
-        <div>
-          <p class="eyebrow">04 · Remember what you wore</p>
-          <h2>“Did I already wear this last week?”</h2>
-          <p>
-            Tap “Worn today” on an item, or “Wearing it” on a whole outfit, and it goes
-            into the log. The calendar shows the month with a dot on every day something
-            was marked, a summary underneath, and the list of what you wore on the day you
-            tap. Every item card carries its own wear count.
-          </p>
-          <p>
-            An empty day explains itself instead of sitting blank. Nothing here is
-            gamified, scored, or turned into a streak.
-          </p>
-        </div>
-
-        <figure class="shot">
-          <picture>
-            <source srcset="assets/shots/06-calendar.webp" type="image/webp" />
-            <img
-              src="assets/shots/06-calendar.png"
-              width="640" height="1422"
-              loading="lazy" decoding="async"
-              alt="A month calendar in Ecru with dots on the days something was worn, and the selected day's items listed underneath." />
-          </picture>
-          <figcaption>A log, not a streak.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section" id="colortype">
-      <div class="wrap split split--flip">
-        <div>
-          <p class="eyebrow">05 · Know what suits you</p>
-          <h2>Six questions, about a minute and a half.</h2>
-          <p>
-            Hair, eyes, skin, gold or silver, the veins at your wrist, how your skin takes
-            the sun. Out comes one of twelve color types with its palette, its “better to
-            avoid” list, three axes — warm to cool, dark to light, muted to bright — and an
-            honest confidence percentage. If you sit between two types, it says so and
-            shows you both.
-          </p>
-          <p>
-            In-person color analysis runs $200–800. This is a formula over six answers, and
-            it tells you how sure it is instead of performing certainty. If it gets you
-            wrong, you override it by hand and the override sticks.
-          </p>
-          <p>
-            It never reorders anything. In the app's own words:
-            <em>“Shown everywhere, but it never changes the order — a colour type is a
-            convention, not a measurement.”</em>
-          </p>
-        </div>
-
-        <figure class="shot">
-          <picture>
-            <source srcset="assets/shots/07-colortype.webp" type="image/webp" />
-            <img
-              src="assets/shots/07-colortype.png"
-              width="640" height="1422"
-              loading="lazy" decoding="async"
-              alt="Ecru's color type result: the type name, its palette, the three axes, and an honest confidence percentage." />
-          </picture>
-          <figcaption>It tells you how sure it is.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section" id="shop">
-      <div class="wrap">
-        <p class="eyebrow">06 · And when you're standing in a shop</p>
-        <h2>The catalog you built finally pays for itself.</h2>
-
-        <div class="split">
-          <div>
-            <p>
-              Item in your hands, queue for the fitting room, decision to make. Photograph
-              it, confirm the color, answer three questions with buttons, and get a verdict
-              measured against the wardrobe you actually own.
-            </p>
-
-            <div class="chat">
-              <p class="chat__them">Hey! What are you trying on?</p>
-              <p class="chat__them">Take a photo of it and I'll tell you whether you have anything to wear it with.</p>
-              <p class="chat__you">What is it? → <strong>Top</strong> → <strong>Sweater</strong> → <strong>Solid</strong></p>
-              <p class="chat__them chat__them--verdict">
-                Take it. It'll fit right in.<br />
-                It pairs well with 6 of your 6 items.<br />
-                The colour, though, isn't yours — keep it away from your face.
-              </p>
+        <div class="wedge__grid">
+          <div class="wedge__body">
+            <div class="score-card">
+              <p class="eyebrow">What you usually get</p>
+              <div class="score-card__row">
+                <p class="score-card__number">92%</p>
+                <p class="score-card__note">
+                  A match score, and no way to find out what it noticed — or to disagree
+                  with it.
+                </p>
+              </div>
             </div>
 
-            <p>
-              The verdict is the average of your five best pairs, not the single best one.
-              One flattering pair exists for anything; averaging five means an item that
-              works with exactly one pair of jeans does not get called a purchase. At least
-              three pairs have to reach “Good together” before it says take it.
-            </p>
-            <p>
-              There is no free-text box, on purpose. The app has no network, so a “type
-              anything” field would mean either a trip to the internet from the fitting
-              room or a tree of canned replies that gives itself away on the third turn.
+            <div class="reason-card">
+              <p class="eyebrow">What Ecru says</p>
+              <ul>
+                <li>“Both pieces are neutral — a combination that never lets you down.”</li>
+                <li>“One tone, different lightness — a monochrome that doesn't blur together.”</li>
+                <li>“Identical lightness — these two merge. Take a lighter top or a darker bottom.”</li>
+                <li>“Different seasons — together you'll be either too warm or too cold.”</li>
+              </ul>
+            </div>
+
+            <p class="prose">
+              Every score in the app is tappable, and every tap opens the reason for
+              <em>that particular pair</em>. The harmony score multiplies four parts —
+              colour, occasion, season, pattern — so a weak part drags the whole thing down
+              instead of being averaged away. A puffer jacket and linen shorts can match
+              perfectly on colour and still not be an outfit.
             </p>
           </div>
 
-          <figure class="shot">
+          <picture>
+            <source srcset="assets/shots/item.webp" type="image/webp" />
+            <img
+              class="shot shot--lift wedge__shot"
+              src="assets/shots/item.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="An item card in Ecru showing the garment's measured colour, its formality, warmth and wear count, and its best pairs." />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5 · попросити або зібрати ──────────────────────────────── -->
+    <section class="section">
+      <div class="wrap">
+        <div style="max-width: 43.75rem">
+          <p class="eyebrow">03 · Decide what to wear</p>
+          <h2 class="display h-section">Ask for outfits, or build one yourself.</h2>
+        </div>
+
+        <div class="ask">
+          <div>
             <picture>
-              <source srcset="assets/shots/08-fitting.webp" type="image/webp" />
+              <source srcset="assets/shots/outfits.webp" type="image/webp" />
               <img
-                src="assets/shots/08-fitting.png"
-                width="640" height="1422"
+                class="shot"
+                src="assets/shots/outfits.jpg"
+                width="540" height="1200"
                 loading="lazy" decoding="async"
-                alt="The fitting-room verdict in Ecru — “Take it. It'll fit right in.” — with the score and a strip of the best pairs from the wardrobe." />
+                alt="Generated outfits in Ecru, each a row of items with its own score, sorted best first." />
             </picture>
-            <figcaption>Measured against the wardrobe you own.</figcaption>
-          </figure>
+            <h3>Ask</h3>
+            <p class="prose">
+              Ecru goes through your wardrobe and returns finished sets, best first.
+              “Generate more” adds to the list instead of wiping it. When the combinations
+              run out it says so plainly — <strong>your wardrobe is exhausted, add more
+              pieces</strong> — rather than padding the list with things it does not
+              believe in.
+            </p>
+          </div>
+          <div>
+            <picture>
+              <source srcset="assets/shots/builder.webp" type="image/webp" />
+              <img
+                class="shot"
+                src="assets/shots/builder.jpg"
+                width="540" height="1200"
+                loading="lazy" decoding="async"
+                alt="Ecru's outfit builder, showing one row of candidate items per slot." />
+            </picture>
+            <h3>Or build</h3>
+            <p class="prose">
+              Six slots — top, second top, bottom, shoes, outerwear, accessory — and each
+              one only offers what actually works with what you have already picked. Choose
+              a dress and the bottom and second-top slots disappear entirely, because
+              nothing belongs in them. Lock the piece you want to wear, shuffle the rest
+              around it.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section dark" id="manifesto">
-      <div class="wrap">
-        <h2>No AI. No cloud. No account.</h2>
-        <p class="lede">
-          Not a privacy posture bolted on afterwards — the two architectural decisions
-          that made everything above possible.
-        </p>
-
-        <div class="manifesto">
-          <div>
-            <h3>No AI</h3>
-            <p>
-              Color is arithmetic over pixels. Harmony is a color formula with published
-              weights. That is exactly why it can explain itself in a sentence: there is
-              a reason to read out.
-            </p>
-          </div>
-          <div>
-            <h3>No backend</h3>
-            <p>
-              No server, no account, no internet. Your wardrobe is SQLite on the phone and
-              photographs in the app's own storage. There is no account to delete because
-              there was never one to make.
-            </p>
-          </div>
-          <div>
-            <h3>The trade</h3>
-            <p>
-              You do the cataloging. In return nothing about your clothes, your face, or
-              your habits is uploaded anywhere, and the app works in airplane mode because
-              it never needed the plane's wifi.
-            </p>
-          </div>
+    <!-- ── 6 · календар ───────────────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap calendar">
+        <div class="calendar__text">
+          <p class="eyebrow">04 · Remember what you wore</p>
+          <h2 class="display h-section">“Wait — did I already wear this to see them?”</h2>
+          <p class="lede" style="margin-top: 1rem">
+            One tap on a piece — or on a whole outfit — writes the day into the log. The
+            calendar gives you the month at a glance, the count for each piece sits on its
+            card, and a wrong tap is one tap to undo.
+          </p>
         </div>
 
-        <p class="fineprint">
-          Straight from the app's own settings screen: <em>“Your wardrobe lives only on
-          this phone. Deleting the app erases it along with the photos — ‘Save photo to
-          gallery’ on an item screen is what leaves a copy outside the app.”</em>
-        </p>
+        <picture>
+          <source srcset="assets/shots/calendar.webp" type="image/webp" />
+          <img
+            class="shot shot--lift calendar__shot"
+            src="assets/shots/calendar.jpg"
+            width="540" height="1200"
+            loading="lazy" decoding="async"
+            alt="A month calendar in Ecru with a dot on every day something was worn, and the selected day's pieces listed underneath." />
+        </picture>
       </div>
     </section>
 
-    <section class="section" id="limits">
-      <div class="wrap">
-        <p class="eyebrow">07 · What it doesn't do</p>
-        <h2>Better said now than discovered later.</h2>
+    <!-- ── 7 · колірний тип ───────────────────────────────────────── -->
+    <section class="section">
+      <div class="wrap colortype">
+        <div>
+          <p class="eyebrow">05 · Know what suits you</p>
+          <h2 class="display h-section">
+            Twelve colour types, nine questions, no draping appointment.
+          </h2>
+          <p class="lede" style="margin-top: 1rem">
+            Hair, eyes, skin, gold or silver, the veins on your wrist, how you burn. A
+            minute and a half, every question skippable, and one of twelve types at the end
+            — with a palette, a list to avoid, and three axes showing where you sit.
+          </p>
 
-        <ul class="limits">
-          <li><strong>Doesn't recognize clothes from a photo.</strong> You choose the category and the pattern by tapping a list.</li>
-          <li><strong>Doesn't use a network.</strong> No account, no sync, no cloud backup. Saving a photo to your gallery is the only way anything leaves.</li>
-          <li><strong>Doesn't judge cut, fit, or size.</strong> Only color, pattern, occasion, and season.</li>
-          <li><strong>Doesn't ask what you thought of an outfit</strong> and doesn't learn from you.</li>
-          <li><strong>Your color type never changes the sort order.</strong> Harmony always sets it.</li>
-          <li><strong>The fitting room has no free-text input.</strong> Buttons only, deliberately.</li>
-          <li><strong>The fitting room never writes to your wardrobe by itself.</strong> It hands you a pre-filled add screen; you decide.</li>
+          <ul class="points">
+            <li>
+              <span class="points__n" aria-hidden="true">01</span>
+              <p class="prose">
+                <strong>It tells you how sure it is.</strong> A confidence figure, and the
+                runner-up type when you sit on a border. No app should pretend to be
+                certain about your face.
+              </p>
+            </li>
+            <li>
+              <span class="points__n" aria-hidden="true">02</span>
+              <p class="prose">
+                <strong>You can overrule it.</strong> Pick your type by hand and the choice
+                sticks. If the quiz got it wrong, a person should be the one to fix it —
+                not a formula.
+              </p>
+            </li>
+            <li>
+              <span class="points__n" aria-hidden="true">03</span>
+              <p class="prose">
+                <strong>It never reorders your outfits.</strong> “Suits you” shows up
+                beside every piece, but harmony alone decides what comes first. A colour
+                type is a convention, not a measurement.
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <picture>
+          <source srcset="assets/shots/colortype.webp" type="image/webp" />
+          <img
+            class="shot shot--lift colortype__shot"
+            src="assets/shots/colortype.jpg"
+            width="540" height="1200"
+            loading="lazy" decoding="async"
+            alt="Ecru's colour type result: the type name, its palette, the colours to avoid, and three axes from warm to cool, dark to light, muted to bright." />
+        </picture>
+      </div>
+    </section>
+
+    <!-- ── 8 · примірочна ─────────────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap">
+        <div style="max-width: 45rem">
+          <p class="eyebrow">06 · When you're standing in a shop</p>
+          <h2 class="display h-wide">This is what the catalogue was for.</h2>
+          <p class="lede" style="margin-top: 1rem">
+            A piece in your hands, a queue for the fitting room, and one question.
+            Photograph it, confirm the colour, answer three questions with buttons — and
+            Ecru compares it against the wardrobe you already built.
+          </p>
+        </div>
+
+        <div class="shop__grid">
+          <picture>
+            <source srcset="assets/shots/fitcolor.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="assets/shots/fitcolor.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="Confirming the measured colour of a garment under shop lighting, by tapping a white price tag as the reference point." />
+          </picture>
+          <picture>
+            <source srcset="assets/shots/verdict.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="assets/shots/verdict.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="The fitting-room verdict in Ecru, with the score and the best pairs from the wardrobe listed under it." />
+          </picture>
+
+          <div class="shop__notes">
+            <div>
+              <h3>It won't tell you what you want to hear</h3>
+              <p class="prose">
+                The verdict averages the five best pairs, not the single best one. Any
+                garment finds one lucky match; that is not a reason to buy it.
+              </p>
+            </div>
+            <div>
+              <h3>Three pairs, minimum</h3>
+              <p class="prose">
+                To hear “take it”, at least three pairs have to reach <em>good together</em>.
+                A piece that works with exactly one pair of jeans is a reason to think
+                again.
+              </p>
+            </div>
+            <div>
+              <h3>Shop light lies</h3>
+              <p class="prose">
+                There's no sheet of paper in a shop, so you tap a price tag and say “white
+                is here”. The frame recalculates from that point.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <ul class="verdicts">
+          <li class="yes">Take it. It'll fit right in.</li>
+          <li class="maybe">Maybe — but think about it.</li>
+          <li class="no">I'd walk past this one.</li>
         </ul>
       </div>
     </section>
 
-    <section class="section" id="faq">
+    <!-- ── 9 · маніфест ───────────────────────────────────────────── -->
+    <section class="section dark manifesto" id="why">
       <div class="wrap">
-        <p class="eyebrow">08 · Questions</p>
-        <h2>Fair things to ask.</h2>
+        <div style="max-width: 51.25rem">
+          <p class="eyebrow">07 · Why there is no AI in here</p>
+          <h2 class="display manifesto__title">Two decisions shape everything else.</h2>
+        </div>
 
-        <div class="faq">
-          <details>
-            <summary>Is it genuinely offline?</summary>
-            <p>Yes. There is no server to talk to. Everything runs on the phone, and the app works with the network off.</p>
-          </details>
-          <details>
-            <summary>Do I need an account?</summary>
-            <p>No. There is no sign-up, no login, and no profile stored anywhere but on your device.</p>
-          </details>
-          <details>
-            <summary>How long does cataloging actually take?</summary>
-            <p>About ninety seconds for the first items, faster after that — picking a subcategory fills in formality and warmth for you.</p>
-          </details>
-          <details>
-            <summary>Why refuse AI when it would be faster?</summary>
-            <p>Because a model that cuts out a background can't tell you why two things go together. The explanations on every score exist because the score is a formula, not a guess.</p>
-          </details>
-          <details>
-            <summary>What if the photo lies about the color?</summary>
-            <p>Tap the sheet to set the white point and the frame is recomputed from it — that is what rescues a shot taken under a yellow bulb. You can also pick the shade from a palette by hand, and lock it. In a shop, where there is no sheet, there is a “white is here” tap for a price tag or a wall.</p>
-          </details>
-          <details>
-            <summary>Which languages?</summary>
-            <p>Ukrainian, English, Polish, and Spanish. It follows your system language when that is one of the four, and you can switch it in the profile.</p>
-          </details>
-          <details>
-            <summary>What happens if I delete the app?</summary>
-            <p>Your wardrobe goes with it, photographs included. That is the cost of having no server. “Save photo to gallery” on an item screen is the one thing that leaves a copy outside.</p>
-          </details>
-          <details>
-            <summary>When does it ship, and what does it cost?</summary>
-            <p>It is free, and there is no release date to promise yet. The waitlist gets one email when it is out.</p>
-          </details>
-          <details>
-            <summary>Is this related to other products called Ecru?</summary>
-            <p>No. Ecru here is the color of unbleached linen, which is what this app measures. It has no connection to any other company, brand, or app using the same word.</p>
-          </details>
+        <div class="manifesto__cols">
+          <div>
+            <h3 class="display">No model.</h3>
+            <p>
+              Colour is an average over pixels. Harmony is a formula over colour, occasion,
+              season and pattern. Nothing is recognised, nothing is inferred, nothing is
+              trained on you.
+            </p>
+            <p>
+              This is the reason the app can explain itself. A model can offer you 92% and
+              nothing more. Arithmetic can show its working — which is why every score here
+              opens into a sentence you can argue with.
+            </p>
+          </div>
+          <div>
+            <h3 class="display">No server.</h3>
+            <p>
+              No account, no sync, no cloud backup, no analytics. Your wardrobe, your
+              photographs, your outfits and your wear log live in a database and a folder
+              on your phone.
+            </p>
+            <p>
+              Which cuts both ways, so it is worth saying out loud: delete the app and it
+              all goes with it. “Save photo to gallery”, on each item's screen, is the one
+              thing that leaves a copy outside.
+            </p>
+          </div>
+        </div>
+
+        <p class="manifesto__coda">
+          Not offered as a feature — the app simply never needed a network to begin with.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── 10 · чого не робить ────────────────────────────────────── -->
+    <section class="section" id="limits">
+      <div class="wrap">
+        <div style="max-width: 43.75rem">
+          <p class="eyebrow">08 · Being straight with you</p>
+          <h2 class="display h-section">What Ecru doesn't do.</h2>
+          <p class="lede" style="margin-top: 1rem">
+            This belongs on the page as much as the rest. Without it you'd expect the wrong
+            thing.
+          </p>
+        </div>
+
+        <ul class="limits">
+          <li>
+            <h3>It won't recognise your clothes</h3>
+            <p>Category and pattern are chosen by you, from a list. That is the trade for no model.</p>
+          </li>
+          <li>
+            <h3>It won't judge cut, fit or size</h3>
+            <p>Colour, pattern, occasion and season. Whether it suits your shape is still your call.</p>
+          </li>
+          <li>
+            <h3>There is no backup</h3>
+            <p>No cloud means no restore. Saving a photo to your gallery is the only copy outside the app.</p>
+          </li>
+          <li>
+            <h3>It won't learn your taste</h3>
+            <p>No thumbs up or down on outfits, and nothing adapts quietly in the background.</p>
+          </li>
+          <li>
+            <h3>No shop, no resale, no feed</h3>
+            <p>Nothing to buy inside it, and nobody else's wardrobe to browse.</p>
+          </li>
+          <li>
+            <h3>The first evening is work</h3>
+            <p>Forty pieces is about an hour with a sheet of paper on the floor. It speeds up as you go — but we'd rather you knew now.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── 11 · питання ───────────────────────────────────────────── -->
+    <section class="section band">
+      <div class="wrap faq">
+        <div>
+          <p class="eyebrow">09 · Questions</p>
+          <h2 class="display faq__title">Before you ask.</h2>
+        </div>
+
+        <div class="faq__list">
+          <div>
+            <h3>What does it cost?</h3>
+            <p class="prose">
+              Nothing. There is no subscription, no paid tier and nothing to unlock. With
+              no server to run there is very little to charge for.
+            </p>
+          </div>
+          <div>
+            <h3>Do I really need a sheet of paper?</h3>
+            <p class="prose">
+              For an accurate colour, yes — a corner of one in the frame is enough, and
+              asphalt-grey works best because it contrasts with white and black alike. You
+              can also pick the colour by hand from a palette if a photo lies.
+            </p>
+          </div>
+          <div>
+            <h3>Can I move my wardrobe to a new phone?</h3>
+            <p class="prose">
+              Not today, and we would rather say so plainly than imply otherwise. Nothing
+              syncs, and there is no export beyond saving individual photos to your
+              gallery. It is the honest cost of having no server.
+            </p>
+          </div>
+          <div>
+            <h3>Why is “suits you” separate from the outfit score?</h3>
+            <p class="prose">
+              Because they answer different questions. Harmony is how pieces relate to each
+              other; “suits you” is how a colour relates to your face. Blend them and
+              neither can be explained.
+            </p>
+          </div>
+          <div>
+            <h3>When can I have it?</h3>
+            <p class="prose">
+              There is no date to promise yet, and we would rather leave this blank than
+              invent one. Leave your email and you'll hear from us once, when it's ready to
+              install.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section cta">
+    <!-- ── 12 · фінальний заклик ──────────────────────────────────── -->
+    <section class="section finale" id="waitlist">
       <div class="wrap">
-        <h2>One email, when it's out.</h2>
-        <p class="lede">No newsletter, no drip sequence, no launch countdown.</p>
+        <div class="finale__inner">
+          <h2 class="display">You already own enough clothes.</h2>
+          <p class="lede">
+            Ecru is for making them usable again — quietly, on one phone, with its
+            reasoning in the open. Leave an email and we'll write once.
+          </p>
 
-        <form class="waitlist" data-endpoint="" novalidate>
-          <label class="sr-only" for="cta-email">Email address</label>
-          <input
-            id="cta-email"
-            name="email"
-            type="email"
-            required
-            autocomplete="email"
-            placeholder="you@example.com" />
-          <button type="submit">Join the waitlist</button>
-          <p class="form-note" role="status" aria-live="polite"></p>
-        </form>
+          <form class="waitlist" data-endpoint="" novalidate>
+            <label class="sr-only" for="cta-email">Email address</label>
+            <input
+              id="cta-email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="your@email.com" />
+            <button type="submit">Get early access</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </form>
 
-        <p class="fineprint">No account · No server · Works in airplane mode</p>
+          <p class="fineprint">One email, when it ships. Nothing else, ever.</p>
+        </div>
       </div>
     </section>
 
-    <footer class="section site-footer">
-      <div class="wrap">
-        <p>Ecru — an offline personal wardrobe app. Ukrainian · English · Polish · Spanish.</p>
-        <p class="fineprint">
-          An independent project, not affiliated with any other company, brand, or
-          application using the name Ecru.
+    <!-- ── 13 · підвал ────────────────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <div class="site-footer__brand">
+          <span class="display site-footer__wordmark">Ecru</span>
+          <p>Українська · English · Polski · Español</p>
+        </div>
+        <p class="site-footer__meta">
+          <span>This page sets no tracking cookies</span>
+          <a href="#waitlist">Waitlist</a>
+          <span>© 2026</span>
         </p>
       </div>
+      <p class="wrap site-footer__note">
+        An independent project, not affiliated with any other company, brand, or
+        application using the name Ecru.
+      </p>
     </footer>
 
     <script src="waitlist.js" defer></script>
