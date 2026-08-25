@@ -31,4 +31,58 @@ function checkKeys(template, strings, lang) {
   return problems;
 }
 
-module.exports = { keysIn, render, checkKeys };
+// Додати мову — дописати код сюди і покласти поруч i18n/<code>.json.
+// Тека, hreflang і перемикач виводяться звідси, руками нічого не дублюється.
+const LANGS = ['en', 'uk'];
+const DEFAULT_LANG = 'en';
+const SITE = 'https://vladarey.github.io/ecru-landing/';
+
+// Самоназви. У словники не потрапляють: назва мови не перекладається —
+// на англійській сторінці українська так само «Українська».
+const LANG_NAMES = { en: 'English', uk: 'Українська', pl: 'Polski', de: 'Deutsch' };
+
+// Шляхи в розмітці відносні, бо сайт віддається з /ecru-landing/, а не з
+// кореня домену. Побічний виграш: dist/uk/index.html відкривається
+// подвійним кліком через file:// і виглядає правильно.
+function basePrefix(lang) {
+  return lang === DEFAULT_LANG ? '' : '../';
+}
+
+function pageUrl(lang) {
+  return lang === DEFAULT_LANG ? SITE : `${SITE}${lang}/`;
+}
+
+function alternates(langs) {
+  const links = langs.map(
+    (l) => `<link rel="alternate" hreflang="${l}" href="${pageUrl(l)}" />`
+  );
+  links.push(`<link rel="alternate" hreflang="x-default" href="${pageUrl(DEFAULT_LANG)}" />`);
+  return links.join('\n    ');
+}
+
+function langSwitch(current, langs) {
+  const base = basePrefix(current);
+  return langs
+    .map((l) => {
+      if (l === current) return `<span aria-current="page">${LANG_NAMES[l]}</span>`;
+      const href = `${base}${l === DEFAULT_LANG ? '' : `${l}/`}`;
+      return `<a href="${href}">${LANG_NAMES[l]}</a>`;
+    })
+    .join('\n            ');
+}
+
+function metaFor(lang, langs) {
+  return {
+    '@lang': lang,
+    '@base': basePrefix(lang),
+    '@canonical': pageUrl(lang),
+    '@alternates': alternates(langs),
+    '@langswitch': langSwitch(lang, langs),
+  };
+}
+
+module.exports = {
+  keysIn, render, checkKeys,
+  basePrefix, pageUrl, alternates, langSwitch, metaFor,
+  LANGS, DEFAULT_LANG, SITE, LANG_NAMES,
+};

@@ -49,3 +49,52 @@ test('checkKeys не вимагає службових ключів від сл�
   const problems = checkKeys('<html lang="{{@lang}}">{{a}}', { a: '1' }, 'en');
   assert.deepStrictEqual(problems, []);
 });
+
+const { basePrefix, pageUrl, alternates, langSwitch, metaFor } = require('../build.js');
+
+test('basePrefix порожній у корені і піднімає на рівень у мовній теці', () => {
+  assert.strictEqual(basePrefix('en'), '');
+  assert.strictEqual(basePrefix('uk'), '../');
+});
+
+test('pageUrl кладе мову за умовчанням у корінь', () => {
+  assert.strictEqual(pageUrl('en'), 'https://vladarey.github.io/ecru-landing/');
+  assert.strictEqual(pageUrl('uk'), 'https://vladarey.github.io/ecru-landing/uk/');
+});
+
+test('alternates перелічує всі мови, включно з собою, і додає x-default', () => {
+  const out = alternates(['en', 'uk']);
+  assert.match(out, /hreflang="en" href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
+  assert.match(out, /hreflang="uk" href="https:\/\/vladarey\.github\.io\/ecru-landing\/uk\/"/);
+  assert.match(out, /hreflang="x-default" href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
+  assert.strictEqual(out.match(/<link/g).length, 3);
+});
+
+test('langSwitch робить поточну мову не посиланням', () => {
+  const out = langSwitch('uk', ['en', 'uk']);
+  assert.match(out, /<span aria-current="page">Українська<\/span>/);
+  assert.doesNotMatch(out, /<a[^>]*>Українська</);
+});
+
+test('langSwitch веде з мовної теки на корінь через ../', () => {
+  assert.match(langSwitch('uk', ['en', 'uk']), /href="\.\.\/"[^>]*>English/);
+});
+
+test('langSwitch веде з кореня у мовну теку без ../', () => {
+  assert.match(langSwitch('en', ['en', 'uk']), /href="uk\/"[^>]*>Українська/);
+});
+
+test('langSwitch ніколи не видає порожній href', () => {
+  for (const current of ['en', 'uk']) {
+    assert.doesNotMatch(langSwitch(current, ['en', 'uk']), /href=""/);
+  }
+});
+
+test('metaFor віддає повний набір службових ключів', () => {
+  const meta = metaFor('uk', ['en', 'uk']);
+  assert.strictEqual(meta['@lang'], 'uk');
+  assert.strictEqual(meta['@base'], '../');
+  assert.strictEqual(meta['@canonical'], 'https://vladarey.github.io/ecru-landing/uk/');
+  assert.ok(meta['@alternates'].includes('x-default'));
+  assert.ok(meta['@langswitch'].includes('aria-current'));
+});
