@@ -11,10 +11,11 @@ https://vladarey.github.io/ecru-landing/
 
 ## Languages
 
-The page ships in English at the root and Ukrainian under `/uk/`. There is no
-runtime language switching and no redirect on `navigator.language`: each
-language is a separate static page with its own URL, its own `<html lang>`,
-its own canonical link, and `hreflang` links to the others.
+The page ships in English at the root, and Ukrainian, Polish and Spanish under
+`/uk/`, `/pl/` and `/es/`. There is no runtime language switching and no
+redirect on `navigator.language`: each language is a separate static page with
+its own URL, its own `<html lang>`, its own canonical link, and `hreflang`
+links to the others.
 
 - `src/index.html` — the template. Every translatable string is a `{{key}}`
   named after its place on the page (`hero.title`, `faq.cost.q`,

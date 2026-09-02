@@ -33,13 +33,13 @@ function checkKeys(template, strings, lang) {
 
 // Додати мову — дописати код сюди і покласти поруч i18n/<code>.json.
 // Тека, hreflang і перемикач виводяться звідси, руками нічого не дублюється.
-const LANGS = ['en', 'uk'];
+const LANGS = ['en', 'uk', 'pl', 'es'];
 const DEFAULT_LANG = 'en';
 const SITE = 'https://vladarey.github.io/ecru-landing/';
 
 // Самоназви. У словники не потрапляють: назва мови не перекладається —
 // на англійській сторінці українська так само «Українська».
-const LANG_NAMES = { en: 'English', uk: 'Українська', pl: 'Polski', de: 'Deutsch' };
+const LANG_NAMES = { en: 'English', uk: 'Українська', pl: 'Polski', es: 'Español' };
 
 // Шляхи в розмітці відносні, бо сайт віддається з /ecru-landing/, а не з
 // кореня домену. Побічний виграш: dist/uk/index.html відкривається
