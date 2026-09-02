@@ -1,7 +1,6 @@
-// Форма чекає на endpoint. Поки його немає, вона про це чесно каже —
-// мовчазний «Thanks!» без жодного запиту був би брехнею відвідувачу.
-//
-// Щоб підключити: постав URL у data-endpoint у src/index.html. Більше нічого.
+// Куди йде пошта: у PostHog (analytics.js) і, якщо в data-endpoint стоїть
+// URL, ще й туди. Без жодного з двох форма чесно каже, що не підключена, —
+// мовчазний «Thanks!» без запиту був би брехнею відвідувачу.
 //
 // Тексти живуть у data-msg-* поруч із data-endpoint, а не тут: так усі
 // рядки сторінки лишаються в одному місці — i18n/<lang>.json — і скрипт
@@ -20,9 +19,11 @@ document.querySelectorAll('.waitlist').forEach((form) => {
       return;
     }
 
+    const email = input.value.trim();
     const endpoint = msg.endpoint;
+    const analytics = window.analyticsReady;
 
-    if (!endpoint) {
+    if (!endpoint && !analytics) {
       note.textContent = msg.msgUnwired;
       return;
     }
@@ -31,13 +32,34 @@ document.querySelectorAll('.waitlist').forEach((form) => {
     note.textContent = msg.msgSending;
 
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
-      });
+      if (analytics) {
+        // Проміс каже, чи array.js доїхав. Не доїхав — це відмова, а не
+        // привід показати подяку.
+        if (!(await analytics)) throw new Error();
 
-      if (!response.ok) throw new Error(String(response.status));
+        // Людину впізнають за поштою: два записи з тієї самої адреси
+        // зіллються в один профіль, а не подвояться у списку.
+        window.posthog.identify(email, {
+          email,
+          lang: document.documentElement.lang,
+        });
+
+        window.posthog.capture('waitlist_signup', {
+          email,
+          lang: document.documentElement.lang,
+          place: msg.place,
+        });
+      }
+
+      if (endpoint) {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+
+        if (!response.ok) throw new Error(String(response.status));
+      }
 
       form.reset();
       note.textContent = msg.msgOk;

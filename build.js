@@ -87,7 +87,7 @@ const path = require('node:path');
 // Копіюється один раз у корінь dist. Шляхи до шрифтів усередині style.css
 // рахуються від самого CSS-файла, тож він однаково працює для обох сторінок
 // і множити його по мовних теках не треба.
-const STATIC = ['style.css', 'waitlist.js', 'assets', '.nojekyll'];
+const STATIC = ['style.css', 'analytics.js', 'waitlist.js', 'assets', '.nojekyll'];
 
 function readStrings(root, lang) {
   const file = path.join(root, 'i18n', `${lang}.json`);

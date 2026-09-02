@@ -80,25 +80,69 @@ Two things deliberately differ from the canvas:
 
 ## Wiring the waitlist form
 
-The form currently posts nowhere. To connect it, set one attribute in
-`src/index.html` — search for `data-endpoint`:
+Addresses go to PostHog. On submit the form calls `identify(email)` and
+captures a `waitlist_signup` event carrying the address, the page language,
+and `hero` or `finale` — which of the two forms it came from. Everyone who
+signs up shows up under **People** in PostHog and exports as CSV from there.
 
-    <form class="waitlist" data-endpoint="">
+PostHog is analytics, not a mailing list. It collects the addresses fine, but
+when it comes time to actually write to those people, export and move them
+somewhere built for sending.
 
-Put a Formspree endpoint (`https://formspree.io/f/xxxxxxx`) or a Buttondown
-one in the attribute. Both forms on the page carry the attribute; set both.
+An HTTP endpoint can run alongside it, or instead of it: put a Formspree
+(`https://formspree.io/f/xxxxxxx`) or Buttondown URL in `data-endpoint` in
+`src/index.html`. Both forms on the page carry the attribute; set both. With
+neither PostHog nor an endpoint reachable, the form says so rather than
+thanking a visitor for something that went nowhere.
 
 The messages the form shows a visitor are not in `waitlist.js`. They ride
 along in `data-msg-*` attributes next to `data-endpoint`, filled from the
 dictionary like everything else, so the script never needs to know which
 language it was opened in.
 
+## Analytics
+
+All of PostHog lives in `analytics.js`: the project key, the region, and the
+two settings that matter.
+
+`persistence: 'memory'` means no cookies and no `localStorage`. The footer
+tells every visitor this page sets no tracking cookies, and that stays true —
+which also means no consent banner is needed in the EU. The cost is real: with
+nothing persisted, PostHog sees every page load as a new person, so its
+"unique users" count visits rather than people. Returning visitors are not a
+number this page can report.
+
+`person_profiles: 'identified_only'` keeps a profile from being created for
+anyone who merely reads the page. Only an address typed into the form makes a
+person.
+
+The project key sits in the repository in plain sight. That is how PostHog
+keys work — a project key can write events and nothing else; it cannot read,
+query, or delete. `tests/analytics.test.js` fails while the key is still the
+placeholder, so an unconfigured build cannot quietly ship.
+
+Three flags stop `array.js` from pulling further scripts off the network.
+Out of the box it fetches surveys, dead-click autocapture and web vitals —
+none of which this page uses, and each of which is another request to someone
+else's domain on a site whose every other asset is local.
+`disable_external_dependency_loading` blocks the downloads,
+`disable_surveys` stops the survey list being fetched anyway, and
+`capture_performance` turns off page-timing collection. What remains is
+`array.js` and one config request. Pageviews and clicks are counted by
+`array.js` itself and are unaffected.
+
+If `array.js` never arrives — an ad blocker, a dead network — `analytics.js`
+resolves `window.analyticsReady` to `false` and the form shows its failure
+message. A blocked signup is a lost signup; saying "thanks" for one would be
+the same lie the form was written to avoid.
+
 ## Assets
 
-Everything is local — no CDN, no Google Fonts, no external request of any kind.
-That is not tidiness: the page promises the app talks to no server, and a call
-out to `fonts.gstatic.com` on first paint would undercut the promise on the
-first screen.
+Every asset is local — no CDN, no Google Fonts. That is not tidiness: the page
+promises the app talks to no server, and a call out to `fonts.gstatic.com` on
+first paint would undercut the promise on the first screen. PostHog's
+`array.js` is the one script fetched from elsewhere, and it loads after paint,
+sets nothing, and is described in **Analytics** above.
 
 - `assets/fonts` — Instrument Serif (headings), IBM Plex Sans (body), IBM Plex
   Mono (eyebrows and fine print), sliced into the same latin / latin-ext /
