@@ -2,13 +2,18 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
-const { execFileSync } = require('node:child_process');
+const { build } = require('../build.js');
 
 const ROOT = path.join(__dirname, '..');
-const DIST = path.join(ROOT, 'dist');
 
-test.before(() => execFileSync('node', ['build.js'], { cwd: ROOT }));
+// Свій каталог, а не спільний dist: node --test запускає кожен файл окремим
+// процесом і паралельно, а збірка спершу зносить dist цілком. Два тестові
+// файли на один каталог — це гонка, у якій один стирає те, що інший копіює.
+const DIST = fs.mkdtempSync(path.join(os.tmpdir(), 'ecru-page-'));
+
+test.before(() => build({ root: ROOT, outDir: DIST }));
 
 function page(rel) {
   return fs.readFileSync(path.join(DIST, rel), 'utf8');
