@@ -4,10 +4,22 @@ The landing page for Ecru, an offline personal wardrobe app.
 
 Plain HTML and CSS, one page per language. `node build.js` renders
 `src/index.html` against each `i18n/<lang>.json` into `dist/` — no
-dependencies, nothing to install. Open `dist/index.html` in a browser;
-paths are relative, so `dist/uk/index.html` works over `file://` too.
-Pushing to `main` builds and deploys to
+dependencies, nothing to install. Pushing to `main` builds and deploys to
 https://vladarey.github.io/ecru-landing/
+
+## Running it
+
+```
+npm run dev     # build, serve on :8000, rebuild on every edit
+npm run build   # build dist/ once
+npm test        # the whole suite
+```
+
+`npm run dev` takes `--port`, and `--no-watch` if you would rather rebuild by
+hand. Serve it rather than opening the file: paths are relative, so
+`dist/uk/index.html` renders fine over `file://`, but the language switcher
+points at folders (`uk/`) and a browser answers those with a directory
+listing instead of the page.
 
 ## Languages
 

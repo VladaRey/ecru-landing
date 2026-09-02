@@ -1,0 +1,10 @@
+{
+  "name": "ecru-landing",
+  "private": true,
+  "description": "Лендінг Ecru: одна сторінка на мову, збирається з src/index.html та i18n/*.json",
+  "scripts": {
+    "dev": "node serve.js",
+    "build": "node build.js",
+    "test": "node --test"
+  }
+}
