@@ -3,6 +3,7 @@
   "meta.description": "Ecru kataloguje to, co masz, układa z tego zestawy i pamięta, co nosisz. Za każdym razem, gdy mówi, że dwie rzeczy do siebie pasują, tłumaczy dlaczego — jednym zdaniem. Bez modelu, bez serwera, bez konta.",
   "nav.tagline": "garderoba",
   "nav.aria": "Sekcje",
+  "lang.aria": "Język strony",
   "nav.how": "Jak to działa",
   "nav.why": "Dlaczego bez AI",
   "nav.limits": "Czego nie robi",

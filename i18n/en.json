@@ -3,6 +3,7 @@
   "meta.description": "Ecru catalogues what you own, builds outfits from it, and remembers what you wore. Every time it says two things go together, it tells you why — in one sentence. No model, no server, no account.",
   "nav.tagline": "wardrobe",
   "nav.aria": "Sections",
+  "lang.aria": "Page language",
   "nav.how": "How it works",
   "nav.why": "Why no AI",
   "nav.limits": "What it doesn't do",

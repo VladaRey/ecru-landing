@@ -35,7 +35,13 @@ test('сторінка перелічує всі мови у hreflang і дод�
 
 test('перемикач мов є в шапці і в підвалі', () => {
   const html = page('index.html');
-  assert.strictEqual(html.match(/aria-current="page"/g).length, 2);
+  assert.strictEqual(html.match(/<details class="langs">/g).length, 2);
+});
+
+test('у перемикачі лишаються посилання, а не option', () => {
+  const html = page('uk/index.html');
+  assert.match(html, /<details class="langs">[\s\S]*?<a href="\.\.\/">English<\/a>/);
+  assert.doesNotMatch(html, /<select/);
 });
 
 test('у зібраній сторінці не лишилось незамінених ключів', () => {

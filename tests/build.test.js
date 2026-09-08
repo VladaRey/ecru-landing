@@ -70,31 +70,43 @@ test('alternates перелічує всі мови, включно з собо�
   assert.strictEqual(out.match(/<link/g).length, 3);
 });
 
-test('langSwitch робить поточну мову не посиланням', () => {
-  const out = langSwitch('uk', ['en', 'uk']);
-  assert.match(out, /<span aria-current="page">Українська<\/span>/);
+test('langSwitch кладе поточну мову в summary і не повторює її списком', () => {
+  const out = langSwitch('uk', ['en', 'uk'], 'Мова сторінки');
+  assert.match(out, /<summary[^>]*>Українська<\/summary>/);
   assert.doesNotMatch(out, /<a[^>]*>Українська</);
 });
 
-test('langSwitch веде з мовної теки на корінь через ../', () => {
-  assert.match(langSwitch('uk', ['en', 'uk']), /href="\.\.\/"[^>]*>English/);
+test('langSwitch лишає інші мови посиланнями, а не option', () => {
+  const out = langSwitch('uk', ['en', 'uk'], 'Мова сторінки');
+  assert.match(out, /<a href="\.\.\/">English<\/a>/);
+  assert.doesNotMatch(out, /<option/);
+  assert.doesNotMatch(out, /<select/);
 });
 
 test('langSwitch веде з кореня у мовну теку без ../', () => {
-  assert.match(langSwitch('en', ['en', 'uk']), /href="uk\/"[^>]*>Українська/);
+  assert.match(langSwitch('en', ['en', 'uk'], 'Page language'), /href="uk\/"[^>]*>Українська/);
 });
 
 test('langSwitch ніколи не видає порожній href', () => {
   for (const current of ['en', 'uk']) {
-    assert.doesNotMatch(langSwitch(current, ['en', 'uk']), /href=""/);
+    assert.doesNotMatch(langSwitch(current, ['en', 'uk'], 'aria'), /href=""/);
   }
 });
 
+test('langSwitch підписує список для читалки', () => {
+  assert.match(langSwitch('en', ['en', 'uk'], 'Page language'), /aria-label="Page language"/);
+});
+
 test('metaFor віддає повний набір службових ключів', () => {
-  const meta = metaFor('uk', ['en', 'uk']);
+  const meta = metaFor('uk', ['en', 'uk'], { 'lang.aria': 'Мова сторінки' });
   assert.strictEqual(meta['@lang'], 'uk');
   assert.strictEqual(meta['@base'], '../');
   assert.strictEqual(meta['@canonical'], 'https://vladarey.github.io/ecru-landing/uk/');
   assert.ok(meta['@alternates'].includes('x-default'));
-  assert.ok(meta['@langswitch'].includes('aria-current'));
+  assert.ok(meta['@langswitch'].includes('<details'));
+});
+
+test('checkKeys не вважає зайвими ключі, які читає сама збірка', () => {
+  const problems = checkKeys('<p>{{a}}</p>', { a: '1', 'lang.aria': 'Page language' }, 'en');
+  assert.deepStrictEqual(problems, []);
 });

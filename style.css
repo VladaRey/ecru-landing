@@ -409,35 +409,76 @@ a:hover { color: var(--accent-hover); }
 /* Перемикача мов немає в жодному артборді канваса — це третій свідомий
    відступ від макета. Тримаємо його максимально тихим: моно, дрібно, тим
    самим кольором, що й посилання навігації. */
-.nav__langs,
-.site-footer__langs {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
+.langs {
+  position: relative;
   font-family: var(--mono);
   font-size: 0.8125rem;
   letter-spacing: 0.02em;
 }
 
-.nav__langs { display: none; }
+.langs > summary {
+  cursor: pointer;
+  color: var(--ink);
+  list-style: none;
+}
 
-/* Селектор навмисно довший за .nav__links a:not(.nav__cta) вище: та
-   правило задає посиланням шапки 0.9375rem, і без цього посилання
-   перемикача були б більші за поточну мову поруч. */
-.nav__links .nav__langs a,
-.site-footer__langs a {
+/* Обидва рядки потрібні: перший — для Safari, другий — для решти. */
+.langs > summary::-webkit-details-marker { display: none; }
+.langs > summary::marker { content: ''; }
+
+.langs > summary::after {
+  content: '';
+  display: inline-block;
+  width: 0.3125rem;
+  height: 0.3125rem;
+  margin-left: 0.4375rem;
+  vertical-align: 0.125rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.langs[open] > summary::after { transform: rotate(-135deg); }
+
+.langs > summary:hover { color: var(--accent); }
+
+/* Абсолютно, щоб відкритий список не розсовував шапку і підвал. */
+.langs > ul {
+  position: absolute;
+  z-index: 10;
+  min-width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 0.375rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.langs > ul a {
+  display: block;
+  padding: 0.3125rem 0.875rem;
   color: var(--prose);
   font-size: inherit;
 }
 
-.nav__links .nav__langs a:hover,
-.site-footer__langs a:hover { color: var(--accent); }
+.langs > ul a:hover { color: var(--accent); }
 
-.nav__langs [aria-current],
-.site-footer__langs [aria-current] { color: var(--ink); }
+/* У шапці список падає вниз від правого краю, у підвалі — вгору: під
+   підвалом місця немає, і випадне меню поїхало б за край сторінки. */
+.nav__links .langs > ul { right: 0; }
+
+.site-footer__meta .langs > ul {
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.nav__links .langs { display: none; }
 
 @media (min-width: 64rem) {
-  .nav__langs { display: inline-flex; }
+  .nav__links .langs { display: block; }
 }
 
 @media (min-width: 64rem) {

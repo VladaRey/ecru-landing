@@ -3,6 +3,7 @@
   "meta.description": "Ecru cataloga lo que tienes, arma conjuntos con ello y recuerda lo que te pones. Cada vez que dice que dos prendas combinan, explica por qué — en una frase. Sin modelo, sin servidor, sin cuenta.",
   "nav.tagline": "armario",
   "nav.aria": "Secciones",
+  "lang.aria": "Idioma de la página",
   "nav.how": "Cómo funciona",
   "nav.why": "Por qué sin IA",
   "nav.limits": "Lo que no hace",
