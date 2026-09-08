@@ -519,12 +519,14 @@
     <footer class="site-footer">
       <div class="wrap site-footer__inner">
         <span class="display site-footer__wordmark">Ecru</span>
-        <p class="site-footer__meta">
+        <!-- div, а не p: <details> — не phrasing content, і всередині <p>
+             парсер закрив би абзац перед ним, розваливши весь рядок. -->
+        <div class="site-footer__meta">
           {{@langswitch}}
           <span>{{footer.cookies}}</span>
           <a href="#waitlist">{{footer.waitlist}}</a>
           <span>{{footer.copyright}}</span>
-        </p>
+        </div>
       </div>
       <p class="wrap site-footer__note">
         {{footer.note}}

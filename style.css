@@ -666,6 +666,16 @@ a:hover { color: var(--accent-hover); }
 
 /* ── 3 · знати, що маєш ──────────────────────────────────────────────── */
 
+/* Перший h3 у цій секції — підблок про виправлення кольору. Розміри ті
+   самі, що в .faq h3: обидва підписують абзац усередині довшого тексту. */
+.own h3 {
+  margin-top: 1.75rem;
+  font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.1875rem);
+  font-weight: 600;
+}
+
+.own h3 + .prose { margin-top: 0.5rem; }
+
 .own__shots {
   display: grid;
   gap: 1.125rem;

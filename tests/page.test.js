@@ -38,6 +38,13 @@ test('перемикач мов є в шапці і в підвалі', () => {
   assert.strictEqual(html.match(/<details class="langs">/g).length, 2);
 });
 
+test('перемикач у підвалі не стоїть усередині <p>', () => {
+  // <details> — не phrasing content: усередині <p> парсер закриє абзац
+  // перед ним, і рядок підвалу розсиплеться разом зі своїм flex.
+  const html = page('index.html').replace(/<!--[\s\S]*?-->/g, '');
+  assert.doesNotMatch(html, /<p[^>]*>(?:(?!<\/p>)[\s\S])*?<details/);
+});
+
 test('у перемикачі лишаються посилання, а не option', () => {
   const html = page('uk/index.html');
   assert.match(html, /<details class="langs">[\s\S]*?<a href="\.\.\/">English<\/a>/);
