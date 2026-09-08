@@ -144,6 +144,30 @@ anyone who merely reads the page. Nothing on the page calls `identify` any
 more, so no profile is ever created — what PostHog holds is anonymous
 pageviews and clicks.
 
+## What is actually measured
+
+Two of the three come free, and it is worth knowing which:
+
+- **Visits** — `$pageview`, counted by `array.js` itself. Nothing to wire.
+- **Clicks** — `$autocapture`, also automatic, one event per click with the
+  element's selector attached.
+- **`store_click`** — the one hand-fired event, in `analytics.js`. It carries
+  `place` (`hero` or `finale`) and `lang`, and it exists because the App Store
+  button is the only conversion left on the page: building a funnel out of
+  `$autocapture` means filtering by CSS class every time, while a named event
+  is just there. It replaces `waitlist_signup`, which went with the form.
+
+It is sent with `transport: 'sendBeacon'`. The click navigates to
+apps.apple.com, so the page is about to be torn down along with its in-flight
+requests; a beacon is handed to the browser and delivered after navigation.
+Without it the conversion would be the event that goes missing most often.
+
+One gap, stated rather than hidden: this file loads `array.js` with a plain
+tag instead of PostHog's snippet, and the snippet's only job is to queue
+events fired before the library lands. A click in the first half-second is
+therefore lost. That is a fair trade for a button you have to scroll to and
+read, and `window.posthog?.capture` keeps it a no-op rather than an error.
+
 The project key sits in the repository in plain sight. That is how PostHog
 keys work — a project key can write events and nothing else; it cannot read,
 query, or delete. `tests/analytics.test.js` fails while the key is still the
@@ -156,8 +180,9 @@ else's domain on a site whose every other asset is local.
 `disable_external_dependency_loading` blocks the downloads,
 `disable_surveys` stops the survey list being fetched anyway, and
 `capture_performance` turns off page-timing collection. What remains is
-`array.js` and one config request. Pageviews and clicks are counted by
-`array.js` itself and are unaffected.
+`array.js`, one config request and the `POST /e/` that carries the events —
+three requests, which is what the network panel shows. Pageviews and clicks
+are counted by `array.js` itself and are unaffected.
 
 If `array.js` never arrives — an ad blocker, a dead network — nothing on the
 page notices. Analytics is the only thing that depends on it, and the page has
