@@ -169,17 +169,36 @@ sets nothing, and is described in **Analytics** above.
   German pages do not shift by a pixel. Plex is already on the page, so the
   type system stays one family. Its OFL is the same licence file as Sans and
   Mono.
-- `assets/shots` — the ten phone captures from the design canvas, real screens
-  of the app on an Android emulator with a seeded 16-item wardrobe. `.webp`
-  next to `.jpg`, same base name.
+- `assets/shots` — the phone captures, `.webp` next to `.jpg`, same base
+  name. They are being replaced one by one with real iPhone screenshots; the
+  originals were the design canvas's Android emulator screens of a seeded
+  16-item wardrobe.
 
-  **Two of them are placeholders.** Sections 07 (why no AI) and 08 (what it
+  | file | screen | source |
+  | --- | --- | --- |
+  | `grid` | wardrobe grid — hero | **iPhone** |
+  | `calendar` | month + that day's pieces | **iPhone** |
+  | `colortype` | Cool Summer result | **iPhone** |
+  | `verdict` | fitting-room verdict | **iPhone** |
+  | `fitcolor` | fitting-room colour prompt | **iPhone** |
+  | `outfits` | generated outfits | Android |
+  | `builder` | outfit builder | Android |
+  | `item` | item card | Android |
+  | `shoot` | how to shoot | Android |
+  | `wardrobe` | wardrobe grid | Android |
+  | `pairs` | item card with pair reasons | Android |
+
+  New captures come in at 1170×2532; they are resized to 540 wide to match
+  the set, which puts each one back in the 24–50 KB range the others sit in.
+  The iPhone screens are 540×1169 rather than 540×1200, so the `width` and
+  `height` attributes on those `<img>` tags differ — they only reserve
+  layout space, but a wrong pair means the page jumps when the image lands.
+
+  **Two shots are placeholders.** Sections 07 (why no AI) and 08 (what it
   doesn't do) were walls of text with no screenshot at all, so they now carry
   one and two respectively — but no unused capture fitted either subject, so
-  `pairs` is reused in 07 and `wardrobe` in 08. Both are stand-ins for
-  captures that do not exist yet; replace them and update the `alt` string
-  that goes with each. `shoot` was genuinely unused until now and is the
-  first of the two in section 08.
+  `pairs` is reused in 07 and `wardrobe` in 08. Replace them and update the
+  `alt` string that goes with each.
 - `ecru-logo.svg` and `apple-touch-icon.png` — the favicon, at the root rather
   than in `assets` because that is where a browser and iOS look for it. Three
   `<link>` tags, one reason each: the SVG for current browsers, the PNG for
