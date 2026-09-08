@@ -63,10 +63,6 @@
               </span>
             </a>
           </div>
-
-          <p class="fineprint">
-            {{hero.fineprint}}
-          </p>
         </div>
 
         <picture>
@@ -112,27 +108,21 @@
           <p class="lede" style="margin-top: 1rem">
             {{own.lede}}
           </p>
-          <p class="prose" style="margin-top: 1.25rem">
-            {{own.p}}
-          </p>
           <h3>{{own.fix.h}}</h3>
           <p class="prose">
             {{own.fix.p}}
-          </p>
-          <p class="callout">
-            {{own.callout}}
           </p>
         </div>
 
         <div class="own__shots">
           <picture>
-            <source srcset="{{@base}}assets/shots/wardrobe.webp" type="image/webp" />
+            <source srcset="{{@base}}assets/shots/dropper.webp" type="image/webp" />
             <img
               class="shot"
-              src="{{@base}}assets/shots/wardrobe.jpg"
-              width="540" height="1200"
+              src="{{@base}}assets/shots/dropper.jpg"
+              width="540" height="1169"
               loading="lazy" decoding="async"
-              alt="{{wardrobe.alt}}" />
+              alt="{{own.alt}}" />
           </picture>
         </div>
       </div>
@@ -176,13 +166,13 @@
           </div>
 
           <picture>
-            <source srcset="{{@base}}assets/shots/item.webp" type="image/webp" />
+            <source srcset="{{@base}}assets/shots/suits.webp" type="image/webp" />
             <img
               class="shot shot--lift wedge__shot"
-              src="{{@base}}assets/shots/item.jpg"
-              width="540" height="1200"
+              src="{{@base}}assets/shots/suits.jpg"
+              width="540" height="1169"
               loading="lazy" decoding="async"
-              alt="{{item.alt}}" />
+              alt="{{wedge.alt}}" />
           </picture>
         </div>
       </div>
@@ -203,7 +193,7 @@
               <img
                 class="shot"
                 src="{{@base}}assets/shots/outfits.jpg"
-                width="540" height="1200"
+                width="540" height="1169"
                 loading="lazy" decoding="async"
                 alt="{{outfits.alt}}" />
             </picture>
@@ -218,7 +208,7 @@
               <img
                 class="shot"
                 src="{{@base}}assets/shots/builder.jpg"
-                width="540" height="1200"
+                width="540" height="1169"
                 loading="lazy" decoding="async"
                 alt="{{builder.alt}}" />
             </picture>
@@ -262,9 +252,6 @@
           <h2 class="display h-section">
             {{colortype.h}}
           </h2>
-          <p class="lede" style="margin-top: 1rem">
-            {{colortype.lede}}
-          </p>
 
           <ul class="points">
             <li>
@@ -394,16 +381,6 @@
               {{manifesto.server.p2}}
             </p>
           </div>
-
-          <picture>
-            <source srcset="{{@base}}assets/shots/pairs.webp" type="image/webp" />
-            <img
-              class="shot shot--lift manifesto__shot"
-              src="{{@base}}assets/shots/pairs.jpg"
-              width="540" height="1200"
-              loading="lazy" decoding="async"
-              alt="{{manifesto.alt}}" />
-          </picture>
         </div>
 
         <p class="manifesto__coda">
@@ -418,9 +395,6 @@
         <div style="max-width: 43.75rem">
           <p class="eyebrow">{{limits.eyebrow}}</p>
           <h2 class="display h-section">{{limits.h}}</h2>
-          <p class="lede" style="margin-top: 1rem">
-            {{limits.lede}}
-          </p>
         </div>
 
         <div class="limits__grid">
@@ -429,18 +403,18 @@
             <img
               class="shot"
               src="{{@base}}assets/shots/shoot.jpg"
-              width="540" height="1200"
+              width="540" height="1169"
               loading="lazy" decoding="async"
               alt="{{shoot.alt}}" />
           </picture>
           <picture>
-            <source srcset="{{@base}}assets/shots/wardrobe.webp" type="image/webp" />
+            <source srcset="{{@base}}assets/shots/card.webp" type="image/webp" />
             <img
               class="shot"
-              src="{{@base}}assets/shots/wardrobe.jpg"
-              width="540" height="1200"
+              src="{{@base}}assets/shots/card.jpg"
+              width="540" height="1169"
               loading="lazy" decoding="async"
-              alt="{{wardrobe.alt}}" />
+              alt="{{card.alt}}" />
           </picture>
 
           <ul class="limits">
@@ -517,7 +491,7 @@
             {{finale.lede}}
           </p>
 
-          <div class="get get--stacked">
+          <div class="get">
             <a class="appstore" href="{{@store}}" data-place="finale">
               <svg class="appstore__logo" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
                 <path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.922-.987 1.83 0 2.36.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.208-1.23-3.234-4.883-.026-3.055 2.497-4.52 2.611-4.588-1.429-2.104-3.649-2.34-4.404-2.379-2-.156-3.661 1.09-4.585 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.346.104 2.719-.688 3.56-1.701" />
@@ -527,7 +501,6 @@
                 <span class="appstore__name">App Store</span>
               </span>
             </a>
-            <p class="get__note">{{store.note}}</p>
           </div>
 
           <p class="fineprint">{{finale.fineprint}}</p>
@@ -538,19 +511,24 @@
     <!-- ── 13 · підвал ────────────────────────────────────────────── -->
     <footer class="site-footer">
       <div class="wrap site-footer__inner">
-        <span class="display site-footer__wordmark">Ecru</span>
+        <div class="site-footer__left">
+          <span class="display site-footer__wordmark">Ecru</span>
+          <p class="site-footer__note">
+            {{footer.note}}
+          </p>
+          <p class="site-footer__fine">
+            <span>{{footer.cookies}}</span>
+            <span>{{footer.copyright}}</span>
+          </p>
+        </div>
+
         <!-- div, а не p: <details> — не phrasing content, і всередині <p>
              парсер закрив би абзац перед ним, розваливши весь рядок. -->
-        <div class="site-footer__meta">
+        <div class="site-footer__right">
           {{@langswitch}}
-          <span>{{footer.cookies}}</span>
           <a href="#get">{{nav.cta}}</a>
-          <span>{{footer.copyright}}</span>
         </div>
       </div>
-      <p class="wrap site-footer__note">
-        {{footer.note}}
-      </p>
     </footer>
   </body>
 </html>

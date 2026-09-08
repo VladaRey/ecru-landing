@@ -452,7 +452,7 @@ a:hover { color: var(--accent-hover); }
    підвалом місця немає, і випадне меню поїхало б за край сторінки. */
 .nav__links .langs > ul { right: 0; }
 
-.site-footer__meta .langs > ul {
+.site-footer__right .langs > ul {
   bottom: 100%;
   margin-top: 0;
   margin-bottom: 0.5rem;
@@ -546,30 +546,17 @@ a:hover { color: var(--accent-hover); }
   letter-spacing: -0.01em;
 }
 
-.get__note {
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--prose);
-  margin: 0;
-  text-wrap: pretty;
-}
-
 .get + .fineprint { margin-top: 1rem; }
 
-/* Від планшета кнопка й рядок стають в один рядок і тримаються лівого
-   краю — так само, як тримався край форми. */
+/* Від планшета кнопка в герої тримається лівого краю. Без flex-start
+   вона розтягнулась би на всю ширину колонки: align-items: center у
+   .get тягне єдину дитину, а не центрує її. */
 @media (min-width: 34rem) {
   .get {
     flex-direction: row;
     align-items: center;
-    gap: 1.25rem;
   }
 
-  .get__note { max-width: 17.5rem; }
-
-  /* У герої кнопка стоїть сама, і без цього рядка вона розтягнулась би
-     по всій ширині колонки: align-items: center у .get тягне єдину
-     дитину, а не центрує її. */
   .get--bare { justify-content: flex-start; }
 }
 
@@ -586,9 +573,6 @@ a:hover { color: var(--accent-hover); }
 }
 
 .hero__shot { margin-top: 2rem; }
-
-/* На телефоні рядок під кнопкою стоїть по центру — так в артборді 390. */
-.hero__inner .fineprint { text-align: center; }
 
 @media (min-width: 64rem) {
   .hero__inner {
@@ -607,7 +591,6 @@ a:hover { color: var(--accent-hover); }
     max-width: 32rem;
   }
 
-  .hero__inner .fineprint { text-align: left; }
   .hero__lede { margin-top: 1.875rem; }
   .get { margin-top: 2.375rem; }
 
@@ -632,7 +615,10 @@ a:hover { color: var(--accent-hover); }
   padding-top: 1.625rem;
   padding-bottom: 1.625rem;
   list-style: none;
-  margin: 0;
+  /* Саме auto, а не 0: `.wrap` центрує смугу через margin: 0 auto,
+     і `margin: 0` — поставлений, щоб зняти власний відступ <dl> — цю
+     авто-центрацію скасовував. Смуга стояла притиснутою до лівого краю. */
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -683,17 +669,6 @@ a:hover { color: var(--accent-hover); }
   margin-top: 1.625rem;
 }
 
-.callout {
-  margin-top: 1.5rem;
-  padding: 1.25rem 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 16px;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--prose);
-}
-
 @media (min-width: 64rem) {
   .own {
     display: grid;
@@ -703,17 +678,11 @@ a:hover { color: var(--accent-hover); }
   }
 
   .own__shots {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.375rem;
+    grid-template-columns: minmax(0, 1fr);
     margin-top: 0;
   }
 
-  .own__shots .shot { max-width: 15rem; }
-
-  /* Другий знімок опущено — щоб пара читалась як розворот, а не як таблиця. */
-  .own__shots .shot:last-child { margin-top: 3rem; }
-
-  .callout { margin-top: 1.875rem; }
+  .own__shots .shot { max-width: 24rem; }
 }
 
 /* ── 4 · число проти причини ─────────────────────────────────────────── */
@@ -725,7 +694,6 @@ a:hover { color: var(--accent-hover); }
 }
 
 .score-card {
-  background: var(--surface);
   border: 1px solid var(--rule-card);
   border-radius: 18px;
   padding: 1.25rem 1.25rem;
@@ -738,29 +706,29 @@ a:hover { color: var(--accent-hover); }
   margin-top: 0.75rem;
 }
 
-/* 92% — 3.9:1 на білому. Це нижче за 4.5, тому число мусить лишатися
-   великим: на 34px і вище поріг AA для великого тексту — 3:1. */
+/* Раніше тут був сірий #8a8073 — 3.9:1 на білому, тобто нижче за 4.5, і
+   через це число мусило лишатися великим. Чорнилом по смузі це 12:1, тож
+   обмеження на розмір більше нічим не тримається. */
 .score-card__number {
   font-family: var(--mono);
   font-size: clamp(2.125rem, 1.9018rem + 0.5714vw, 2.875rem);
   line-height: 1;
-  color: #8a8073;
+  color: var(--ink);
   letter-spacing: -0.02em;
 }
 
 .score-card__note {
   font-size: clamp(0.875rem, 0.8378rem + 0.0952vw, 1rem);
   line-height: 1.5;
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .reason-card {
-  background: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule-card);
   border-radius: 18px;
   padding: 1.25rem;
 }
-
-.reason-card .eyebrow { color: var(--on-dark-muted); }
 
 .reason-card ul {
   list-style: none;
@@ -773,7 +741,7 @@ a:hover { color: var(--accent-hover); }
 .reason-card li {
   font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.125rem);
   line-height: 1.5;
-  color: var(--on-dark);
+  color: var(--ink);
 }
 
 @media (min-width: 48rem) {
@@ -992,19 +960,12 @@ a:hover { color: var(--accent-hover); }
   letter-spacing: 0.02em;
 }
 
-.manifesto__shot { margin-top: 0.5rem; }
-
 @media (min-width: 64rem) {
-  /* Два стовпчики тексту й вужчий третій під знімок: на темному тлі
-     телефон працює як пауза між двома колонками прози. */
   .manifesto__cols {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.72fr);
-    gap: 3rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
     margin-top: 3.5rem;
-    align-items: center;
   }
-
-  .manifesto__shot { margin-top: 0; }
 
   .manifesto p { margin-top: 1rem; }
   .manifesto__coda { margin-top: 3.5rem; }
@@ -1148,8 +1109,6 @@ a:hover { color: var(--accent-hover); }
   text-align: center;
 }
 
-.finale .get__note { max-width: 26rem; }
-
 @media (min-width: 64rem) {
   .finale .lede { margin-top: 1.5rem; }
   .finale .get { margin-top: 2.5rem; }
@@ -1167,56 +1126,67 @@ a:hover { color: var(--accent-hover); }
   padding-bottom: 1.625rem;
   text-align: center;
   display: grid;
-  gap: 0.3125rem;
+  gap: 1.25rem;
+}
+
+/* Ліворуч — усе про проєкт, праворуч — усе, що натискається. Загального
+   правила на .site-footer p тут немає навмисно: воно перебивало б за
+   специфічністью класи нижче, бо .site-footer p — це (0,1,1). */
+.site-footer__left {
+  display: grid;
+  gap: 0.4375rem;
+  justify-items: center;
+}
+
+.site-footer__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1.875rem;
 }
 
 .site-footer__wordmark {
   font-size: 1.3125rem;
 }
 
-.site-footer p {
+/* Рядок про назву тримається, поки назва Ecru не перевірена на знак. */
+.site-footer__note {
+  max-width: 34rem;
   font-size: 0.8125rem;
+  line-height: 1.5;
   color: var(--muted);
+  margin: 0;
 }
 
-.site-footer__meta {
+/* Дрібніше за все інше в підвалі: обіцянка про куки й рік — це примітка
+   під приміткою, а не рядок, який хтось читає першим. */
+.site-footer__fine {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem 1.875rem;
+  gap: 0.25rem 1rem;
+  font-size: 0.71875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
 }
 
 @media (min-width: 64rem) {
   .site-footer__inner {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 4rem;
     text-align: left;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
   }
 
+  .site-footer__left { justify-items: start; }
+  .site-footer__fine { justify-content: flex-start; }
+  .site-footer__right { justify-content: flex-end; }
+
   .site-footer__wordmark { font-size: 1.5rem; }
-  .site-footer p { font-size: 0.875rem; }
-  .site-footer__meta { justify-content: flex-end; }
-}
-
-/* Рядок про назву — окремим тактом під підвалом: у флекс-рядок він не
-   влазить, а викидати його не можна, поки назва Ecru не перевірена. */
-.site-footer__note {
-  padding-bottom: 1.625rem;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--muted);
-  text-align: center;
-}
-
-@media (min-width: 64rem) {
-  .site-footer__inner { padding-bottom: 1.5rem; }
-
-  .site-footer__note {
-    padding-bottom: 2.5rem;
-    text-align: left;
-  }
+  .site-footer__note { font-size: 0.875rem; }
 }

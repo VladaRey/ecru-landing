@@ -44,10 +44,27 @@ links to the others.
   and never appear in a dictionary.
 
 **Strings prefixed `quote.` are not translated.** They quote the app's own
-interface — the pairing reasons, the fitting-room verdicts — so they are
-copied verbatim from the app's locale (`src/i18n/locales/<lang>.json` in the
-app repo). Translating them from English would put sentences on the page that
-the Ukrainian app never says.
+interface, so they are copied verbatim from the app's locale
+(`src/i18n/locales/<lang>.json` in the app repo). Translating them from
+English would put sentences on the page that the Ukrainian app never says.
+
+Where each one comes from, so a future edit knows what to re-copy rather than
+reword:
+
+| page key | app key |
+| --- | --- |
+| `quote.reason1` | `reason.fit.neutralAligned` |
+| `quote.reason2` | `reason.fit.warmer` |
+| `quote.reason3` | `reason.fit.brighter` |
+| `quote.reason4` | `reason.fit.lighter` |
+| `quote.verdict.yes` / `.maybe` / `.no` | the fitting-room verdicts |
+
+The four `reason.*` lines used to be `reason.pair.*` — the explanations for a
+pair of items. Section 02 now shows one item's colour score, so they are the
+`reason.fit.*` set instead: one that costs nothing, then one for each of the
+three axes the app names. `wedge.p` beside them must use the same words for
+those axes as the quotes do — temperature, saturation, lightness — or the
+page contradicts the app two lines below its own claim.
 
 To add a language: add its code to `LANGS` in `build.js`, put its endonym in
 `LANG_NAMES` beside it, and drop `i18n/<code>.json` next to the others. The
@@ -76,8 +93,8 @@ A few things deliberately differ from the canvas:
   With one destination for the whole page, a third copy of the same button
   competed with the two that carry it; the header keeps the section links and
   the language switcher.
-- **Screenshots in sections 07 and 08.** Not on any artboard — both sections
-  are pure prose in the canvas. See the note on placeholders under **Assets**.
+- **Screenshots in section 08.** Not on any artboard — the section is pure
+  prose in the canvas.
 - **The name disclaimer in the footer.** Not in the canvas, kept from the
   previous page. It stays until the name Ecru is cleared for trademark.
 - **The language switcher.** On no artboard at all — the canvas was drawn
@@ -174,19 +191,27 @@ sets nothing, and is described in **Analytics** above.
   originals were the design canvas's Android emulator screens of a seeded
   16-item wardrobe.
 
-  | file | screen | source |
-  | --- | --- | --- |
-  | `grid` | wardrobe grid — hero | **iPhone** |
-  | `calendar` | month + that day's pieces | **iPhone** |
-  | `colortype` | Cool Summer result | **iPhone** |
-  | `verdict` | fitting-room verdict | **iPhone** |
-  | `fitcolor` | fitting-room colour prompt | **iPhone** |
-  | `outfits` | generated outfits | Android |
-  | `builder` | outfit builder | Android |
-  | `item` | item card | Android |
-  | `shoot` | how to shoot | Android |
-  | `wardrobe` | wardrobe grid | Android |
-  | `pairs` | item card with pair reasons | Android |
+  | file | screen | where | source |
+  | --- | --- | --- | --- |
+  | `grid` | wardrobe grid | hero | **iPhone** |
+  | `dropper` | colour & details, picked by hand | 01 | **iPhone** |
+  | `suits` | a score opened into its reasoning | 02 | **iPhone** |
+  | `outfits` | suggestions, scored | 03 | **iPhone** |
+  | `builder` | outfit builder | 03 | **iPhone** |
+  | `calendar` | month + that day's pieces | 04 | **iPhone** |
+  | `colortype` | Cool Summer result | 05 | **iPhone** |
+  | `fitcolor` | fitting room, no colour to read | 06 | **iPhone** |
+  | `verdict` | fitting-room verdict | 06 | **iPhone** |
+  | `shoot` | how to shoot | 08 | **iPhone** |
+  | `card` | item card, formality/weather/fabric | 08 | **iPhone** |
+  | `item` | item card with pair reasons | — | Android, unused |
+  | `pairs` | item card with pair reasons | — | Android, unused |
+  | `wardrobe` | wardrobe grid | — | Android, unused |
+
+  **Every capture on the page is now a real iPhone screenshot.** The three
+  marked unused are superseded Android ones — `grid` replaced `wardrobe`,
+  `suits` replaced `pairs` and then `item` — and are kept only because an
+  unreferenced file costs a visitor nothing; delete them when you are sure.
 
   New captures come in at 1170×2532; they are resized to 540 wide to match
   the set, which puts each one back in the 24–50 KB range the others sit in.
@@ -194,11 +219,11 @@ sets nothing, and is described in **Analytics** above.
   `height` attributes on those `<img>` tags differ — they only reserve
   layout space, but a wrong pair means the page jumps when the image lands.
 
-  **Two shots are placeholders.** Sections 07 (why no AI) and 08 (what it
-  doesn't do) were walls of text with no screenshot at all, so they now carry
-  one and two respectively — but no unused capture fitted either subject, so
-  `pairs` is reused in 07 and `wardrobe` in 08. Replace them and update the
-  `alt` string that goes with each.
+Section 08 was a wall of text with no screenshot at all and now carries two.
+  Section 07 briefly carried one too, but the shot that fitted it — a score
+  opened into its reasoning — argues section 02's point more directly, where
+  it now sits beside the 92%-with-no-explanation card it contradicts. Section
+  07 is two columns of prose again, by choice.
 - `ecru-logo.svg` and `apple-touch-icon.png` — the favicon, at the root rather
   than in `assets` because that is where a browser and iOS look for it. Three
   `<link>` tags, one reason each: the SVG for current browsers, the PNG for
