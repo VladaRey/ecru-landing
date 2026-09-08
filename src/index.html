@@ -113,21 +113,16 @@
           <p class="prose" style="margin-top: 1.25rem">
             {{own.p}}
           </p>
+          <h3>{{own.fix.h}}</h3>
+          <p class="prose">
+            {{own.fix.p}}
+          </p>
           <p class="callout">
             {{own.callout}}
           </p>
         </div>
 
         <div class="own__shots">
-          <picture>
-            <source srcset="{{@base}}assets/shots/shoot.webp" type="image/webp" />
-            <img
-              class="shot"
-              src="{{@base}}assets/shots/shoot.jpg"
-              width="460" height="1022"
-              loading="lazy" decoding="async"
-              alt="{{shoot.alt}}" />
-          </picture>
           <picture>
             <source srcset="{{@base}}assets/shots/wardrobe.webp" type="image/webp" />
             <img
@@ -286,6 +281,12 @@
               <span class="points__n" aria-hidden="true">03</span>
               <p class="prose">
                 {{colortype.point3}}
+              </p>
+            </li>
+            <li>
+              <span class="points__n" aria-hidden="true">04</span>
+              <p class="prose">
+                {{colortype.point4}}
               </p>
             </li>
           </ul>
@@ -455,9 +456,9 @@
             </p>
           </div>
           <div>
-            <h3>{{faq.paper.q}}</h3>
+            <h3>{{faq.color.q}}</h3>
             <p class="prose">
-              {{faq.paper.a}}
+              {{faq.color.a}}
             </p>
           </div>
           <div>
