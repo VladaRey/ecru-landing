@@ -29,19 +29,28 @@ redirect on `navigator.language`: each language is a separate static page with
 its own URL, its own `<html lang>`, its own canonical link, and `hreflang`
 links to the others.
 
-- `src/index.html` — the template. Every translatable string is a `{{key}}`
-  named after its place on the page (`hero.title`, `faq.cost.q`,
-  `manifesto.server.p2`), so the template reads as a table of contents.
+- `src/index.html` and `src/privacy.html` — the templates, one per page.
+  Every translatable string is a `{{key}}` named after its place on the page
+  (`hero.title`, `faq.cost.q`, `privacy.network.p1`), so a template reads as a
+  table of contents.
   Markup inside a string (`<em>`, `<strong>`, `&nbsp;·&nbsp;`) lives in the
   dictionary with the string, because that is where it belongs to the
   sentence.
 - `i18n/<lang>.json` — one flat dictionary per language, same keys in all of
-  them. The build fails with a non-zero exit code if any dictionary is missing
-  a key or carries one the template no longer uses, and it names every
-  mismatch at once rather than the first.
-- Keys starting with `@` — `@lang`, `@base`, `@canonical`, `@alternates`,
-  `@langswitch`, `@store` — are filled in by the build, not by a translator,
-  and never appear in a dictionary.
+  them, shared by both pages. The build fails with a non-zero exit code if any
+  dictionary is missing a key or carries one no template uses any more, and it
+  names every mismatch at once rather than the first. "Used" is counted across
+  all templates together: a key only the privacy page needs is not a stray key
+  for the home page.
+- Keys starting with `@` — `@lang`, `@base`, `@home`, `@canonical`,
+  `@alternates`, `@langswitch`, `@store`, `@email` — are filled in by the
+  build, not by a translator, and never appear in a dictionary.
+- `PAGES` in `build.js` lists the pages. A page's `dir` is three things at
+  once: the folder inside `dist`, the tail of the URL, and the depth relative
+  paths are counted from. `{{@base}}` reaches the site root (`../../` from
+  `uk/privacy/`), `{{@home}}` reaches the home page *of the same language*
+  (`../`) — the two are not interchangeable, and mixing them up switches the
+  visitor's language without saying so.
 
 **Strings prefixed `quote.` are not translated.** They quote the app's own
 interface, so they are copied verbatim from the app's locale
@@ -102,6 +111,25 @@ A few things deliberately differ from the canvas:
   mono, small, the same colour as the nav links. It sits in the header above
   64rem and in the footer at every width, because below 64rem the header hides
   its links and the footer is the only place a phone can reach it.
+
+## The privacy policy
+
+`/privacy/` exists because App Store Connect will not accept a submission
+without a privacy policy URL, and the reviewer opens it by hand. It ships in
+all four languages like everything else (`/privacy/`, `/uk/privacy/`, …), from
+`src/privacy.html` and the `privacy.*` keys.
+
+**`CONTACT_EMAIL` in `build.js` is a placeholder.** It reads `ПОШТА_СЮДИ` and
+renders that, loudly, where the address belongs — replace it before this
+reaches `main`. It sits in `build.js` next to `APP_STORE` for the same reason:
+an address is not a translatable string, and four copies of it would drift
+apart at the first edit.
+
+What the page says has to keep matching what the app does. It names the two
+places where something leaves the device — the app's update check against
+`u.expo.dev`, and this site's own PostHog page counter — and a test holds both
+mentions in place. Add analytics to the app, or a cookie to the page, and this
+text is wrong before it is out of date.
 
 ## The App Store link
 

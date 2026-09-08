@@ -1190,3 +1190,62 @@ a:hover { color: var(--accent-hover); }
   .site-footer__wordmark { font-size: 1.5rem; }
   .site-footer__note { font-size: 0.875rem; }
 }
+
+/* ── 14 · політика конфіденційності ──────────────────────────────────── */
+
+/* Єдина сторінка сайту, де текст читають підряд, а не проглядають. Тому
+   вужча колонка: .wrap тримає 70rem, і рядок такої довжини очима не
+   тримається — на третьому абзаці погляд починає губити початок рядка. */
+.legal {
+  max-width: 44rem;
+}
+
+.legal__updated {
+  margin-top: 0.75rem;
+}
+
+.legal .lede {
+  margin-top: 1.5rem;
+}
+
+/* Заголовки розділів однакові й дрібні: у політики немає головного
+   розділу, і кегль, який виділяв би один із них, обіцяв би ієрархію,
+   якої тут немає. */
+.legal__h {
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 2.75rem;
+  margin-bottom: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.legal p + p {
+  margin-top: 1rem;
+}
+
+.legal__list {
+  margin-top: 1rem;
+  padding-left: 1.25rem;
+}
+
+.legal__list li + li {
+  margin-top: 0.5rem;
+}
+
+.legal a {
+  color: var(--accent);
+}
+
+.legal a:hover {
+  color: var(--accent-hover);
+}
+
+/* Пошта — моно й на власному рядку: адресу переписують очима, і в
+   пропорційному наборі крапка з дефісом у ній зливаються. */
+.legal__mail {
+  font-family: var(--mono);
+  margin-top: 1rem;
+}

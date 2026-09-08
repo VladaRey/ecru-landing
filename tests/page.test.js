@@ -138,3 +138,73 @@ test('у перемикачі мов немає маркерів списку', 
   assert.ok(rule, 'у style.css немає правила .langs > ul');
   assert.match(rule[0], /list-style:\s*none/);
 });
+
+// ── політика конфіденційності ─────────────────────────────────────────
+// App Store Connect не дає подати застосунок без посилання на політику, і
+// рев'юер відкриває його руками. Тому сторінка перевіряється так само, як
+// головна: своєю мовою, своїм канонічним посиланням і робочими шляхами.
+
+const { CONTACT_EMAIL } = require('../build.js');
+
+const PRIVACY = ['privacy/index.html', 'uk/privacy/index.html', 'pl/privacy/index.html', 'es/privacy/index.html'];
+
+test('політика зібралась кожною мовою й оголошує свою', () => {
+  assert.match(page('privacy/index.html'), /<html lang="en">/);
+  assert.match(page('uk/privacy/index.html'), /<html lang="uk">/);
+  assert.match(page('pl/privacy/index.html'), /<html lang="pl">/);
+  assert.match(page('es/privacy/index.html'), /<html lang="es">/);
+});
+
+test('у політиці не лишилось незамінених ключів', () => {
+  for (const rel of PRIVACY) assert.doesNotMatch(page(rel), /\{\{/, rel);
+});
+
+test('політика вказує канонічним посиланням на себе, а не на головну', () => {
+  assert.match(page('uk/privacy/index.html'), /rel="canonical" href="[^"]*\/uk\/privacy\/"/);
+});
+
+test('hreflang політики ведуть у політику інших мов', () => {
+  const html = page('privacy/index.html');
+  assert.match(html, /hreflang="uk" href="[^"]*\/uk\/privacy\/"/);
+  assert.match(html, /hreflang="es" href="[^"]*\/es\/privacy\/"/);
+});
+
+test('перемикач мов на політиці не викидає на головну', () => {
+  assert.match(page('uk/privacy/index.html'), /<a href="\.\.\/\.\.\/pl\/privacy\/">Polski<\/a>/);
+});
+
+test('стилі й іконки з мовної політики піднімаються на два рівні', () => {
+  const html = page('uk/privacy/index.html');
+  assert.match(html, /href="\.\.\/\.\.\/style\.css"/);
+  assert.match(html, /rel="apple-touch-icon" href="\.\.\/\.\.\/apple-touch-icon\.png"/);
+});
+
+test('з політики можна повернутись на головну своєї мови', () => {
+  // З uk/privacy/ це `../`, тобто /uk/. Корінь сайту (`../../`) був би
+  // англійською головною — мова б мовчки змінилась.
+  assert.match(page('uk/privacy/index.html'), /<a class="nav__brand" href="\.\.\/">/);
+});
+
+test('підвал головної веде в політику на кожній мові', () => {
+  for (const rel of ['index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
+    assert.match(page(rel), /<a href="privacy\/">/, rel);
+  }
+});
+
+// Сторінка обіцяє «нічого не йде на сервер». Обидва місця, де це не зовсім
+// так, названі в ній прямо — сервіс оновлень застосунку і лічильник самого
+// сайту. Тест тримає обидві згадки: прибрати одну означало б лишити на
+// сторінці обіцянку, ширшу за правду.
+test('політика називає і сервіс оновлень, і лічильник сайту', () => {
+  for (const rel of PRIVACY) {
+    assert.match(page(rel), /u\.expo\.dev/, rel);
+    assert.match(page(rel), /expo\.dev\/privacy/, rel);
+    assert.match(page(rel), /PostHog/, rel);
+  }
+});
+
+test('контакт у політиці — той самий, що в збірці', () => {
+  for (const rel of PRIVACY) {
+    assert.ok(page(rel).includes(`mailto:${CONTACT_EMAIL}`), rel);
+  }
+});

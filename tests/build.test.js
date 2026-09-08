@@ -110,3 +110,61 @@ test('checkKeys не вважає зайвими ключі, які читає �
   const problems = checkKeys('<p>{{a}}</p>', { a: '1', 'lang.aria': 'Page language' }, 'en');
   assert.deepStrictEqual(problems, []);
 });
+
+// ── друга сторінка ────────────────────────────────────────────────────
+// Політика лежить у теці всередині мови (`uk/privacy/`), тож глибина, з
+// якої рахуються відносні шляхи, більше не дорівнює «мова чи не мова».
+
+const { homePrefix } = require('../build.js');
+
+test('basePrefix рахує і мову, і теку сторінки', () => {
+  assert.strictEqual(basePrefix('en', ''), '');
+  assert.strictEqual(basePrefix('en', 'privacy'), '../');
+  assert.strictEqual(basePrefix('uk', ''), '../');
+  assert.strictEqual(basePrefix('uk', 'privacy'), '../../');
+});
+
+test('homePrefix веде на головну своєї мови, а не на корінь сайту', () => {
+  // З uk/privacy/ корінь сайту — це англійська головна. Своя головна на
+  // рівень вище, і так для будь-якої мови: підсторінка завжди одна тека.
+  assert.strictEqual(homePrefix('privacy'), '../');
+  assert.strictEqual(homePrefix(''), '');
+});
+
+test('pageUrl дописує теку сторінки після мови', () => {
+  assert.strictEqual(pageUrl('en', 'privacy'), 'https://vladarey.github.io/ecru-landing/privacy/');
+  assert.strictEqual(pageUrl('uk', 'privacy'), 'https://vladarey.github.io/ecru-landing/uk/privacy/');
+});
+
+test('alternates в’яжуть однакові сторінки, а не будь-які', () => {
+  const out = alternates(['en', 'uk'], 'privacy');
+  assert.match(out, /hreflang="uk" href="[^"]*\/uk\/privacy\/"/);
+  assert.doesNotMatch(out, /href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
+});
+
+test('langSwitch лишає людину на тій самій сторінці іншої мови', () => {
+  const out = langSwitch('uk', ['en', 'uk', 'pl'], 'Мова сторінки', 'privacy');
+  assert.match(out, /<a href="\.\.\/\.\.\/privacy\/">English<\/a>/);
+  assert.match(out, /<a href="\.\.\/\.\.\/pl\/privacy\/">Polski<\/a>/);
+});
+
+test('checkKeys рахує вжитими ключі всіх шаблонів разом', () => {
+  // Ключ, потрібний лише другій сторінці, для першої не зайвий: словник
+  // на мову один, а сторінок кілька.
+  const problems = checkKeys(['<p>{{a}}</p>', '<p>{{b}}</p>'], { a: '1', b: '2' }, 'en');
+  assert.deepStrictEqual(problems, []);
+});
+
+test('checkKeys і з кількома шаблонами ловить ключ, якого не вживає жоден', () => {
+  const problems = checkKeys(['<p>{{a}}</p>', '<p>{{b}}</p>'], { a: '1', b: '2', ghost: '3' }, 'uk');
+  assert.strictEqual(problems.length, 1);
+  assert.match(problems[0], /ghost/);
+});
+
+test('metaFor віддає підсторінці її власну глибину, дорогу додому й пошту', () => {
+  const meta = metaFor('uk', ['en', 'uk'], { 'lang.aria': 'Мова сторінки' }, 'privacy');
+  assert.strictEqual(meta['@base'], '../../');
+  assert.strictEqual(meta['@home'], '../');
+  assert.strictEqual(meta['@canonical'], 'https://vladarey.github.io/ecru-landing/uk/privacy/');
+  assert.ok(meta['@email']);
+});
