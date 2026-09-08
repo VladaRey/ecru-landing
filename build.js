@@ -43,6 +43,11 @@ const LANGS = ['en', 'uk', 'pl', 'es'];
 const DEFAULT_LANG = 'en';
 const SITE = 'https://vladarey.github.io/ecru-landing/';
 
+// ЗАГЛУШКА: замінити на посилання застосунку в App Store, коли воно буде.
+// Живе тут, а не у словниках: адреса не перекладається, а generic-посилання
+// apple сам перекидає на потрібну вітрину країни, тож одна на всі мови.
+const APP_STORE = 'https://apps.apple.com/app/ecru';
+
 // Самоназви. У словники не потрапляють: назва мови не перекладається —
 // на англійській сторінці українська так само «Українська».
 const LANG_NAMES = { en: 'English', uk: 'Українська', pl: 'Polski', es: 'Español' };
@@ -107,6 +112,7 @@ function metaFor(lang, langs, strings) {
     '@canonical': pageUrl(lang),
     '@alternates': alternates(langs),
     '@langswitch': langSwitch(lang, langs, strings['lang.aria']),
+    '@store': APP_STORE,
   };
 }
 
@@ -116,7 +122,12 @@ const path = require('node:path');
 // Копіюється один раз у корінь dist. Шляхи до шрифтів усередині style.css
 // рахуються від самого CSS-файла, тож він однаково працює для обох сторінок
 // і множити його по мовних теках не треба.
-const STATIC = ['style.css', 'analytics.js', 'waitlist.js', 'assets', '.nojekyll'];
+const STATIC = [
+  'style.css', 'analytics.js', 'assets', '.nojekyll',
+  // Іконки лежать у корені, а не в assets: так вони віддаються з кореня
+  // сайту, де їх шукають браузер і iOS, коли тега в <head> замало.
+  'ecru-logo.svg', 'apple-touch-icon.png',
+];
 
 function readStrings(root, lang) {
   const file = path.join(root, 'i18n', `${lang}.json`);
@@ -176,5 +187,5 @@ module.exports = {
   keysIn, render, checkKeys,
   basePrefix, pageUrl, alternates, langSwitch, metaFor,
   build,
-  LANGS, DEFAULT_LANG, SITE, LANG_NAMES, BUILDER_KEYS,
+  LANGS, DEFAULT_LANG, SITE, APP_STORE, LANG_NAMES, BUILDER_KEYS,
 };

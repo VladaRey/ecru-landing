@@ -40,8 +40,8 @@ links to the others.
   a key or carries one the template no longer uses, and it names every
   mismatch at once rather than the first.
 - Keys starting with `@` — `@lang`, `@base`, `@canonical`, `@alternates`,
-  `@langswitch` — are filled in by the build, not by a translator, and never
-  appear in a dictionary.
+  `@langswitch`, `@store` — are filled in by the build, not by a translator,
+  and never appear in a dictionary.
 
 **Strings prefixed `quote.` are not translated.** They quote the app's own
 interface — the pairing reasons, the fitting-room verdicts — so they are
@@ -65,11 +65,19 @@ design at any viewport instead of snapping between two hand-tuned states.
 The canvas is the source of truth for type, colour and spacing. If it changes,
 change this page to match rather than the other way round.
 
-Two things deliberately differ from the canvas:
+A few things deliberately differ from the canvas:
 
-- **The FAQ launch date.** The canvas has `[LAUNCH DATE — to fill in]`. Rather
-  than ship a placeholder, the answer says there is no date to promise yet.
-  Replace it when there is one.
+- **The FAQ launch date.** The canvas has `[LAUNCH DATE — to fill in]`. The
+  app has shipped, so that question is now "where do I get it?" and the answer
+  points at the App Store.
+- **The waitlist form.** Both artboards put an email field in the hero and in
+  the closing call. The app is out, so both are an App Store button instead.
+- **No button in the header.** The canvas has a call to action in the top bar.
+  With one destination for the whole page, a third copy of the same button
+  competed with the two that carry it; the header keeps the section links and
+  the language switcher.
+- **Screenshots in sections 07 and 08.** Not on any artboard — both sections
+  are pure prose in the canvas. See the note on placeholders under **Assets**.
 - **The name disclaimer in the footer.** Not in the canvas, kept from the
   previous page. It stays until the name Ecru is cleared for trademark.
 - **The language switcher.** On no artboard at all — the canvas was drawn
@@ -78,27 +86,29 @@ Two things deliberately differ from the canvas:
   64rem and in the footer at every width, because below 64rem the header hides
   its links and the footer is the only place a phone can reach it.
 
-## Wiring the waitlist form
+## The App Store link
 
-Addresses go to PostHog. On submit the form calls `identify(email)` and
-captures a `waitlist_signup` event carrying the address, the page language,
-and `hero` or `finale` — which of the two forms it came from. Everyone who
-signs up shows up under **People** in PostHog and exports as CSV from there.
+**`APP_STORE` in `build.js` is still a placeholder.** It reads
+`https://apps.apple.com/app/ecru`, which is not a real listing. Replace it
+with the app's own URL and rebuild — it is one constant, filled into both
+buttons on all four pages through the `{{@store}}` key.
 
-PostHog is analytics, not a mailing list. It collects the addresses fine, but
-when it comes time to actually write to those people, export and move them
-somewhere built for sending.
+It sits in `build.js` beside `SITE` rather than in the dictionaries because
+an App Store URL is not a translatable string, and Apple redirects a generic
+`apps.apple.com/app/…` link to the visitor's own storefront, so one URL
+serves every language.
 
-An HTTP endpoint can run alongside it, or instead of it: put a Formspree
-(`https://formspree.io/f/xxxxxxx`) or Buttondown URL in `data-endpoint` in
-`src/index.html`. Both forms on the page carry the attribute; set both. With
-neither PostHog nor an endpoint reachable, the form says so rather than
-thanking a visitor for something that went nowhere.
+The button is not Apple's official badge image. That badge is a raster asset
+served from Apple's site, and this page fetches nothing off the network and
+draws everything else as vectors — so the logo is an inline SVG path and the
+two lines of type are the page's own. The word **App Store** lives in the
+template, not in a dictionary: it is a proper noun and is not translated. Only
+the line above it is, as `store.pre` — "Download on the", "Завантажити з",
+"Pobierz z", "Descárgalo en el".
 
-The messages the form shows a visitor are not in `waitlist.js`. They ride
-along in `data-msg-*` attributes next to `data-endpoint`, filled from the
-dictionary like everything else, so the script never needs to know which
-language it was opened in.
+There is no waitlist form and no email collected anywhere on the page. Both
+buttons carry `data-place` (`hero` or `finale`) so PostHog's click
+autocapture can tell which one a visitor used; nothing else is recorded.
 
 ## Analytics
 
@@ -113,8 +123,9 @@ nothing persisted, PostHog sees every page load as a new person, so its
 number this page can report.
 
 `person_profiles: 'identified_only'` keeps a profile from being created for
-anyone who merely reads the page. Only an address typed into the form makes a
-person.
+anyone who merely reads the page. Nothing on the page calls `identify` any
+more, so no profile is ever created — what PostHog holds is anonymous
+pageviews and clicks.
 
 The project key sits in the repository in plain sight. That is how PostHog
 keys work — a project key can write events and nothing else; it cannot read,
@@ -131,10 +142,9 @@ else's domain on a site whose every other asset is local.
 `array.js` and one config request. Pageviews and clicks are counted by
 `array.js` itself and are unaffected.
 
-If `array.js` never arrives — an ad blocker, a dead network — `analytics.js`
-resolves `window.analyticsReady` to `false` and the form shows its failure
-message. A blocked signup is a lost signup; saying "thanks" for one would be
-the same lie the form was written to avoid.
+If `array.js` never arrives — an ad blocker, a dead network — nothing on the
+page notices. Analytics is the only thing that depends on it, and the page has
+nothing to tell a visitor about a count that was not taken.
 
 ## Assets
 
@@ -162,6 +172,30 @@ sets nothing, and is described in **Analytics** above.
 - `assets/shots` — the ten phone captures from the design canvas, real screens
   of the app on an Android emulator with a seeded 16-item wardrobe. `.webp`
   next to `.jpg`, same base name.
+
+  **Two of them are placeholders.** Sections 07 (why no AI) and 08 (what it
+  doesn't do) were walls of text with no screenshot at all, so they now carry
+  one and two respectively — but no unused capture fitted either subject, so
+  `pairs` is reused in 07 and `wardrobe` in 08. Both are stand-ins for
+  captures that do not exist yet; replace them and update the `alt` string
+  that goes with each. `shoot` was genuinely unused until now and is the
+  first of the two in section 08.
+- `ecru-logo.svg` and `apple-touch-icon.png` — the favicon, at the root rather
+  than in `assets` because that is where a browser and iOS look for it. Three
+  `<link>` tags, one reason each: the SVG for current browsers, the PNG for
+  Safari before 16.4, and `apple-touch-icon` for an iOS home screen, which
+  does not read SVG at all. One PNG covers the last two.
+
+  The PNG is the SVG flattened to 180×180 — every shape in the logo is an
+  axis-aligned rectangle, so it was rasterised by exact pixel coverage rather
+  than by a converter, and it is 663 bytes. Its corners are square on purpose:
+  iOS applies its own rounded mask, and rounding under rounding would clip the
+  orange corners to transparency. Redraw it from the SVG with any rasteriser
+  if the logo changes.
+
+  Note the SVG is 8.3 KB, of which 7.7 KB is C2PA provenance metadata; the
+  drawing itself is 558 bytes. Stripping the metadata would make the favicon
+  fifteen times smaller, at the cost of the content credential.
 
 Asset paths are relative because the site is served from `/ecru-landing/`, not
 from a domain root.

@@ -84,5 +84,57 @@ test('у жодній зібраній сторінці не лишилось к
 });
 
 test('українська сторінка не містить англійського тексту героя', () => {
-  assert.doesNotMatch(page('uk/index.html'), /Your whole wardrobe/);
+  assert.doesNotMatch(page('uk/index.html'), /Your wardrobe, and the reason/);
+});
+
+// Заклик на сторінці один — завантажити. Форми очікування тут стояли до
+// того, як застосунок вийшов, і тест тримає їх видаленими: лишена форма
+// означала б дві різні обіцянки на одній сторінці.
+test('кожна мовна сторінка веде в магазин, а не в чергу', () => {
+  for (const rel of ['index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
+    const html = page(rel);
+    assert.strictEqual(html.match(/<a class="appstore"/g).length, 2, rel);
+    assert.match(html, /href="https:\/\/apps\.apple\.com\//, rel);
+    assert.doesNotMatch(html, /<form/, rel);
+    assert.doesNotMatch(html, /waitlist/, rel);
+  }
+});
+
+// Назва магазину не перекладається, тож живе в шаблоні, а не у словниках, —
+// і на кожній мові має лишитись тим самим рядком.
+test('кнопка магазину названа своїм ім’ям на кожній мові', () => {
+  for (const rel of ['index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
+    assert.strictEqual(page(rel).match(/>App Store</g).length, 2, rel);
+  }
+});
+
+// Іконка вказана трьома тегами, і кожен має свою причину: SVG для
+// сучасних браузерів, PNG для Safari до 16.4, apple-touch-icon для iOS.
+// Перевіряємо і теги, і що файли справді доїхали в dist: посилання на
+// іконку, якої немає, дає порожню вкладку, а не помилку збірки.
+test('кожна мовна сторінка вказує іконку своїм шляхом', () => {
+  for (const lang of ['en', 'uk', 'pl', 'es']) {
+    const rel = lang === 'en' ? 'index.html' : `${lang}/index.html`;
+    const base = lang === 'en' ? '' : '../';
+    const html = page(rel);
+    assert.match(html, new RegExp(`rel="icon" href="${base}ecru-logo\\.svg" type="image/svg\\+xml"`), rel);
+    assert.match(html, new RegExp(`rel="icon" href="${base}apple-touch-icon\\.png"`), rel);
+    assert.match(html, new RegExp(`rel="apple-touch-icon" href="${base}apple-touch-icon\\.png"`), rel);
+  }
+});
+
+test('файли іконки лягають у корінь dist', () => {
+  for (const name of ['ecru-logo.svg', 'apple-touch-icon.png']) {
+    assert.ok(fs.existsSync(path.join(DIST, name)), `немає dist/${name}`);
+  }
+});
+
+// Випадний список мов — <ul>, і без цього рядка браузер малює в ньому
+// маркери списку. Крапки поруч з назвами мов уже одного разу доїхали на
+// сторінку, тож перевірка лишається.
+test('у перемикачі мов немає маркерів списку', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'style.css'), 'utf8');
+  const rule = css.match(/\.langs > ul \{[^}]*\}/);
+  assert.ok(rule, 'у style.css немає правила .langs > ul');
+  assert.match(rule[0], /list-style:\s*none/);
 });

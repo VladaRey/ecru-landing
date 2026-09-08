@@ -48,7 +48,10 @@ test('analytics.js доїжджає у dist поруч зі сторінками
   assert.ok(fs.existsSync(path.join(DIST, 'analytics.js')));
 });
 
-test('кожна форма каже, звідки її надіслали', () => {
+// Кліки PostHog знімає автозахопленням, тому окремого коду під це немає:
+// подія приходить з атрибутами самого посилання, і data-place — єдине, що
+// відрізняє кнопку в герої від кнопки у фіналі.
+test('кожна кнопка магазину каже, звідки по ній клікнули', () => {
   const html = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
   assert.deepStrictEqual(
     (html.match(/data-place="(\w+)"/g) || []),

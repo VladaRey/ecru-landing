@@ -11,6 +11,16 @@
       content="{{meta.description}}" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#f5f1e8" />
+
+    <!-- SVG для сучасних браузерів, PNG для Safari до 16.4 і для iOS:
+         home screen узагалі не читає SVG. Один файл на дві ролі — той
+         самий, який iOS шукає за іменем, навіть без тега. Кути в PNG
+         прямі: iOS накладає власну маску, і закруглення поверх
+         закруглення зрізало б помаранчеві кути в прозорість. -->
+    <link rel="icon" href="{{@base}}ecru-logo.svg" type="image/svg+xml" />
+    <link rel="icon" href="{{@base}}apple-touch-icon.png" type="image/png" sizes="180x180" />
+    <link rel="apple-touch-icon" href="{{@base}}apple-touch-icon.png" />
+
     <link rel="stylesheet" href="{{@base}}style.css" />
     <script src="{{@base}}analytics.js" defer></script>
   </head>
@@ -26,7 +36,6 @@
           <a href="#how">{{nav.how}}</a>
           <a href="#why">{{nav.why}}</a>
           <a href="#limits">{{nav.limits}}</a>
-          <a class="nav__cta" href="#waitlist">{{nav.cta}}</a>
           {{@langswitch}}
         </nav>
       </div>
@@ -36,7 +45,6 @@
     <section class="section" id="top">
       <div class="wrap hero__inner">
         <div>
-          <p class="eyebrow">{{hero.eyebrow}}</p>
           <h1 class="display hero__title">
             {{hero.title}}
           </h1>
@@ -44,23 +52,17 @@
             {{hero.lede}}
           </p>
 
-          <form class="waitlist" data-endpoint="" data-place="hero"
-                data-msg-invalid="{{form.invalid}}"
-                data-msg-unwired="{{form.unwired}}"
-                data-msg-sending="{{form.sending}}"
-                data-msg-ok="{{form.ok}}"
-                data-msg-fail="{{form.fail}}" novalidate>
-            <label class="sr-only" for="hero-email">{{form.label}}</label>
-            <input
-              id="hero-email"
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              placeholder="{{form.placeholder}}" />
-            <button type="submit">{{form.submit}}</button>
-            <p class="form-note" role="status" aria-live="polite"></p>
-          </form>
+          <div class="get get--bare">
+            <a class="appstore" href="{{@store}}" data-place="hero">
+              <svg class="appstore__logo" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.922-.987 1.83 0 2.36.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.208-1.23-3.234-4.883-.026-3.055 2.497-4.52 2.611-4.588-1.429-2.104-3.649-2.34-4.404-2.379-2-.156-3.661 1.09-4.585 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.346.104 2.719-.688 3.56-1.701" />
+              </svg>
+              <span class="appstore__text">
+                <span class="appstore__pre">{{store.pre}}</span>
+                <span class="appstore__name">App Store</span>
+              </span>
+            </a>
+          </div>
 
           <p class="fineprint">
             {{hero.fineprint}}
@@ -392,6 +394,16 @@
               {{manifesto.server.p2}}
             </p>
           </div>
+
+          <picture>
+            <source srcset="{{@base}}assets/shots/pairs.webp" type="image/webp" />
+            <img
+              class="shot shot--lift manifesto__shot"
+              src="{{@base}}assets/shots/pairs.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{hero.alt}}" />
+          </picture>
         </div>
 
         <p class="manifesto__coda">
@@ -411,32 +423,45 @@
           </p>
         </div>
 
-        <ul class="limits">
-          <li>
-            <h3>{{limits.recognise.h}}</h3>
-            <p>{{limits.recognise.p}}</p>
-          </li>
-          <li>
-            <h3>{{limits.fit.h}}</h3>
-            <p>{{limits.fit.p}}</p>
-          </li>
-          <li>
-            <h3>{{limits.backup.h}}</h3>
-            <p>{{limits.backup.p}}</p>
-          </li>
-          <li>
-            <h3>{{limits.taste.h}}</h3>
-            <p>{{limits.taste.p}}</p>
-          </li>
-          <li>
-            <h3>{{limits.shop.h}}</h3>
-            <p>{{limits.shop.p}}</p>
-          </li>
-          <li>
-            <h3>{{limits.first.h}}</h3>
-            <p>{{limits.first.p}}</p>
-          </li>
-        </ul>
+        <div class="limits__grid">
+          <picture>
+            <source srcset="{{@base}}assets/shots/shoot.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/shoot.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{shoot.alt}}" />
+          </picture>
+          <picture>
+            <source srcset="{{@base}}assets/shots/wardrobe.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/wardrobe.jpg"
+              width="540" height="1200"
+              loading="lazy" decoding="async"
+              alt="{{wardrobe.alt}}" />
+          </picture>
+
+          <ul class="limits">
+            <li>
+              <h3>{{limits.recognise.h}}</h3>
+              <p>{{limits.recognise.p}}</p>
+            </li>
+            <li>
+              <h3>{{limits.fit.h}}</h3>
+              <p>{{limits.fit.p}}</p>
+            </li>
+            <li>
+              <h3>{{limits.backup.h}}</h3>
+              <p>{{limits.backup.p}}</p>
+            </li>
+            <li>
+              <h3>{{limits.first.h}}</h3>
+              <p>{{limits.first.p}}</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -474,9 +499,9 @@
             </p>
           </div>
           <div>
-            <h3>{{faq.when.q}}</h3>
+            <h3>{{faq.where.q}}</h3>
             <p class="prose">
-              {{faq.when.a}}
+              {{faq.where.a}}
             </p>
           </div>
         </div>
@@ -484,7 +509,7 @@
     </section>
 
     <!-- ── 12 · фінальний заклик ──────────────────────────────────── -->
-    <section class="section finale" id="waitlist">
+    <section class="section finale" id="get">
       <div class="wrap">
         <div class="finale__inner">
           <h2 class="display">{{finale.h}}</h2>
@@ -492,23 +517,18 @@
             {{finale.lede}}
           </p>
 
-          <form class="waitlist" data-endpoint="" data-place="finale"
-                data-msg-invalid="{{form.invalid}}"
-                data-msg-unwired="{{form.unwired}}"
-                data-msg-sending="{{form.sending}}"
-                data-msg-ok="{{form.ok}}"
-                data-msg-fail="{{form.fail}}" novalidate>
-            <label class="sr-only" for="cta-email">{{form.label}}</label>
-            <input
-              id="cta-email"
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              placeholder="{{form.placeholder}}" />
-            <button type="submit">{{form.submit}}</button>
-            <p class="form-note" role="status" aria-live="polite"></p>
-          </form>
+          <div class="get get--stacked">
+            <a class="appstore" href="{{@store}}" data-place="finale">
+              <svg class="appstore__logo" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.922-.987 1.83 0 2.36.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.208-1.23-3.234-4.883-.026-3.055 2.497-4.52 2.611-4.588-1.429-2.104-3.649-2.34-4.404-2.379-2-.156-3.661 1.09-4.585 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.346.104 2.719-.688 3.56-1.701" />
+              </svg>
+              <span class="appstore__text">
+                <span class="appstore__pre">{{store.pre}}</span>
+                <span class="appstore__name">App Store</span>
+              </span>
+            </a>
+            <p class="get__note">{{store.note}}</p>
+          </div>
 
           <p class="fineprint">{{finale.fineprint}}</p>
         </div>
@@ -524,7 +544,7 @@
         <div class="site-footer__meta">
           {{@langswitch}}
           <span>{{footer.cookies}}</span>
-          <a href="#waitlist">{{footer.waitlist}}</a>
+          <a href="#get">{{nav.cta}}</a>
           <span>{{footer.copyright}}</span>
         </div>
       </div>
@@ -532,7 +552,5 @@
         {{footer.note}}
       </p>
     </footer>
-
-    <script src="{{@base}}waitlist.js" defer></script>
   </body>
 </html>
