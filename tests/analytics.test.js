@@ -75,3 +75,11 @@ test('PostHog не дотягує модулів, якими сторінка н
   assert.match(js, /disable_surveys: true/);
   assert.match(js, /capture_performance: false/);
 });
+
+// Політику читає рев'юер Apple, і контакт у ній має бути робочим. Заглушку
+// в цій константі видно було б лише очима — деплой іде на push у main і не
+// питає нікого.
+test('контакт у політиці — справжня адреса, а не заглушка', () => {
+  const { CONTACT_EMAIL } = require('../build.js');
+  assert.match(CONTACT_EMAIL, /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i, `адреса виглядає незаповненою: ${CONTACT_EMAIL}`);
+});

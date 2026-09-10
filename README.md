@@ -119,11 +119,13 @@ without a privacy policy URL, and the reviewer opens it by hand. It ships in
 all four languages like everything else (`/privacy/`, `/uk/privacy/`, …), from
 `src/privacy.html` and the `privacy.*` keys.
 
-**`CONTACT_EMAIL` in `build.js` is a placeholder.** It reads `ПОШТА_СЮДИ` and
-renders that, loudly, where the address belongs — replace it before this
-reaches `main`. It sits in `build.js` next to `APP_STORE` for the same reason:
-an address is not a translatable string, and four copies of it would drift
-apart at the first edit.
+The contact address is `CONTACT_EMAIL` in `build.js` —
+`ecru.app.support@gmail.com`, a mailbox for the app rather than a personal one,
+because an address on a public page gets harvested. It sits in `build.js` next
+to `APP_STORE` for the same reason: an address is not a translatable string,
+and four copies of it would drift apart at the first edit. A test holds it to
+a real address, so a placeholder cannot reach the page the way it could reach
+this file.
 
 What the page says has to keep matching what the app does. It names the two
 places where something leaves the device — the app's update check against
