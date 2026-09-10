@@ -268,15 +268,6 @@ sets nothing, and is described in **Analytics** above.
   `suits` replaced `pairs` and then `item` — and are kept only because an
   unreferenced file costs a visitor nothing; delete them when you are sure.
 
-  **`outfits` is out of date.** It was captured while the outfits screen still
-  had a “Generate more” button; the app dropped that button — suggestions now
-  refill themselves after every item added or edited — and section 03 says so
-  in words. Until the capture is retaken from the current app, the page shows
-  a button its own text says you do not need to press. Three things change
-  together with the file: `outfits.jpg`, `outfits.webp`, and the
-  `outfits.alt` string in all four dictionaries, which describes the button
-  because the picture still has it.
-
   New captures come in at 1170×2532; they are resized to 540 wide to match
   the set, which puts each one back in the 24–50 KB range the others sit in.
   The iPhone screens are 540×1169 rather than 540×1200, so the `width` and
