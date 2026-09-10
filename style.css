@@ -159,11 +159,9 @@
   --prose: #4a4239;
   --muted: #6e6355;
   --muted-bar: #6b6257;
-  --placeholder: #7a7062;
 
   --rule: #e4dccb;
   --rule-card: #e0d7c5;
-  --rule-field: #d8cfbd;
   --rule-shot: #ded6c6;
   --rule-faq: #dfd5c1;
 
@@ -255,17 +253,6 @@ a:hover { color: var(--accent-hover); }
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 4px;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 /* ── каркас ──────────────────────────────────────────────────────────── */
@@ -393,68 +380,92 @@ a:hover { color: var(--accent-hover); }
   gap: 2.25rem;
 }
 
-.nav__links a:not(.nav__cta) {
+.nav__links a {
   display: none;
   color: var(--prose);
   font-size: 0.9375rem;
 }
 
-.nav__links a:not(.nav__cta):hover { color: var(--accent); }
-
-.nav__cta {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
+.nav__links a:hover { color: var(--accent); }
 
 /* Перемикача мов немає в жодному артборді канваса — це третій свідомий
    відступ від макета. Тримаємо його максимально тихим: моно, дрібно, тим
    самим кольором, що й посилання навігації. */
-.nav__langs,
-.site-footer__langs {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
+.langs {
+  position: relative;
   font-family: var(--mono);
   font-size: 0.8125rem;
   letter-spacing: 0.02em;
 }
 
-.nav__langs { display: none; }
+.langs > summary {
+  cursor: pointer;
+  color: var(--ink);
+  list-style: none;
+}
 
-/* Селектор навмисно довший за .nav__links a:not(.nav__cta) вище: та
-   правило задає посиланням шапки 0.9375rem, і без цього посилання
-   перемикача були б більші за поточну мову поруч. */
-.nav__links .nav__langs a,
-.site-footer__langs a {
+/* Обидва рядки потрібні: перший — для Safari, другий — для решти. */
+.langs > summary::-webkit-details-marker { display: none; }
+.langs > summary::marker { content: ''; }
+
+.langs > summary::after {
+  content: '';
+  display: inline-block;
+  width: 0.3125rem;
+  height: 0.3125rem;
+  margin-left: 0.4375rem;
+  vertical-align: 0.125rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.langs[open] > summary::after { transform: rotate(-135deg); }
+
+.langs > summary:hover { color: var(--accent); }
+
+/* Абсолютно, щоб відкритий список не розсовував шапку і підвал. */
+.langs > ul {
+  position: absolute;
+  z-index: 10;
+  min-width: 100%;
+  list-style: none;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 0.375rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.langs > ul a {
+  display: block;
+  padding: 0.3125rem 0.875rem;
   color: var(--prose);
   font-size: inherit;
 }
 
-.nav__links .nav__langs a:hover,
-.site-footer__langs a:hover { color: var(--accent); }
+.langs > ul a:hover { color: var(--accent); }
 
-.nav__langs [aria-current],
-.site-footer__langs [aria-current] { color: var(--ink); }
+/* У шапці список падає вниз від правого краю, у підвалі — вгору: під
+   підвалом місця немає, і випадне меню поїхало б за край сторінки. */
+.nav__links .langs > ul { right: 0; }
+
+.site-footer__right .langs > ul {
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.nav__links .langs { display: none; }
 
 @media (min-width: 64rem) {
-  .nav__langs { display: inline-flex; }
+  .nav__links .langs { display: block; }
 }
 
 @media (min-width: 64rem) {
-  .nav__links a:not(.nav__cta) { display: inline; }
-
-  .nav__cta {
-    background: var(--accent);
-    color: #ffffff;
-    font-size: 0.9375rem;
-    padding: 0.6875rem 1.375rem;
-    border-radius: 999px;
-  }
-
-  .nav__cta:hover {
-    background: var(--accent-hover);
-    color: #ffffff;
-  }
+  .nav__links a { display: inline; }
 }
 
 /* ── знімки ──────────────────────────────────────────────────────────── */
@@ -475,68 +486,78 @@ a:hover { color: var(--accent-hover); }
   box-shadow: 0 30px 60px -24px rgba(20, 17, 14, 0.42);
 }
 
-/* ── форма очікування ────────────────────────────────────────────────── */
+/* ── кнопка магазину ─────────────────────────────────────────────────── */
 
-.waitlist {
-  display: grid;
-  gap: 0.625rem;
+/* Тут стояла форма очікування. Заклик тепер один — завантажити, — тож на
+   її місці кнопка магазину і рядок під нею. Логотип інлайновий: офіційний
+   бейдж Apple — растрова картинка, а на цій сторінці з мережі не тягнеться
+   нічого і решта графіки векторна. */
+.get {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
   margin-top: 1.625rem;
-  max-width: 31.25rem;
 }
 
-.waitlist input {
-  width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--rule-field);
+.appstore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6875rem;
+  background: var(--ink);
+  color: var(--paper);
   border-radius: 12px;
-  padding: 0.9375rem 1.125rem;
-  font: inherit;
-  font-size: 1rem;
-  color: var(--ink);
+  padding: 0.6875rem 1.375rem;
+  text-decoration: none;
 }
 
-.waitlist input::placeholder { color: var(--placeholder); }
+/* Чорна кнопка — єдина темна пляма на паперовому тлі, тож наведення не
+   світлішає, а трохи відпускає: акцент на ній читався б гірше за паперовий
+   білий, а глиняний по чорному не проходить AA. */
+.appstore:hover {
+  background: #2c2620;
+  color: var(--paper);
+}
 
-.waitlist button {
-  background: var(--accent);
-  color: #ffffff;
-  border: 1px solid var(--accent);
-  border-radius: 12px;
-  padding: 0.9375rem 1.625rem;
-  font: inherit;
-  font-size: 1rem;
+.appstore__logo {
+  flex: none;
+  /* Яблуко оптично сидить вище за середину рядка, як і в бейджі Apple. */
+  margin-top: -0.125rem;
+}
+
+.appstore__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.appstore__pre {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-dark-prose);
+}
+
+.appstore__name {
+  font-size: 1.1875rem;
   font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
+  letter-spacing: -0.01em;
 }
 
-.waitlist button:hover:not(:disabled) {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
-}
+.get + .fineprint { margin-top: 1rem; }
 
-.waitlist button:disabled {
-  opacity: 0.65;
-  cursor: default;
-}
-
-/* Порожній .form-note лишається в DOM: aria-live, який то з'являється,
-   то зникає, частина скрінрідерів просто не озвучує. Порожній він має
-   нульову висоту, тож коштує рівно один grid-gap. */
-.form-note {
-  grid-column: 1 / -1;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  color: var(--accent);
-  margin: 0;
-}
-
-.waitlist + .fineprint { margin-top: 1rem; }
-
+/* Від планшета кнопка в герої тримається лівого краю. Без flex-start
+   вона розтягнулась би на всю ширину колонки: align-items: center у
+   .get тягне єдину дитину, а не центрує її. */
 @media (min-width: 34rem) {
-  .waitlist {
-    grid-template-columns: 1fr auto;
+  .get {
+    flex-direction: row;
+    align-items: center;
   }
+
+  .get--bare { justify-content: flex-start; }
 }
 
 /* ── 1 · герой ───────────────────────────────────────────────────────── */
@@ -553,9 +574,6 @@ a:hover { color: var(--accent-hover); }
 
 .hero__shot { margin-top: 2rem; }
 
-/* На телефоні рядок під формою стоїть по центру — так в артборді 390. */
-.hero__inner .fineprint { text-align: center; }
-
 @media (min-width: 64rem) {
   .hero__inner {
     display: grid;
@@ -566,17 +584,15 @@ a:hover { color: var(--accent-hover); }
 
   /* У макеті заголовок розбито жорсткими <br> на три рядки — так він
      тримає висоту поряд з вертикальним знімком телефона. Тут те саме
-     робить стеля ширини: 512px лежить між «Your whole wardrobe,» (466)
-     і «Your whole wardrobe, and» (558), тож перенос падає туди ж, але
-     на вужчому екрані рядки перебудуються самі. */
+     робить стеля ширини в 512px: перенос падає сам, і на вужчому екрані
+     рядки перебудуються без окремої правки. */
   .hero__title {
     margin-top: 1.375rem;
     max-width: 32rem;
   }
 
-  .hero__inner .fineprint { text-align: left; }
   .hero__lede { margin-top: 1.875rem; }
-  .waitlist { margin-top: 2.375rem; }
+  .get { margin-top: 2.375rem; }
 
   .hero__shot {
     margin: 0 0 0 auto;
@@ -599,7 +615,19 @@ a:hover { color: var(--accent-hover); }
   padding-top: 1.625rem;
   padding-bottom: 1.625rem;
   list-style: none;
-  margin: 0;
+  /* Саме auto, а не 0: `.wrap` центрує смугу через margin: 0 auto,
+     і `margin: 0` — поставлений, щоб зняти власний відступ <dl> — цю
+     авто-центрацію скасовував. Смуга стояла притиснутою до лівого краю. */
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Стовпчики тримаються купи посередині смуги, а не розтягуються на всю
+   ширину .wrap: чотири короткі підписи, розігнані по 70rem, знову
+   читалися б як щось окреме одне від одного. */
+.trust__inner > div {
+  max-width: 15rem;
+  margin: 0 auto;
 }
 
 .trust dt {
@@ -625,21 +653,20 @@ a:hover { color: var(--accent-hover); }
 
 /* ── 3 · знати, що маєш ──────────────────────────────────────────────── */
 
+/* Перший h3 у цій секції — підблок про виправлення кольору. Розміри ті
+   самі, що в .faq h3: обидва підписують абзац усередині довшого тексту. */
+.own h3 {
+  margin-top: 1.75rem;
+  font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.1875rem);
+  font-weight: 600;
+}
+
+.own h3 + .prose { margin-top: 0.5rem; }
+
 .own__shots {
   display: grid;
   gap: 1.125rem;
   margin-top: 1.625rem;
-}
-
-.callout {
-  margin-top: 1.5rem;
-  padding: 1.25rem 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 16px;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--prose);
 }
 
 @media (min-width: 64rem) {
@@ -651,17 +678,11 @@ a:hover { color: var(--accent-hover); }
   }
 
   .own__shots {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.375rem;
+    grid-template-columns: minmax(0, 1fr);
     margin-top: 0;
   }
 
-  .own__shots .shot { max-width: 15rem; }
-
-  /* Другий знімок опущено — щоб пара читалась як розворот, а не як таблиця. */
-  .own__shots .shot:last-child { margin-top: 3rem; }
-
-  .callout { margin-top: 1.875rem; }
+  .own__shots .shot { max-width: 24rem; }
 }
 
 /* ── 4 · число проти причини ─────────────────────────────────────────── */
@@ -673,7 +694,6 @@ a:hover { color: var(--accent-hover); }
 }
 
 .score-card {
-  background: var(--surface);
   border: 1px solid var(--rule-card);
   border-radius: 18px;
   padding: 1.25rem 1.25rem;
@@ -686,29 +706,29 @@ a:hover { color: var(--accent-hover); }
   margin-top: 0.75rem;
 }
 
-/* 92% — 3.9:1 на білому. Це нижче за 4.5, тому число мусить лишатися
-   великим: на 34px і вище поріг AA для великого тексту — 3:1. */
+/* Раніше тут був сірий #8a8073 — 3.9:1 на білому, тобто нижче за 4.5, і
+   через це число мусило лишатися великим. Чорнилом по смузі це 12:1, тож
+   обмеження на розмір більше нічим не тримається. */
 .score-card__number {
   font-family: var(--mono);
   font-size: clamp(2.125rem, 1.9018rem + 0.5714vw, 2.875rem);
   line-height: 1;
-  color: #8a8073;
+  color: var(--ink);
   letter-spacing: -0.02em;
 }
 
 .score-card__note {
   font-size: clamp(0.875rem, 0.8378rem + 0.0952vw, 1rem);
   line-height: 1.5;
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .reason-card {
-  background: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule-card);
   border-radius: 18px;
   padding: 1.25rem;
 }
-
-.reason-card .eyebrow { color: var(--on-dark-muted); }
 
 .reason-card ul {
   list-style: none;
@@ -721,7 +741,7 @@ a:hover { color: var(--accent-hover); }
 .reason-card li {
   font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.125rem);
   line-height: 1.5;
-  color: var(--on-dark);
+  color: var(--ink);
 }
 
 @media (min-width: 48rem) {
@@ -953,12 +973,22 @@ a:hover { color: var(--accent-hover); }
 
 /* ── 10 · чого не робить ─────────────────────────────────────────────── */
 
+/* Розділ був суцільним текстом. Тепер два знімки стоять в одному ряду
+   з карточками — тим самим рядом, що й у розділі 06: там пара знімків
+   так само ділить рядок із текстовою колонкою. Самі по собі на всю
+   ширину два портретні знімки дали б 700px висоти ні під що. */
+.limits__grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
 .limits {
   display: grid;
   gap: 0.75rem;
-  margin-top: 1.5rem;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .limits li {
@@ -981,20 +1011,34 @@ a:hover { color: var(--accent-hover); }
 }
 
 @media (min-width: 48rem) {
+  /* До широкого екрана знімки стають парою, а карточки — під ними. */
+  .limits__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .limits {
+    grid-column: 1 / -1;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
   }
 }
 
 @media (min-width: 64rem) {
-  .limits {
+  .limits__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.75rem;
-    margin-top: 2.875rem;
+    gap: 2.75rem;
+    align-items: center;
+    margin-top: 3.5rem;
   }
 
-  .limits li { padding: 1.625rem 1.75rem; }
+  .limits__grid .shot { max-width: 18.75rem; }
+
+  /* У третій колонці карточки стають стовпчиком — як .shop__notes. */
+  .limits {
+    grid-column: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .limits li { padding: 1.25rem 1.375rem; }
 }
 
 /* ── 11 · питання ────────────────────────────────────────────────────── */
@@ -1059,16 +1103,15 @@ a:hover { color: var(--accent-hover); }
 
 .finale .lede { margin-top: 1rem; }
 
-.finale .waitlist {
-  margin-left: auto;
-  margin-right: auto;
+.finale .get {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
-
-.finale .waitlist input { text-align: left; }
 
 @media (min-width: 64rem) {
   .finale .lede { margin-top: 1.5rem; }
-  .finale .waitlist { margin-top: 2.5rem; }
+  .finale .get { margin-top: 2.5rem; }
 }
 
 /* ── 13 · підвал ─────────────────────────────────────────────────────── */
@@ -1083,56 +1126,126 @@ a:hover { color: var(--accent-hover); }
   padding-bottom: 1.625rem;
   text-align: center;
   display: grid;
-  gap: 0.3125rem;
+  gap: 1.25rem;
+}
+
+/* Ліворуч — усе про проєкт, праворуч — усе, що натискається. Загального
+   правила на .site-footer p тут немає навмисно: воно перебивало б за
+   специфічністью класи нижче, бо .site-footer p — це (0,1,1). */
+.site-footer__left {
+  display: grid;
+  gap: 0.4375rem;
+  justify-items: center;
+}
+
+.site-footer__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1.875rem;
 }
 
 .site-footer__wordmark {
   font-size: 1.3125rem;
 }
 
-.site-footer p {
+/* Рядок про назву тримається, поки назва Ecru не перевірена на знак. */
+.site-footer__note {
+  max-width: 34rem;
   font-size: 0.8125rem;
+  line-height: 1.5;
   color: var(--muted);
+  margin: 0;
 }
 
-.site-footer__meta {
+/* Дрібніше за все інше в підвалі: обіцянка про куки й рік — це примітка
+   під приміткою, а не рядок, який хтось читає першим. */
+.site-footer__fine {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem 1.875rem;
+  gap: 0.25rem 1rem;
+  font-size: 0.71875rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
 }
 
 @media (min-width: 64rem) {
   .site-footer__inner {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 4rem;
     text-align: left;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
   }
 
+  .site-footer__left { justify-items: start; }
+  .site-footer__fine { justify-content: flex-start; }
+  .site-footer__right { justify-content: flex-end; }
+
   .site-footer__wordmark { font-size: 1.5rem; }
-  .site-footer p { font-size: 0.875rem; }
-  .site-footer__meta { justify-content: flex-end; }
+  .site-footer__note { font-size: 0.875rem; }
 }
 
-/* Рядок про назву — окремим тактом під підвалом: у флекс-рядок він не
-   влазить, а викидати його не можна, поки назва Ecru не перевірена. */
-.site-footer__note {
-  padding-bottom: 1.625rem;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--muted);
-  text-align: center;
+/* ── 14 · політика конфіденційності ──────────────────────────────────── */
+
+/* Єдина сторінка сайту, де текст читають підряд, а не проглядають. Тому
+   вужча колонка: .wrap тримає 70rem, і рядок такої довжини очима не
+   тримається — на третьому абзаці погляд починає губити початок рядка. */
+.legal {
+  max-width: 44rem;
 }
 
-@media (min-width: 64rem) {
-  .site-footer__inner { padding-bottom: 1.5rem; }
+.legal__updated {
+  margin-top: 0.75rem;
+}
 
-  .site-footer__note {
-    padding-bottom: 2.5rem;
-    text-align: left;
-  }
+.legal .lede {
+  margin-top: 1.5rem;
+}
+
+/* Заголовки розділів однакові й дрібні: у політики немає головного
+   розділу, і кегль, який виділяв би один із них, обіцяв би ієрархію,
+   якої тут немає. */
+.legal__h {
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 2.75rem;
+  margin-bottom: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+.legal p + p {
+  margin-top: 1rem;
+}
+
+.legal__list {
+  margin-top: 1rem;
+  padding-left: 1.25rem;
+}
+
+.legal__list li + li {
+  margin-top: 0.5rem;
+}
+
+.legal a {
+  color: var(--accent);
+}
+
+.legal a:hover {
+  color: var(--accent-hover);
+}
+
+/* Пошта — моно й на власному рядку: адресу переписують очима, і в
+   пропорційному наборі крапка з дефісом у ній зливаються. */
+.legal__mail {
+  font-family: var(--mono);
+  margin-top: 1rem;
 }

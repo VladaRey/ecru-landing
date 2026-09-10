@@ -100,3 +100,31 @@ test('build називає всі проблеми словників одраз
     (err) => /hero\.alt/.test(err.message) && /ghost/.test(err.message)
   );
 });
+
+test('підсторінка лягає в теку всередині своєї мови', () => {
+  const { outDir } = run();
+  assert.ok(fs.existsSync(path.join(outDir, 'privacy', 'index.html')));
+  assert.ok(fs.existsSync(path.join(outDir, 'uk', 'privacy', 'index.html')));
+});
+
+test('шляхи з підсторінки мовної теки піднімаються на два рівні', () => {
+  const { outDir } = run();
+  const html = fs.readFileSync(path.join(outDir, 'uk', 'privacy', 'index.html'), 'utf8');
+  assert.match(html, /href="\.\.\/\.\.\/style\.css"/);
+});
+
+test('з підсторінки посилання додому веде на головну своєї мови', () => {
+  // Не на корінь сайту: з uk/privacy/ це була б англійська головна.
+  const { outDir } = run();
+  for (const rel of ['privacy/index.html', 'uk/privacy/index.html']) {
+    const html = fs.readFileSync(path.join(outDir, rel), 'utf8');
+    assert.match(html, /<a class="home" href="\.\.\/">/, rel);
+  }
+});
+
+test('у підсторінках теж не лишається незамінених ключів', () => {
+  const { outDir } = run();
+  for (const rel of ['privacy/index.html', 'uk/privacy/index.html']) {
+    assert.doesNotMatch(fs.readFileSync(path.join(outDir, rel), 'utf8'), /\{\{/, rel);
+  }
+});

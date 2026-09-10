@@ -48,7 +48,10 @@ test('analytics.js доїжджає у dist поруч зі сторінками
   assert.ok(fs.existsSync(path.join(DIST, 'analytics.js')));
 });
 
-test('кожна форма каже, звідки її надіслали', () => {
+// Кліки PostHog знімає автозахопленням, тому окремого коду під це немає:
+// подія приходить з атрибутами самого посилання, і data-place — єдине, що
+// відрізняє кнопку в герої від кнопки у фіналі.
+test('кожна кнопка магазину каже, звідки по ній клікнули', () => {
   const html = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
   assert.deepStrictEqual(
     (html.match(/data-place="(\w+)"/g) || []),
@@ -56,9 +59,27 @@ test('кожна форма каже, звідки її надіслали', () 
   );
 });
 
+// Перегляди й кліки array.js знімає сам. Названа подія потрібна лише для
+// кнопки магазину — це єдина конверсія на сторінці, і саме її найлегше
+// втратити: клік веде на apple.com, тож звичайний запит навігація обриває.
+test('клік по кнопці магазину знімається названою подією', () => {
+  const js = source();
+  assert.match(js, /capture\(\s*'store_click'/, 'немає названої події store_click');
+  assert.match(js, /transport: 'sendBeacon'/, 'подія мусить летіти маячком, бо сторінка зникає');
+  assert.match(js, /place: link\.dataset\.place/, 'подія має знати, з якої кнопки клікнули');
+});
+
 test('PostHog не дотягує модулів, якими сторінка не користується', () => {
   const js = source();
   assert.match(js, /disable_external_dependency_loading: true/);
   assert.match(js, /disable_surveys: true/);
   assert.match(js, /capture_performance: false/);
+});
+
+// Політику читає рев'юер Apple, і контакт у ній має бути робочим. Заглушку
+// в цій константі видно було б лише очима — деплой іде на push у main і не
+// питає нікого.
+test('контакт у політиці — справжня адреса, а не заглушка', () => {
+  const { CONTACT_EMAIL } = require('../build.js');
+  assert.match(CONTACT_EMAIL, /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i, `адреса виглядає незаповненою: ${CONTACT_EMAIL}`);
 });
