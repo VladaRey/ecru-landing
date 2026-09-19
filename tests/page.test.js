@@ -206,6 +206,21 @@ test('політика називає сервіс оновлень застос
   }
 });
 
+// Застосунок робить три види мережевих запитів, і політика обіцяє назвати всі
+// три. Оновлення вже перевірені вище; тут — два, що з'явилися у версії 1.1.
+// Прибрати згадку означало б лишити на сторінці обіцянку, ширшу за правду, —
+// а саме цю сторінку читає рев'юер Apple, звіряючи її з декларацією.
+test('політика називає аналітику й погоду разом з їхніми обробниками', () => {
+  for (const rel of PRIVACY) {
+    const html = page(rel);
+
+    assert.match(html, /PostHog/, rel);
+    assert.match(html, /posthog\.com\/privacy/, rel);
+    assert.match(html, /Open-Meteo/, rel);
+    assert.match(html, /open-meteo\.com/, rel);
+  }
+});
+
 test('контакт у політиці — той самий, що в збірці', () => {
   for (const rel of PRIVACY) {
     assert.ok(page(rel).includes(`mailto:${CONTACT_EMAIL}`), rel);
@@ -216,9 +231,17 @@ test('контакт у політиці — той самий, що в збір
 // на сервер» найлегше порушити саме скриптом, і видно це буде не в тексті, а
 // в мережевій панелі. Тест тримає сторінки зовсім без скриптів: повернути
 // лічильник можна буде тільки свідомо, переписавши ось це.
+//
+// Слово «posthog» тут колись теж було заборонене — до того, як аналітика
+// з'явилася в застосунку і політика мусила назвати її вголос. Тепер
+// перевіряємо не слово, а адреси, за якими лічильник справді працює: сама
+// згадка posthog.com/privacy у тексті нікуди нічого не шле.
 test('жодна сторінка не підвантажує скриптів', () => {
   for (const rel of [...PRIVACY, 'index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
-    assert.doesNotMatch(page(rel), /<script/, rel);
-    assert.doesNotMatch(page(rel), /posthog/i, rel);
+    const html = page(rel);
+
+    assert.doesNotMatch(html, /<script/, rel);
+    assert.doesNotMatch(html, /i\.posthog\.com/i, rel);
+    assert.doesNotMatch(html, /posthog-assets/i, rel);
   }
 });

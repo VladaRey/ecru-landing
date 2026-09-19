@@ -127,12 +127,21 @@ and four copies of it would drift apart at the first edit. A test holds it to
 a real address, so a placeholder cannot reach the page the way it could reach
 this file.
 
-What the page says has to keep matching what the app does. It names the one
-place where something leaves the device — the app's update check against
-`u.expo.dev` — and a test holds that mention in place. Until recently there
-was a second: this site's own PostHog page counter. It is gone, and the policy
-now says the page counts nothing. Add analytics to the app, or a counter back
-to the page, and this text is wrong before it is out of date.
+What the page says has to keep matching what the app does, and as of app
+version 1.1 that is three places where something leaves the device: the update
+check against `u.expo.dev`, anonymous usage statistics through PostHog, and —
+only when the person turns weather on — a location rounded to about 11 km, sent
+to Open-Meteo. All three are named in the policy, and tests hold every mention
+in place.
+
+The site itself still counts nothing, and that is a separate promise: it had a
+PostHog page counter once, and the test that keeps the pages script-free is
+what stops it coming back. Do not read the app's analytics section as
+permission to add one here.
+
+Change what the app sends and this text is wrong before it is out of date —
+along with the App Privacy declaration in App Store Connect, which the reviewer
+reads against this very page.
 
 ## The App Store link
 
