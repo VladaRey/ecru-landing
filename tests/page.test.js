@@ -94,7 +94,10 @@ test('кожна мовна сторінка веде в магазин, а не
   for (const rel of ['index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
     const html = page(rel);
     assert.strictEqual(html.match(/<a class="appstore"/g).length, 2, rel);
-    assert.match(html, /href="https:\/\/apps\.apple\.com\//, rel);
+    // Не просто apps.apple.com, а посилання на конкретну картку: заглушка
+    // `apps.apple.com/app/ecru`, яка стояла тут до релізу, веде в нікуди, і
+    // побачити це можна було б лише клікнувши.
+    assert.match(html, /href="https:\/\/apps\.apple\.com\/[^"]*\/id\d+"/, rel);
     assert.doesNotMatch(html, /<form/, rel);
     assert.doesNotMatch(html, /waitlist/, rel);
   }
@@ -191,20 +194,31 @@ test('підвал головної веде в політику на кожні
   }
 });
 
-// Сторінка обіцяє «нічого не йде на сервер». Обидва місця, де це не зовсім
-// так, названі в ній прямо — сервіс оновлень застосунку і лічильник самого
-// сайту. Тест тримає обидві згадки: прибрати одну означало б лишити на
-// сторінці обіцянку, ширшу за правду.
-test('політика називає і сервіс оновлень, і лічильник сайту', () => {
+// Сторінка обіцяє «нічого не йде на сервер». Єдине місце, де це не зовсім
+// так, назване в ній прямо — сервіс оновлень застосунку. Тест тримає згадку
+// на місці: прибрати її означало б лишити на сторінці обіцянку, ширшу за
+// правду. Лічильник самого сайту тут колись був другим таким місцем; тепер
+// аналітики немає ні на сторінці, ні в застосунку, і називати нема чого.
+test('політика називає сервіс оновлень застосунку', () => {
   for (const rel of PRIVACY) {
     assert.match(page(rel), /u\.expo\.dev/, rel);
     assert.match(page(rel), /expo\.dev\/privacy/, rel);
-    assert.match(page(rel), /PostHog/, rel);
   }
 });
 
 test('контакт у політиці — той самий, що в збірці', () => {
   for (const rel of PRIVACY) {
     assert.ok(page(rel).includes(`mailto:${CONTACT_EMAIL}`), rel);
+  }
+});
+
+// Аналітики на сайті немає — ні власної, ні чужої. Обіцянку «нічого не йде
+// на сервер» найлегше порушити саме скриптом, і видно це буде не в тексті, а
+// в мережевій панелі. Тест тримає сторінки зовсім без скриптів: повернути
+// лічильник можна буде тільки свідомо, переписавши ось це.
+test('жодна сторінка не підвантажує скриптів', () => {
+  for (const rel of [...PRIVACY, 'index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
+    assert.doesNotMatch(page(rel), /<script/, rel);
+    assert.doesNotMatch(page(rel), /posthog/i, rel);
   }
 });

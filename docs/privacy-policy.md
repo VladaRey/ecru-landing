@@ -8,9 +8,8 @@ Ecru does not collect your data. The app has no servers, no accounts, and no
 analytics. Everything you put into it — your wardrobe, your photos, your
 answers — stays on your device and is never sent anywhere.
 
-The Ecru website is a separate matter, and a much smaller one: if you join the
-waiting list, it keeps the address you typed. That is the only thing it keeps
-about you, and **This website** below says exactly what happens to it.
+The Ecru website keeps nothing either: no analytics, no cookies, no forms.
+**This website** below says so in full.
 
 ## What Ecru stores on your device
 
@@ -87,29 +86,22 @@ every age.
 Everything above describes the Ecru app. This section describes the site you
 are reading it on.
 
-**The waiting list.** If you type an email address into the form and submit
-it, that address is sent to PostHog, an analytics service, and stored there
-along with the language of the page you used and which of the two forms you
-submitted. We use it for one thing: to tell you when Ecru is available. No
-other mail, and no passing the address to anyone else.
-
-**Page analytics.** The site records anonymous events — pages opened, links
-clicked — so we can see whether anyone is reading it. These carry no name and
-no address unless you have joined the waiting list.
+**No analytics.** The site counts nothing. There is no analytics service, no
+page counter and no tracking of any kind: opening a page here leaves no record
+with us or with anyone acting on our behalf.
 
 **No cookies.** The site sets no cookies and stores nothing in your browser.
-PostHog is configured to keep nothing between page loads, which is why the
-footer says what it says and why you are not being asked to consent to
-anything. The practical effect is that the site cannot recognise you when you
-come back, and does not try to.
+That is why the footer says what it says, and why you are not being asked to
+consent to anything. The practical effect is that the site cannot recognise
+you when you come back, and does not try to.
 
-**Where it is kept.** PostHog stores this in the European Union. PostHog acts
-as a processor on our behalf and does not sell it. Its own policy is at
-posthog.com/privacy.
+**No forms.** There is nothing on the site to type an email address into. The
+only thing either page asks you to do is open the App Store, and that is a
+link like any other — Apple sees it, we do not.
 
-**Getting removed.** Write to the address under **Contact** and the record of
-your address will be deleted. No account or verification is needed — asking is
-enough.
+**Nothing to remove.** Since we hold no record of your visit, there is nothing
+to delete on request. If you have written to us, the mail is in our mailbox
+and asking will get it deleted.
 
 ## Changes to this policy
 

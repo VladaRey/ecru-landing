@@ -127,23 +127,26 @@ and four copies of it would drift apart at the first edit. A test holds it to
 a real address, so a placeholder cannot reach the page the way it could reach
 this file.
 
-What the page says has to keep matching what the app does. It names the two
-places where something leaves the device — the app's update check against
-`u.expo.dev`, and this site's own PostHog page counter — and a test holds both
-mentions in place. Add analytics to the app, or a cookie to the page, and this
-text is wrong before it is out of date.
+What the page says has to keep matching what the app does. It names the one
+place where something leaves the device — the app's update check against
+`u.expo.dev` — and a test holds that mention in place. Until recently there
+was a second: this site's own PostHog page counter. It is gone, and the policy
+now says the page counts nothing. Add analytics to the app, or a counter back
+to the page, and this text is wrong before it is out of date.
 
 ## The App Store link
 
-**`APP_STORE` in `build.js` is still a placeholder.** It reads
-`https://apps.apple.com/app/ecru`, which is not a real listing. Replace it
-with the app's own URL and rebuild — it is one constant, filled into both
-buttons on all four pages through the `{{@store}}` key.
+`APP_STORE` in `build.js` is the app's real listing:
+`https://apps.apple.com/ua/app/ecru-wardrobe/id6807435125`. It is one
+constant, filled into both buttons on all four pages through the `{{@store}}`
+key. A test insists it point at a card with an `id…` in it, so the old
+placeholder — `apps.apple.com/app/ecru`, which led nowhere and looked fine —
+cannot come back unnoticed.
 
-It sits in `build.js` beside `SITE` rather than in the dictionaries because
-an App Store URL is not a translatable string, and Apple redirects a generic
-`apps.apple.com/app/…` link to the visitor's own storefront, so one URL
-serves every language.
+It sits in `build.js` beside `SITE` rather than in the dictionaries because an
+App Store URL is not a translatable string. The `/ua/` in it is the country
+path App Store Connect hands out; Apple picks the storefront by the visitor's
+own account anyway, so one URL serves all four languages.
 
 The button is not Apple's official badge image. That badge is a raster asset
 served from Apple's site, and this page fetches nothing off the network and
@@ -153,78 +156,40 @@ template, not in a dictionary: it is a proper noun and is not translated. Only
 the line above it is, as `store.pre` — "Download on the", "Завантажити з",
 "Pobierz z", "Descárgalo en el".
 
-There is no waitlist form and no email collected anywhere on the page. Both
-buttons carry `data-place` (`hero` or `finale`) so PostHog's click
-autocapture can tell which one a visitor used; nothing else is recorded.
+There is no waitlist form and no email collected anywhere on the page, and
+now nothing is recorded about the buttons either. They used to carry
+`data-place` (`hero` or `finale`) to tell PostHog which of the two a visitor
+clicked; that attribute went out with the analytics, since nothing else read
+it.
 
-## Analytics
+## No analytics
 
-All of PostHog lives in `analytics.js`: the project key, the region, and the
-two settings that matter.
+The page counts nothing. There is no `analytics.js`, no script tag on either
+template, and `node --test` holds the pages script-free: a test walks every
+built page and fails on a `<script` or on the word `posthog`. Bringing a
+counter back is therefore a deliberate act, not a quiet one — that test has to
+be rewritten first.
 
-`persistence: 'memory'` means no cookies and no `localStorage`. The footer
-tells every visitor this page sets no tracking cookies, and that stays true —
-which also means no consent banner is needed in the EU. The cost is real: with
-nothing persisted, PostHog sees every page load as a new person, so its
-"unique users" count visits rather than people. Returning visitors are not a
-number this page can report.
+This is not a stance about measurement in general; the app is where it will
+happen instead. PostHog *was* here, wired carefully, and the reasoning behind
+each setting — the EU region, the project key, `persistence: 'memory'`,
+`person_profiles: 'identified_only'`, the `store_click` event and its
+`sendBeacon` transport — is written down in
+[`docs/posthog-config.md`](docs/posthog-config.md) rather than thrown away,
+because the same decisions come up again in the mobile app. That file also
+says which of them should *not* travel: `memory` persistence existed to keep a
+promise about cookies that an app does not make.
 
-`person_profiles: 'identified_only'` keeps a profile from being created for
-anyone who merely reads the page. Nothing on the page calls `identify` any
-more, so no profile is ever created — what PostHog holds is anonymous
-pageviews and clicks.
-
-## What is actually measured
-
-Two of the three come free, and it is worth knowing which:
-
-- **Visits** — `$pageview`, counted by `array.js` itself. Nothing to wire.
-- **Clicks** — `$autocapture`, also automatic, one event per click with the
-  element's selector attached.
-- **`store_click`** — the one hand-fired event, in `analytics.js`. It carries
-  `place` (`hero` or `finale`) and `lang`, and it exists because the App Store
-  button is the only conversion left on the page: building a funnel out of
-  `$autocapture` means filtering by CSS class every time, while a named event
-  is just there. It replaces `waitlist_signup`, which went with the form.
-
-It is sent with `transport: 'sendBeacon'`. The click navigates to
-apps.apple.com, so the page is about to be torn down along with its in-flight
-requests; a beacon is handed to the browser and delivered after navigation.
-Without it the conversion would be the event that goes missing most often.
-
-One gap, stated rather than hidden: this file loads `array.js` with a plain
-tag instead of PostHog's snippet, and the snippet's only job is to queue
-events fired before the library lands. A click in the first half-second is
-therefore lost. That is a fair trade for a button you have to scroll to and
-read, and `window.posthog?.capture` keeps it a no-op rather than an error.
-
-The project key sits in the repository in plain sight. That is how PostHog
-keys work — a project key can write events and nothing else; it cannot read,
-query, or delete. `tests/analytics.test.js` fails while the key is still the
-placeholder, so an unconfigured build cannot quietly ship.
-
-Three flags stop `array.js` from pulling further scripts off the network.
-Out of the box it fetches surveys, dead-click autocapture and web vitals —
-none of which this page uses, and each of which is another request to someone
-else's domain on a site whose every other asset is local.
-`disable_external_dependency_loading` blocks the downloads,
-`disable_surveys` stops the survey list being fetched anyway, and
-`capture_performance` turns off page-timing collection. What remains is
-`array.js`, one config request and the `POST /e/` that carries the events —
-three requests, which is what the network panel shows. Pageviews and clicks
-are counted by `array.js` itself and are unaffected.
-
-If `array.js` never arrives — an ad blocker, a dead network — nothing on the
-page notices. Analytics is the only thing that depends on it, and the page has
-nothing to tell a visitor about a count that was not taken.
+The practical effect here: every asset the page loads is local, and the
+network panel on a cold load shows fonts, CSS and images and nothing else.
 
 ## Assets
 
 Every asset is local — no CDN, no Google Fonts. That is not tidiness: the page
 promises the app talks to no server, and a call out to `fonts.gstatic.com` on
-first paint would undercut the promise on the first screen. PostHog's
-`array.js` is the one script fetched from elsewhere, and it loads after paint,
-sets nothing, and is described in **Analytics** above.
+first paint would undercut the promise on the first screen. With the analytics
+gone there is no exception left: the page fetches nothing off anyone else's
+domain.
 
 - `assets/fonts` — Instrument Serif (headings), IBM Plex Sans (body), IBM Plex
   Mono (eyebrows and fine print), sliced into the same latin / latin-ext /

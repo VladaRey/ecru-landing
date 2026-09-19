@@ -140,7 +140,7 @@
   "privacy.children.h": "Dzieci",
   "privacy.children.p": "Ecru nie zbiera danych od nikogo, również od dzieci.",
   "privacy.site.h": "Ta strona",
-  "privacy.site.p": "Strona, którą czytasz, liczy odsłony przez PostHog. Nie stawia ciasteczek i niczego nie zapisuje w twojej przeglądarce: każda wizyta liczona jest anonimowo i nie powstaje żaden profil. Dotyczy to wyłącznie strony — w samej aplikacji analityki nie ma.",
+  "privacy.site.p": "Strona, którą czytasz, niczego nie liczy. Nie ma na niej analityki, nie stawia ciasteczek i niczego nie zapisuje w twojej przeglądarce: jej otwarcie nie zostawia żadnego śladu poza historią twojej przeglądarki. Z aplikacją jest tak samo.",
   "privacy.rights.h": "Twoje prawa",
   "privacy.rights.p": "Nie przechowujemy żadnych twoich danych osobowych, więc nie mamy czego wydać, poprawić ani usunąć na żądanie. Twoje dane są na twoim urządzeniu i pod twoją kontrolą: pojedyncze rzeczy usuwasz w aplikacji, a usunięcie aplikacji kasuje wszystko naraz.",
   "privacy.changes.h": "Zmiany",

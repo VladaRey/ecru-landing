@@ -140,7 +140,7 @@
   "privacy.children.h": "Children",
   "privacy.children.p": "Ecru collects no data from anyone, children included.",
   "privacy.site.h": "This website",
-  "privacy.site.p": "The page you are reading counts page views with PostHog. It sets no cookies and stores nothing in your browser: every visit is counted anonymously and no profile is created. This applies to the website only — the app itself has no analytics.",
+  "privacy.site.p": "The page you are reading counts nothing. It has no analytics, sets no cookies and stores nothing in your browser: opening it leaves no record anywhere but in your own browser history. The same is true of the app.",
   "privacy.rights.h": "Your rights",
   "privacy.rights.p": "We hold no personal data about you, so there is nothing for us to hand over, correct or delete on request. Your data is on your device and under your control: delete individual items inside the app, or delete the app to remove everything at once.",
   "privacy.changes.h": "Changes",

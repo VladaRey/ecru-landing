@@ -140,7 +140,7 @@
   "privacy.children.h": "Menores",
   "privacy.children.p": "Ecru no recopila datos de nadie, tampoco de menores.",
   "privacy.site.h": "Esta web",
-  "privacy.site.p": "La página que estás leyendo cuenta visitas con PostHog. No pone cookies ni guarda nada en tu navegador: cada visita se cuenta de forma anónima y no se crea ningún perfil. Esto vale solo para la web — la aplicación no tiene analítica.",
+  "privacy.site.p": "La página que estás leyendo no cuenta nada. No tiene analítica, no pone cookies ni guarda nada en tu navegador: abrirla no deja ningún registro salvo en el historial de tu propio navegador. Con la aplicación ocurre lo mismo.",
   "privacy.rights.h": "Tus derechos",
   "privacy.rights.p": "No guardamos ningún dato personal tuyo, así que no hay nada que podamos entregar, corregir o borrar si lo pides. Tus datos están en tu dispositivo y bajo tu control: puedes borrar prendas sueltas dentro de la aplicación, o borrar la aplicación para eliminarlo todo de una vez.",
   "privacy.changes.h": "Cambios",
