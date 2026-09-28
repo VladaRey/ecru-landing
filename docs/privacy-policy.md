@@ -4,7 +4,7 @@
 
 ## The short version
 
-Ecru holds no personal data about you. There are no accounts and no servers
+Ecru holds nothing that identifies you. There are no accounts and no servers
 keeping your things: your wardrobe, your photos and your answers live on your
 device.
 
@@ -67,7 +67,14 @@ removed, with its category only; whether the colour the app suggested had to be
 corrected by hand; whether the colour-type questions were finished; whether a
 suggested outfit was opened, saved, worn or shared; and how trips and the
 weather suggestions are used — for example, how many days a trip lasts or how
-many outfits were found. Numbers and short labels — nothing else.
+many outfits were found. The events themselves are numbers and short labels.
+
+Alongside each event, PostHog receives the standard technical details its
+library adds: a random identifier created when the app is installed and a
+session identifier, the device model, the iOS and app versions, the screen
+size, the language and region setting, and the time zone. Your connection's IP
+address reaches PostHog as with any request over the internet; the project is
+set to discard it rather than store it.
 
 **What is never sent:** your photos or their file paths, your notes, brands or
 item names, the colours of your clothes, your name, your location and where you
@@ -134,17 +141,17 @@ or reset your profile to erase all of them at once.
 Deleting the app removes its database and every photo stored inside it from
 your device. Nothing from your wardrobe was ever sent anywhere, so that is the
 whole of it — there is no copy for us to delete, and no request you need to
-send us. The anonymous usage events are not tied to you or your device, so
-there is nothing in them to find and delete on request either.
+send us. The anonymous usage events carry only a random identifier we cannot
+connect to you, so we cannot find yours to hand over or delete on request;
+switching statistics off in the profile stops them.
 
 Photos you explicitly saved to your photo library stay there; delete them the
 way you would delete any other photo.
 
 ## Children
 
-Ecru is not directed at children and does not knowingly collect information
-from anyone. Since nothing the app sends identifies a person, this holds for
-users of every age.
+Ecru is not directed at children and collects nothing that identifies anyone.
+This holds for users of every age.
 
 ## This website
 
