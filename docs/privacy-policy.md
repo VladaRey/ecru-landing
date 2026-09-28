@@ -1,6 +1,6 @@
 # Privacy Policy for Ecru
 
-**Effective date:** 19 September 2026
+**Effective date:** 28 September 2026
 
 ## The short version
 
@@ -10,8 +10,8 @@ device.
 
 Three things do leave the phone, and all three are named below: the update
 check, anonymous usage statistics (which you can switch off), and — only if you
-turn it on — a rounded location used to look up the weather. None of them
-carries anything from your wardrobe.
+turn it on or plan a trip — a rounded location used to look up the weather.
+None of them carries anything from your wardrobe.
 
 The Ecru website keeps nothing at all: no analytics, no cookies, no forms.
 **This website** below says so in full.
@@ -20,12 +20,16 @@ The Ecru website keeps nothing at all: no analytics, no cookies, no forms.
 
 Ecru keeps the following in a private database on your device:
 
-- the name you enter when you first open the app;
+- the name you give the app, if you give one;
 - your answers to the colour-type questions (hair, eyes, skin tone, jewellery
-  preference, veins, reaction to sun) and the colour type calculated from them;
+  preference, veins, reaction to sun) and the colour type calculated from them.
+  If you pick those colours from a photo of yourself, the photo is used only
+  while you pick; it is not saved to your wardrobe or your profile;
 - photos of your clothes and the information you add about them — category,
   colours, season, formality, and any notes;
-- outfits you assemble and the days you assign them to.
+- outfits you assemble and the days you assign them to;
+- your trips: the destination, the dates, the forecast for each day and the
+  packing list with its ticks.
 
 This database lives in Ecru's own storage area on your device. It is not
 uploaded, synchronised, or shared with us or anyone else, because Ecru has no
@@ -35,11 +39,14 @@ server to upload it to.
 
 Ecru asks for permissions, and only uses them for what you ask it to do:
 
-**Camera** — to photograph an item of clothing when you add it. Photos are
-processed entirely on your device.
+**Camera** — to photograph an item of clothing when you add it, and, if you
+choose, to take a selfie to find your colour type. Photos are processed
+entirely on your device. Clothing photos are kept in the app's storage; the
+selfie is not.
 
-**Photo library** — to let you pick existing photos of your clothes, and to
-save item photos back to your library when you choose to.
+**Photo library** — to let you pick existing photos of your clothes or of
+yourself, and to save item photos or outfit pictures to your library when you
+choose to.
 
 Ecru does not read location data attached to your photos. It does not browse,
 index, or upload your photo library; it receives only the images you
@@ -55,17 +62,26 @@ working, minus the features that need them.
 ## Usage statistics
 
 Ecru counts how the app is used, through PostHog. The events are anonymous:
-which screens are opened, whether the colour the app suggested had to be
-corrected by hand, whether the colour-type questions were finished, and whether
-a suggested outfit was saved or worn. Numbers and short labels — nothing else.
+when the app is opened and which screens are opened; when an item is added or
+removed, with its category only; whether the colour the app suggested had to be
+corrected by hand; whether the colour-type questions were finished; whether a
+suggested outfit was opened, saved, worn or shared; and how trips and the
+weather suggestions are used — for example, how many days a trip lasts or how
+many outfits were found. Numbers and short labels — nothing else.
 
 **What is never sent:** your photos or their file paths, your notes, brands or
-item names, the colours of your clothes, your name, and your location. No
-profile is created for you, and screen recording is switched off.
+item names, the colours of your clothes, your name, your location and where you
+travel. PostHog is also told not to work out a country or city from your
+connection. No profile is created for you, and screen recording is switched
+off.
 
 Counting does not begin until you have been through the introduction and added
-your first item. You can switch it off at any time in **Profile → Anonymous
-usage statistics**, and that choice survives a profile reset.
+your first item — with one exception. On the very first launch the app sends a
+single empty event that says only that it has been opened for the first time,
+so we can tell how many people leave before adding anything. It carries no
+properties and is sent once per install. You can switch counting off at any
+time in **Profile → Anonymous usage statistics**, and that choice survives a
+profile reset.
 
 PostHog stores the events in the European Union and acts as a processor on our
 behalf. Its own policy is at posthog.com/privacy.
@@ -76,11 +92,16 @@ The wardrobe can show today's weather and suggest what to wear for it. This is
 off until you turn it on, and the app works fully without it.
 
 To look up the forecast it needs a place — either this device's location, or a
-city you type in. **Coordinates are rounded to about 11 kilometres before they
-are sent**, so a request says roughly which town you are in and nothing closer.
-They go to Open-Meteo (open-meteo.com) and nowhere else, carry nothing from
-your wardrobe, and are not stored by us. Turning weather off, or resetting your
-profile, erases the saved place.
+city you type in; the name you type is sent to Open-Meteo's place search to
+find it. **Coordinates are rounded to about 11 kilometres before they are
+sent**, so a request says roughly which town you are in and nothing closer.
+
+Trips use the same service: to plan one, the app sends the destination's
+rounded coordinates and the trip dates.
+
+All of this goes to Open-Meteo (open-meteo.com) and nowhere else, carries
+nothing from your wardrobe, and is not stored by us. Turning weather off erases
+the saved place; resetting your profile erases it together with your trips.
 
 ## What Ecru does not do
 
@@ -95,8 +116,8 @@ profile, erases the saved place.
 
 ## Sharing
 
-If you choose to share an item or an outfit, Ecru hands the image to your
-device's standard share sheet. What happens next is governed by the privacy
+If you choose to share an outfit, Ecru hands the picture to your device's
+standard share sheet; Ecru itself uploads nothing. What happens next is governed by the privacy
 policy of whichever app or service you send it to.
 
 ## Device backups
@@ -107,7 +128,8 @@ Apple, not by Ecru, and is covered by Apple's privacy policy.
 
 ## Deleting your data
 
-You can delete individual items and outfits inside the app at any time.
+You can delete individual items, outfits and trips inside the app at any time,
+or reset your profile to erase all of them at once.
 
 Deleting the app removes its database and every photo stored inside it from
 your device. Nothing from your wardrobe was ever sent anywhere, so that is the
