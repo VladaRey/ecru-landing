@@ -1,6 +1,6 @@
 # Privacy Policy for Ecru
 
-**Effective date:** 28 September 2026
+**Effective date:** 4 October 2026
 
 ## The short version
 
@@ -20,14 +20,17 @@ The Ecru website keeps nothing at all: no analytics, no cookies, no forms.
 
 Ecru keeps the following in a private database on your device:
 
-- the name you give the app, if you give one;
 - your answers to the colour-type questions (hair, eyes, skin tone, jewellery
   preference, veins, reaction to sun) and the colour type calculated from them.
   If you pick those colours from a photo of yourself, the photo is used only
   while you pick; it is not saved to your wardrobe or your profile;
 - photos of your clothes and the information you add about them — category,
-  colours, season, formality, and any notes;
-- outfits you assemble and the days you assign them to;
+  colours, season, formality, price, and any notes. If you remove a
+  background, the cut-out sits next to the original photo, which is kept;
+- outfits you assemble, the days you wore them, and the days you plan them
+  for, with the occasion you name;
+- your wishlist: photos and notes about things you are thinking of buying,
+  and the app's verdict on them;
 - your trips: the destination, the dates, the forecast for each day and the
   packing list with its ticks.
 
@@ -56,6 +59,13 @@ specifically select.
 look up today's forecast. You can name a city instead and never grant it. See
 **Weather** below for what is sent.
 
+**Notifications.** Only if you turn them on, in Profile → Settings →
+Notifications, or say yes when the app offers them once after your first
+planned outfit or trip. They are local: the phone schedules them itself, with
+no server and no push token, so nothing but your device knows what to remind
+you of and when. They are silent and arrive at most once a morning — a planned
+outfit, a trip you have not started packing, or a sharp change in the weather.
+
 You can refuse or revoke any of these in your device settings. Ecru will keep
 working, minus the features that need them.
 
@@ -65,9 +75,12 @@ Ecru counts how the app is used, through PostHog. The events are anonymous:
 when the app is opened and which screens are opened; when an item is added or
 removed, with its category only; whether the colour the app suggested had to be
 corrected by hand; whether the colour-type questions were finished; whether a
-suggested outfit was opened, saved, worn or shared; and how trips and the
-weather suggestions are used — for example, how many days a trip lasts or how
-many outfits were found. The events themselves are numbers and short labels.
+suggested outfit was opened, saved, worn, planned ahead or shared (for a plan,
+only how many days ahead and whether an occasion was named, never the name);
+whether a background was removed; how trips, the weather suggestions and the
+wishlist are used — for example, how many days a trip lasts or how many outfits
+were found; whether a backup was saved or restored, with the number of items
+only; and whether notifications were turned on or off. The events themselves are numbers and short labels.
 
 Alongside each event, PostHog receives the standard technical details its
 library adds: a random identifier created when the app is installed and a
@@ -87,7 +100,8 @@ your first item — with one exception. On the very first launch the app sends a
 single empty event that says only that it has been opened for the first time,
 so we can tell how many people leave before adding anything. It carries no
 properties and is sent once per install. You can switch counting off at any
-time in **Profile → Anonymous usage statistics**, and that choice survives a
+time in **Profile → Settings → Data and privacy → Anonymous usage
+statistics**, and that choice survives a
 profile reset.
 
 PostHog stores the events in the European Union and acts as a processor on our
@@ -95,7 +109,7 @@ behalf. Its own policy is at posthog.com/privacy.
 
 ## Weather
 
-The wardrobe can show today's weather and suggest what to wear for it. This is
+The Today tab can show the weather and pick outfits for it. This is
 off until you turn it on, and the app works fully without it.
 
 To look up the forecast it needs a place — either this device's location, or a
@@ -104,7 +118,9 @@ find it. **Coordinates are rounded to about 11 kilometres before they are
 sent**, so a request says roughly which town you are in and nothing closer.
 
 Trips use the same service: to plan one, the app sends the destination's
-rounded coordinates and the trip dates.
+rounded coordinates and the trip dates. If notifications about sharp weather
+changes are on, the app asks the same service for today's and tomorrow's
+forecast for the same rounded place when you open it.
 
 All of this goes to Open-Meteo (open-meteo.com) and nowhere else, carries
 nothing from your wardrobe, and is not stored by us. Turning weather off erases
@@ -127,6 +143,16 @@ If you choose to share an outfit, Ecru hands the picture to your device's
 standard share sheet; Ecru itself uploads nothing. What happens next is governed by the privacy
 policy of whichever app or service you send it to.
 
+## Wardrobe backups
+
+In Settings you can save a backup of your wardrobe as one file (.zip): item
+photos, items, outfits and plans, the wear log, trips, the wishlist and your
+colour type. The file is put together on the device and handed to the
+standard share sheet — to wherever you send it yourself (Files, AirDrop,
+email, a cloud drive). We never receive or see it. It is not encrypted, so
+keep it as you would keep the photos themselves. Restoring from a backup
+replaces everything currently in the app.
+
 ## Device backups
 
 If you have device backups enabled (for example iCloud Backup), your device's
@@ -136,14 +162,15 @@ Apple, not by Ecru, and is covered by Apple's privacy policy.
 ## Deleting your data
 
 You can delete individual items, outfits and trips inside the app at any time,
-or reset your profile to erase all of them at once.
+or reset your profile (at the bottom of the Profile tab) to erase all of them
+at once. Backup files you saved are wherever you put them; delete them there.
 
 Deleting the app removes its database and every photo stored inside it from
 your device. Nothing from your wardrobe was ever sent anywhere, so that is the
 whole of it — there is no copy for us to delete, and no request you need to
 send us. The anonymous usage events carry only a random identifier we cannot
 connect to you, so we cannot find yours to hand over or delete on request;
-switching statistics off in the profile stops them.
+switching statistics off in Settings stops them.
 
 Photos you explicitly saved to your photo library stay there; delete them the
 way you would delete any other photo.

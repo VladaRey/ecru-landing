@@ -15,21 +15,14 @@ test('кожен @font-face вказує на файл, який справді 
   }
 });
 
-test('заголовковий стек має гарнітуру для кирилиці', () => {
-  const display = css.match(/--display:\s*([^;]+);/)[1];
-  assert.match(display, /Ecru Display Cyrillic/);
+// Одна гарнітура на всю сторінку й на всі чотири мови: серифні заголовки
+// давали латиниці й кирилиці різні шрифти, і /en/ та /uk/ виглядали як дві
+// різні сторінки. Друга гарнітура тепер має бути свідомим рішенням.
+test('на сторінці одна гарнітура — IBM Plex Sans', () => {
+  const families = new Set(Array.from(css.matchAll(/font-family:\s*'([^']+)'/g), (m) => m[1]));
+  assert.deepStrictEqual([...families], ['IBM Plex Sans']);
 });
 
-test('кирилична гарнітура обмежена кириличним діапазоном', () => {
-  const face = css.match(/@font-face\s*\{[^}]*Ecru Display Cyrillic[^}]*\}/)[0];
-  assert.match(face, /U\+0400-045F/);
-  assert.match(face, /ibm-plex-serif-400-cyrillic\.woff2/);
-});
-
-test('Instrument Serif лишився без кирилиці — латиниця не змінилась', () => {
-  const faces = css.match(/@font-face\s*\{[^}]*Instrument Serif[^}]*\}/g);
-  assert.strictEqual(faces.length, 2);
-  for (const face of faces) {
-    assert.doesNotMatch(face, /U\+0400-045F/);
-  }
+test('у шрифті є кирилиця — інакше українська сторінка впала б у системний шрифт', () => {
+  assert.match(css, /ibm-plex-sans-cyrillic\.woff2/);
 });

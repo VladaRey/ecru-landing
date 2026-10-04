@@ -65,10 +65,10 @@
         </div>
 
         <picture>
-          <source srcset="{{@base}}assets/shots/grid.webp" type="image/webp" />
+          <source srcset="{{@base}}assets/shots/today.webp" type="image/webp" />
           <img
             class="shot shot--lift hero__shot"
-            src="{{@base}}assets/shots/grid.jpg"
+            src="{{@base}}assets/shots/today.jpg"
             width="540" height="1169"
             loading="eager" fetchpriority="high" decoding="async"
             alt="{{hero.alt}}" />
@@ -110,6 +110,10 @@
           <h3>{{own.fix.h}}</h3>
           <p class="prose">
             {{own.fix.p}}
+          </p>
+          <h3>{{own.cutout.h}}</h3>
+          <p class="prose">
+            {{own.cutout.p}}
           </p>
         </div>
 
@@ -229,13 +233,21 @@
           <p class="lede" style="margin-top: 1rem">
             {{calendar.lede}}
           </p>
+          <h3>{{calendar.plan.h}}</h3>
+          <p class="prose">
+            {{calendar.plan.p}}
+          </p>
+          <h3>{{calendar.stats.h}}</h3>
+          <p class="prose">
+            {{calendar.stats.p}}
+          </p>
         </div>
 
         <picture>
-          <source srcset="{{@base}}assets/shots/calendar.webp" type="image/webp" />
+          <source srcset="{{@base}}assets/shots/plan.webp" type="image/webp" />
           <img
             class="shot shot--lift calendar__shot"
-            src="{{@base}}assets/shots/calendar.jpg"
+            src="{{@base}}assets/shots/plan.jpg"
             width="540" height="1169"
             loading="lazy" decoding="async"
             alt="{{calendar.alt}}" />

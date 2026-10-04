@@ -74,78 +74,6 @@
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
-/* IBM Plex Mono — статичний, і лише 400: жирного моноширинного в макеті немає. */
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-mono-400-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-
-
-
-/* Instrument Serif — тільки заголовки, тільки латиниця. */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/instrument-serif-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/instrument-serif-400-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* У Instrument Serif кирилиці немає зовсім — не підмножини бракує, а самих
-   гліфів. Без цього всі заголовки українською тихо падали б у Georgia, і
-   титульне обличчя сторінки на /uk/ було б чужим. Беремо IBM Plex Serif:
-   родина Plex уже на сторінці, тож шрифтова система лишається однією.
-   Діапазон — тільки кирилиця, тому en, pl і de не змінюються ні на піксель. */
-@font-face {
-  font-family: 'Ecru Display Cyrillic';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-serif-400-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
 /* ── токени ──────────────────────────────────────────────────────────── */
 
 :root {
@@ -183,9 +111,13 @@
   --no: #a33a2e;
   --no-rule: #e8d2ce;
 
-  --display: 'Instrument Serif', 'Ecru Display Cyrillic', 'Iowan Old Style', Georgia, serif;
+  /* Одна гарнітура на всю сторінку. Акцент заголовків тримають розмір і
+     насиченість, а не інший шрифт: серифні Instrument Serif (латиниця) і
+     Plex Serif (кирилиця) давали /en/ і /uk/ різні обличчя. Колишні «моно»
+     місця — той самий Plex Sans з табличними цифрами. */
   --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --display: var(--sans);
+  --mono: var(--sans);
 
   /* Вертикаль секції та горизонтальні поля — між 390 і 1440 тягнуться лінійно. */
   --section-y: clamp(3.25rem, 1.7179rem + 6.2857vw, 7.375rem);
@@ -288,16 +220,17 @@ a:hover { color: var(--accent-hover); }
 .eyebrow {
   font-family: var(--mono);
   font-size: clamp(0.6875rem, 0.6503rem + 0.0952vw, 0.75rem);
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .display {
   font-family: var(--display);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
 }
 
 .h-section {
@@ -308,16 +241,6 @@ a:hover { color: var(--accent-hover); }
 .h-wide {
   font-size: clamp(2.125rem, 1.5679rem + 2.2857vw, 3.625rem);
   margin-top: 0.75rem;
-}
-
-/* Plex Serif має довші виносні елементи й більший x-height за Instrument
-   Serif, тож на line-height 1.06 українські рядки сходяться: хвіст «р»
-   впирається у наступний рядок, а крапки «ї» — у «д» над ними. Правка
-   тільки для української — латинські сторінки лишаються такими, як у
-   канвасі. Трекінг не чіпаємо: letter-spacing: 0 розводить рядки ще на
-   один і лишає «неї.» саме, а тіснота була вертикальна, не горизонтальна. */
-:lang(uk) .display {
-  line-height: 1.1;
 }
 
 .lede {
@@ -389,7 +312,7 @@ a:hover { color: var(--accent-hover); }
 .nav__links a:hover { color: var(--accent); }
 
 /* Перемикача мов немає в жодному артборді канваса — це третій свідомий
-   відступ від макета. Тримаємо його максимально тихим: моно, дрібно, тим
+   відступ від макета. Тримаємо його максимально тихим: дрібно, тим
    самим кольором, що й посилання навігації. */
 .langs {
   position: relative;
@@ -653,15 +576,18 @@ a:hover { color: var(--accent-hover); }
 
 /* ── 3 · знати, що маєш ──────────────────────────────────────────────── */
 
-/* Перший h3 у цій секції — підблок про виправлення кольору. Розміри ті
-   самі, що в .faq h3: обидва підписують абзац усередині довшого тексту. */
-.own h3 {
+/* h3 у цій секції — підблоки про виправлення кольору й про фон. Розміри ті
+   самі, що в .faq h3: обидва підписують абзац усередині довшого тексту.
+   Календар нижче підписує так само свої «наперед» і «що носите». */
+.own h3,
+.calendar__text h3 {
   margin-top: 1.75rem;
   font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.1875rem);
   font-weight: 600;
 }
 
-.own h3 + .prose { margin-top: 0.5rem; }
+.own h3 + .prose,
+.calendar__text h3 + .prose { margin-top: 0.5rem; }
 
 .own__shots {
   display: grid;
@@ -711,6 +637,8 @@ a:hover { color: var(--accent-hover); }
    обмеження на розмір більше нічим не тримається. */
 .score-card__number {
   font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
   font-size: clamp(2.125rem, 1.9018rem + 0.5714vw, 2.875rem);
   line-height: 1;
   color: var(--ink);
@@ -852,6 +780,8 @@ a:hover { color: var(--accent-hover); }
 
 .points__n {
   font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
   font-size: 0.8125rem;
   color: var(--accent);
   padding-top: 0.3125rem;
@@ -1260,8 +1190,7 @@ a:hover { color: var(--accent-hover); }
   color: var(--accent-hover);
 }
 
-/* Пошта — моно й на власному рядку: адресу переписують очима, і в
-   пропорційному наборі крапка з дефісом у ній зливаються. */
+/* Пошта — на власному рядку: адресу переписують очима. */
 .legal__mail {
   font-family: var(--mono);
   margin-top: 1rem;

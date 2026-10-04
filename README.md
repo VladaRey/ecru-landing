@@ -108,7 +108,7 @@ A few things deliberately differ from the canvas:
   previous page. It stays until the name Ecru is cleared for trademark.
 - **The language switcher.** On no artboard at all — the canvas was drawn
   before the page had a second language. It is kept as quiet as possible:
-  mono, small, the same colour as the nav links. It sits in the header above
+  small, the same colour as the nav links. It sits in the header above
   64rem and in the footer at every width, because below 64rem the header hides
   its links and the footer is the only place a phone can reach it.
 
@@ -128,11 +128,17 @@ a real address, so a placeholder cannot reach the page the way it could reach
 this file.
 
 What the page says has to keep matching what the app does, and as of app
-version 1.1 that is three places where something leaves the device: the update
+version 1.2 that is three places where something leaves the device: the update
 check against `u.expo.dev`, anonymous usage statistics through PostHog, and —
 only when the person turns weather on — a location rounded to about 11 km, sent
 to Open-Meteo. All three are named in the policy, and tests hold every mention
 in place.
+
+App 1.2 adds no fourth. Its notifications are local — scheduled by the phone,
+with no server and no push token — and its wardrobe backup is a file the
+person hands to the iOS share sheet themselves, like a shared outfit picture.
+The policy names both anyway (**Permissions** and **Backups**), together with
+the new on-device data: the wishlist, planned outfits and cut-out photos.
 
 The site itself still counts nothing, and that is a separate promise: it had a
 PostHog page counter once, and the test that keeps the pages script-free is
@@ -200,21 +206,15 @@ first paint would undercut the promise on the first screen. With the analytics
 gone there is no exception left: the page fetches nothing off anyone else's
 domain.
 
-- `assets/fonts` — Instrument Serif (headings), IBM Plex Sans (body), IBM Plex
-  Mono (eyebrows and fine print), sliced into the same latin / latin-ext /
-  cyrillic subsets Google Fonts serves. `unicode-range` means a subset is only
-  fetched if the page actually uses it, so latin-ext and cyrillic cost nothing
-  until the copy needs them. IBM Plex Sans is variable — one file per subset
-  covers every weight. Licences sit next to the files.
-- `assets/fonts/ibm-plex-serif-400-cyrillic.woff2` — the one exception to
-  "headings are Instrument Serif". Instrument Serif has no Cyrillic at all —
-  not a missing subset, missing glyphs — so every heading on `/uk/` would
-  quietly fall through to Georgia. IBM Plex Serif carries the Cyrillic
-  headings instead, declared as `Ecru Display Cyrillic` and restricted by
-  `unicode-range` to Cyrillic only, which is why the English, Polish and
-  German pages do not shift by a pixel. Plex is already on the page, so the
-  type system stays one family. Its OFL is the same licence file as Sans and
-  Mono.
+- `assets/fonts` — IBM Plex Sans, the only typeface on the page: body,
+  headings (600, tighter tracking) and the places that used to be mono
+  (eyebrows, fine print, numbers — the same Sans with tabular figures). It
+  is variable, so one file per latin / latin-ext / cyrillic subset covers
+  every weight, and `unicode-range` fetches a subset only when the copy uses
+  it. The serif headings are gone on purpose: Instrument Serif has no
+  Cyrillic, so `/uk/` needed IBM Plex Serif instead and the four languages
+  never looked like one page. `tests/fonts.test.js` holds the page to a
+  single family. The licence sits next to the files.
 - `assets/shots` — the phone captures, `.webp` next to `.jpg`, same base
   name. They are being replaced one by one with real iPhone screenshots; the
   originals were the design canvas's Android emulator screens of a seeded
@@ -222,23 +222,29 @@ domain.
 
   | file | screen | where | source |
   | --- | --- | --- | --- |
-  | `grid` | wardrobe grid | hero | **iPhone** |
-  | `dropper` | colour & details, picked by hand | 01 | **iPhone** |
-  | `suits` | a score opened into its reasoning | 02 | **iPhone** |
-  | `outfits` | suggestions, scored | 03 | **iPhone** |
-  | `builder` | outfit builder | 03 | **iPhone** |
-  | `calendar` | month + that day's pieces | 04 | **iPhone** |
-  | `colortype` | Cool Summer result | 05 | **iPhone** |
-  | `fitcolor` | fitting room, no colour to read | 06 | **iPhone** |
-  | `verdict` | fitting-room verdict | 06 | **iPhone** |
-  | `shoot` | how to shoot | 08 | **iPhone** |
-  | `card` | item card, formality/weather/fabric | 08 | **iPhone** |
+  | `today` | Today tab: weather, occasion chips, an outfit card | hero | **to retake for 1.2** — still the old wardrobe grid |
+  | `dropper` | colour screen, picked by hand | 01 | **to retake for 1.2** |
+  | `suits` | a score opened into its reasoning | 02 | **to retake for 1.2** |
+  | `outfits` | Outfits tab: Suggestions · Saved · Collections | 03 | **to retake for 1.2** |
+  | `builder` | outfit builder | 03 | **to retake for 1.2** |
+  | `plan` | plan sheet: month, occasion chips | 04 | **to retake for 1.2** — still the old calendar |
+  | `colortype` | colour type result | 05 | **to retake for 1.2** |
+  | `fitcolor` | fitting room, colour read and confirmed | 06 | **to retake for 1.2** |
+  | `verdict` | fitting-room verdict with “Wishlist” | 06 | **to retake for 1.2** |
+  | `shoot` | “How to take the photo” dialog | 08 | **to retake for 1.2** |
+  | `card` | item page with the “When worn” card | 08 | **to retake for 1.2** |
   | `item` | item card with pair reasons | — | Android, unused |
   | `pairs` | item card with pair reasons | — | Android, unused |
   | `wardrobe` | wardrobe grid | — | Android, unused |
 
-  **Every capture on the page is now a real iPhone screenshot.** The three
-  marked unused are superseded Android ones — `grid` replaced `wardrobe`,
+  **App 1.2 redesigned every screen**, so every capture on the page is due
+  for a retake, and the alt texts already describe the new screens. `today`
+  and `plan` are renamed placeholders (the old `grid` and `calendar`) until
+  their captures land — do not ship this branch before they do. The list of
+  what to capture, with the app state for each, is in the app repo's
+  `docs/app-store-release.md`, section 8.
+
+  The three marked unused are superseded Android ones — `grid` replaced `wardrobe`,
   `suits` replaced `pairs` and then `item` — and are kept only because an
   unreferenced file costs a visitor nothing; delete them when you are sure.
 
