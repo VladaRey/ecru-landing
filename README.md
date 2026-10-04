@@ -138,7 +138,7 @@ App 1.2 adds no fourth. Its notifications are local — scheduled by the phone,
 with no server and no push token — and its wardrobe backup is a file the
 person hands to the iOS share sheet themselves, like a shared outfit picture.
 The policy names both anyway (**Permissions** and **Backups**), together with
-the new on-device data: the wishlist, planned outfits and cut-out photos.
+the new on-device data: the wishlist and planned outfits.
 
 The site itself still counts nothing, and that is a separate promise: it had a
 PostHog page counter once, and the test that keeps the pages script-free is

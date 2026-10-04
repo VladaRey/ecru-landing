@@ -25,8 +25,7 @@ Ecru keeps the following in a private database on your device:
   If you pick those colours from a photo of yourself, the photo is used only
   while you pick; it is not saved to your wardrobe or your profile;
 - photos of your clothes and the information you add about them — category,
-  colours, season, formality, price, and any notes. If you remove a
-  background, the cut-out sits next to the original photo, which is kept;
+  colours, season, formality, price, and any notes;
 - outfits you assemble, the days you wore them, and the days you plan them
   for, with the occasion you name;
 - your wishlist: photos and notes about things you are thinking of buying,
@@ -77,7 +76,7 @@ removed, with its category only; whether the colour the app suggested had to be
 corrected by hand; whether the colour-type questions were finished; whether a
 suggested outfit was opened, saved, worn, planned ahead or shared (for a plan,
 only how many days ahead and whether an occasion was named, never the name);
-whether a background was removed; how trips, the weather suggestions and the
+how trips, the weather suggestions and the
 wishlist are used — for example, how many days a trip lasts or how many outfits
 were found; whether a backup was saved or restored, with the number of items
 only; and whether notifications were turned on or off. The events themselves are numbers and short labels.
