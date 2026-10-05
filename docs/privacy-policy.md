@@ -1,6 +1,6 @@
 # Privacy Policy for Ecru
 
-**Effective date:** 4 October 2026
+**Effective date:** 5 October 2026
 
 ## The short version
 
@@ -13,8 +13,8 @@ check, anonymous usage statistics (which you can switch off), and — only if yo
 turn it on or plan a trip — a rounded location used to look up the weather.
 None of them carries anything from your wardrobe.
 
-The Ecru website keeps nothing at all: no analytics, no cookies, no forms.
-**This website** below says so in full.
+The Ecru website counts anonymous visits without cookies and keeps nothing in
+your browser; **This website** below says exactly what it counts.
 
 ## What Ecru stores on your device
 
@@ -184,21 +184,26 @@ This holds for users of every age.
 Everything above describes the Ecru app. This section describes the site you
 are reading it on.
 
-**No analytics.** The site counts nothing. There is no analytics service, no
-page counter and no tracking of any kind: opening a page here leaves no record
-with us or with anyone acting on our behalf.
+**Visit counts, without cookies.** The site counts visits through the same
+PostHog project as the app (stored in the EU): which pages are opened, the
+referring site or link tag a visitor arrived with, how far down the page they
+scroll, which language they pick, and whether they tap the App Store button.
+Nothing is stored in your browser — no cookies, no local storage — so every
+page load is a separate anonymous visit and the site cannot recognise you when
+you come back. No city or country is worked out from your IP address, and
+there is no screen recording. If your browser sends "Do Not Track", the site
+counts nothing.
 
-**No cookies.** The site sets no cookies and stores nothing in your browser.
-That is why the footer says what it says, and why you are not being asked to
-consent to anything. The practical effect is that the site cannot recognise
-you when you come back, and does not try to.
+**Campaign tags.** The App Store links carry a campaign tag (where the visit
+came from and which button was tapped) so that App Store Connect can show which
+links lead to downloads. The tag describes the link, not you.
 
 **No forms.** There is nothing on the site to type an email address into. The
 only thing either page asks you to do is open the App Store, and that is a
 link like any other — Apple sees it, we do not.
 
-**Nothing to remove.** Since we hold no record of your visit, there is nothing
-to delete on request. If you have written to us, the mail is in our mailbox
+**Nothing to remove.** Visit counts are anonymous and carry no identifier
+that survives the page, so there is nothing we could find to delete on request. If you have written to us, the mail is in our mailbox
 and asking will get it deleted.
 
 ## Changes to this policy

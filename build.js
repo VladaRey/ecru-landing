@@ -63,6 +63,16 @@ const SITE = 'https://vladarey.github.io/ecru-landing/';
 // саме таким його дав App Store Connect; вітрину Apple однаково підбирає під
 // обліковий запис відвідувача, тож одна адреса обслуговує всі чотири мови.
 const APP_STORE = 'https://apps.apple.com/ua/app/ecru-wardrobe/id6807435125';
+const APP_ID = '6807435125';
+
+// Provider token з App Store Connect (App Analytics → Sources → Campaigns →
+// «Generate a campaign link», параметр `pt=`). З ним завантаження за мітками
+// `ct`, які ставить assets/analytics.js, видно в App Store Connect окремими
+// кампаніями. Порожній — мітки однаково ставляться, але Apple їх не рахує.
+const APP_STORE_PROVIDER_TOKEN = '';
+
+// Мова → локаль для Open Graph: соцмережі розуміють лише формат ll_CC.
+const OG_LOCALES = { en: 'en_US', uk: 'uk_UA', pl: 'pl_PL', es: 'es_ES' };
 
 // Тут, а не у словниках, з тієї ж причини, що й посилання в магазин: адреса
 // не перекладається, і чотири копії одного рядка розійшлися б при першій же
@@ -141,8 +151,100 @@ function langSwitch(current, langs, aria, dir = '') {
   ].join('\n');
 }
 
+// Екранування для атрибутів і JSON: значення зі словників містять лапки й теги.
+const stripTags = (value = '') => value.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
+const attr = (value) => stripTags(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+/**
+ * Теги для соцмереж і месенджерів: заголовок, опис і картинка прев'ю.
+ *
+ * Без них посилання на сайт у Telegram, Instagram чи Slack показувалося
+ * голим рядком. Картинка своя на кожну мову — з тим самим заголовком, що й
+ * на сторінці (`assets/og/og-<lang>.png`).
+ */
+function social(lang, langs, strings, dir) {
+  const title = attr(strings[dir ? 'privacy.meta.title' : 'meta.title']);
+  const description = attr(strings[dir ? 'privacy.meta.description' : 'meta.description']);
+  const image = `${SITE}assets/og/og-${lang}.png`;
+  const lines = [
+    `<meta property="og:type" content="website" />`,
+    `<meta property="og:site_name" content="Ecru" />`,
+    `<meta property="og:title" content="${title}" />`,
+    `<meta property="og:description" content="${description}" />`,
+    `<meta property="og:url" content="${pageUrl(lang, dir)}" />`,
+    `<meta property="og:image" content="${image}" />`,
+    `<meta property="og:image:width" content="1200" />`,
+    `<meta property="og:image:height" content="630" />`,
+    `<meta property="og:locale" content="${OG_LOCALES[lang] ?? 'en_US'}" />`,
+    ...langs
+      .filter((l) => l !== lang)
+      .map((l) => `<meta property="og:locale:alternate" content="${OG_LOCALES[l] ?? 'en_US'}" />`),
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${title}" />`,
+    `<meta name="twitter:description" content="${description}" />`,
+    `<meta name="twitter:image" content="${image}" />`,
+    // Смарт-банер Safari на iPhone: «Відкрити / Завантажити» згори сторінки.
+    `<meta name="apple-itunes-app" content="app-id=${APP_ID}" />`,
+  ];
+  return lines.join('\n    ');
+}
+
+/**
+ * Структуровані дані для пошуку: що це застосунок (iOS, безкоштовний) і,
+ * на головній, питання й відповіді з розділу FAQ — пошук може показати їх
+ * просто у видачі.
+ */
+function structuredData(lang, strings, dir) {
+  if (dir) return '';
+  const app = {
+    '@context': 'https://schema.org',
+    '@type': 'MobileApplication',
+    name: 'Ecru',
+    url: pageUrl(lang),
+    description: stripTags(strings['meta.description']),
+    operatingSystem: 'iOS',
+    applicationCategory: 'LifestyleApplication',
+    inLanguage: lang,
+    installUrl: APP_STORE,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  };
+  const faqKeys = Object.keys(strings)
+    .filter((key) => /^faq\.[\w-]+\.q$/.test(key))
+    .map((key) => key.slice(0, -2));
+  const faq = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: lang,
+    mainEntity: faqKeys.map((key) => ({
+      '@type': 'Question',
+      name: stripTags(strings[`${key}.q`]),
+      acceptedAnswer: { '@type': 'Answer', text: stripTags(strings[`${key}.a`]) },
+    })),
+  };
+  // `<` у JSON усередині <script> екрануємо, щоб текст не міг закрити тег.
+  const json = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
+  return [
+    `<script type="application/ld+json">${json(app)}</script>`,
+    `<script type="application/ld+json">${json(faq)}</script>`,
+  ].join('\n    ');
+}
+
+/** Скрипти аналітики — обидва свої, з цього ж сайту; дані йдуть лише в PostHog (ЄС). */
+function analytics(lang, dir) {
+  const base = basePrefix(lang, dir);
+  return [
+    `<script defer src="${base}assets/vendor/posthog.js"></script>`,
+    `<script defer src="${base}assets/analytics.js"></script>`,
+  ].join('\n    ');
+}
+
 function metaFor(lang, langs, strings, dir = '') {
   return {
+    '@social': social(lang, langs, strings, dir),
+    '@jsonld': structuredData(lang, strings, dir),
+    '@analytics': analytics(lang, dir),
+    '@page': dir || 'home',
+    '@storept': APP_STORE_PROVIDER_TOKEN,
     '@lang': lang,
     '@base': basePrefix(lang, dir),
     '@home': homePrefix(dir),
@@ -210,6 +312,22 @@ function build({ root, outDir, langs = LANGS, defaultLang = DEFAULT_LANG, pages 
     }
   }
 
+  // Карта сайту з усіма мовними версіями кожної сторінки й robots.txt, що на
+  // неї вказує: так пошук знаходить усі вісім адрес, а не лише корінь.
+  const urls = pages.flatMap((page) =>
+    langs.map((lang) => {
+      const links = langs
+        .map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${pageUrl(l, page.dir)}" />`)
+        .join('\n');
+      return `  <url>\n    <loc>${pageUrl(lang, page.dir)}</loc>\n${links}\n  </url>`;
+    })
+  );
+  fs.writeFileSync(
+    path.join(outDir, 'sitemap.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`
+  );
+  fs.writeFileSync(path.join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}sitemap.xml\n`);
+
   for (const entry of STATIC) {
     const from = path.join(root, entry);
     if (fs.existsSync(from)) {
@@ -235,5 +353,5 @@ module.exports = {
   keysIn, render, checkKeys,
   basePrefix, homePrefix, pageUrl, alternates, langSwitch, metaFor,
   build,
-  LANGS, DEFAULT_LANG, SITE, APP_STORE, CONTACT_EMAIL, LANG_NAMES, BUILDER_KEYS, PAGES,
+  LANGS, DEFAULT_LANG, SITE, APP_STORE, APP_ID, CONTACT_EMAIL, LANG_NAMES, BUILDER_KEYS, PAGES,
 };

@@ -20,7 +20,7 @@ function page(rel) {
 }
 
 test('кожна сторінка оголошує свою мову', () => {
-  assert.match(page('index.html'), /<html lang="en">/);
+  assert.match(page('index.html'), /<html lang="en"[ >]/);
 });
 
 test('кожна сторінка вказує на себе канонічним посиланням', () => {
@@ -56,7 +56,7 @@ test('у зібраній сторінці не лишилось незамін�
 });
 
 test('українська сторінка зібралась і оголошує свою мову', () => {
-  assert.match(page('uk/index.html'), /<html lang="uk">/);
+  assert.match(page('uk/index.html'), /<html lang="uk"[ >]/);
 });
 
 test('шляхи на українській сторінці піднімаються на рівень', () => {
@@ -152,10 +152,10 @@ const { CONTACT_EMAIL } = require('../build.js');
 const PRIVACY = ['privacy/index.html', 'uk/privacy/index.html', 'pl/privacy/index.html', 'es/privacy/index.html'];
 
 test('політика зібралась кожною мовою й оголошує свою', () => {
-  assert.match(page('privacy/index.html'), /<html lang="en">/);
-  assert.match(page('uk/privacy/index.html'), /<html lang="uk">/);
-  assert.match(page('pl/privacy/index.html'), /<html lang="pl">/);
-  assert.match(page('es/privacy/index.html'), /<html lang="es">/);
+  assert.match(page('privacy/index.html'), /<html lang="en"[ >]/);
+  assert.match(page('uk/privacy/index.html'), /<html lang="uk"[ >]/);
+  assert.match(page('pl/privacy/index.html'), /<html lang="pl"[ >]/);
+  assert.match(page('es/privacy/index.html'), /<html lang="es"[ >]/);
 });
 
 test('у політиці не лишилось незамінених ключів', () => {
@@ -227,21 +227,77 @@ test('контакт у політиці — той самий, що в збір
   }
 });
 
-// Аналітики на сайті немає — ні власної, ні чужої. Обіцянку «нічого не йде
-// на сервер» найлегше порушити саме скриптом, і видно це буде не в тексті, а
-// в мережевій панелі. Тест тримає сторінки зовсім без скриптів: повернути
-// лічильник можна буде тільки свідомо, переписавши ось це.
-//
-// Слово «posthog» тут колись теж було заборонене — до того, як аналітика
-// з'явилася в застосунку і політика мусила назвати її вголос. Тепер
-// перевіряємо не слово, а адреси, за якими лічильник справді працює: сама
-// згадка posthog.com/privacy у тексті нікуди нічого не шле.
-test('жодна сторінка не підвантажує скриптів', () => {
-  for (const rel of [...PRIVACY, 'index.html', 'uk/index.html', 'pl/index.html', 'es/index.html']) {
-    const html = page(rel);
+// Аналітика на сайті є — і лише своя. Скрипти дозволені тільки з цього ж
+// сайту (бібліотека PostHog лежить поруч у assets/vendor) і структуровані
+// дані для пошуку. Скрипт із чужого домену — наприклад, офіційний сніпет,
+// що тягне array.js з posthog — тест не пропустить: сторінка обіцяє не
+// звертатися до чужих серверів по код.
+const ALL_PAGES = [...PRIVACY, 'index.html', 'uk/index.html', 'pl/index.html', 'es/index.html'];
 
-    assert.doesNotMatch(html, /<script/, rel);
-    assert.doesNotMatch(html, /i\.posthog\.com/i, rel);
-    assert.doesNotMatch(html, /posthog-assets/i, rel);
+test('скрипти — лише свої й структуровані дані', () => {
+  for (const rel of ALL_PAGES) {
+    const html = page(rel);
+    for (const [tag] of html.matchAll(/<script\b[^>]*>/g)) {
+      const own = /src="(?:\.\.\/)*assets\/(?:vendor\/posthog|analytics)\.js"/.test(tag);
+      const data = /type="application\/ld\+json"/.test(tag);
+      assert.ok(own || data, `${rel}: чужий скрипт ${tag}`);
+    }
+    assert.doesNotMatch(html, /src="https?:/, rel);
   }
+});
+
+test('аналітика підключена на кожній сторінці, бібліотекою раніше за ініціалізацію', () => {
+  for (const rel of ALL_PAGES) {
+    const html = page(rel);
+    const lib = html.indexOf('assets/vendor/posthog.js');
+    const init = html.indexOf('assets/analytics.js');
+    assert.ok(lib > 0 && init > lib, rel);
+  }
+});
+
+test('аналітика пише в європейський проєкт і нічого не зберігає в браузері', () => {
+  const js = fs.readFileSync(path.join(ROOT, 'assets', 'analytics.js'), 'utf8');
+  assert.match(js, /eu\.i\.posthog\.com/);
+  assert.match(js, /persistence: 'memory'/);
+  assert.match(js, /disable_session_recording: true/);
+  assert.match(js, /\$geoip_disable: true/);
+  assert.match(js, /doNotTrack/);
+});
+
+test('кнопки App Store позначені місцем — для мітки кампанії й події store_click', () => {
+  for (const rel of ['index.html', 'uk/index.html']) {
+    const html = page(rel);
+    assert.match(html, /class="appstore"[^>]*data-place="hero"/, rel);
+    assert.match(html, /class="appstore"[^>]*data-place="finale"/, rel);
+  }
+});
+
+test('у головної є теги для соцмереж, смарт-банер і структуровані дані', () => {
+  const html = page('uk/index.html');
+  assert.match(html, /property="og:image" content="https:\/\/vladarey\.github\.io\/ecru-landing\/assets\/og\/og-uk\.png"/);
+  assert.match(html, /property="og:locale" content="uk_UA"/);
+  assert.match(html, /name="apple-itunes-app" content="app-id=\d+"/);
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+  assert.deepStrictEqual(blocks.map((b) => b['@type']), ['MobileApplication', 'FAQPage']);
+  assert.ok(blocks[1].mainEntity.length >= 3);
+});
+
+test('картинки прев\'ю лежать на кожну мову', () => {
+  for (const lang of ['en', 'uk', 'pl', 'es']) {
+    assert.ok(fs.existsSync(path.join(ROOT, 'assets', 'og', `og-${lang}.png`)), lang);
+  }
+});
+
+test('карта сайту перелічує всі сторінки всіх мов, robots на неї вказує', () => {
+  const sitemap = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8');
+  assert.strictEqual(sitemap.match(/<url>/g).length, 8);
+  assert.match(sitemap, /<loc>https:\/\/vladarey\.github\.io\/ecru-landing\/uk\/privacy\/<\/loc>/);
+  const robots = fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf8');
+  assert.match(robots, /Sitemap: https:\/\/vladarey\.github\.io\/ecru-landing\/sitemap\.xml/);
+});
+
+test('кожен розділ головної має назву для події section_viewed', () => {
+  const html = page('index.html');
+  const sections = html.match(/<section\b[^>]*>/g);
+  assert.ok(sections.every((tag) => /data-section="[a-z]+"/.test(tag)));
 });

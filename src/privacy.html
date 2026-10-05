@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{@lang}}">
+<html lang="{{@lang}}" data-page="{{@page}}" data-store-pt="{{@storept}}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,6 +17,10 @@
     <link rel="apple-touch-icon" href="{{@base}}apple-touch-icon.png" />
 
     <link rel="stylesheet" href="{{@base}}style.css" />
+
+    {{@social}}
+    {{@jsonld}}
+    {{@analytics}}
   </head>
   <body>
     <!-- ── шапка ──────────────────────────────────────────────────── -->

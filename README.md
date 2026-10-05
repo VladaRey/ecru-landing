@@ -140,10 +140,8 @@ person hands to the iOS share sheet themselves, like a shared outfit picture.
 The policy names both anyway (**Permissions** and **Backups**), together with
 the new on-device data: the wishlist and planned outfits.
 
-The site itself still counts nothing, and that is a separate promise: it had a
-PostHog page counter once, and the test that keeps the pages script-free is
-what stops it coming back. Do not read the app's analytics section as
-permission to add one here.
+The site itself counts visits too, without cookies — see **Analytics** below;
+the policy's **This website** section says the same, in all four languages.
 
 Change what the app sends and this text is wrong before it is out of date —
 along with the App Privacy declaration in App Store Connect, which the reviewer
@@ -177,34 +175,63 @@ now nothing is recorded about the buttons either. They used to carry
 clicked; that attribute went out with the analytics, since nothing else read
 it.
 
-## No analytics
+## Analytics
 
-The page counts nothing. There is no `analytics.js`, no script tag on either
-template, and `node --test` holds the pages script-free: a test walks every
-built page and fails on a `<script` or on the word `posthog`. Bringing a
-counter back is therefore a deliberate act, not a quiet one — that test has to
-be rewritten first.
+The site counts visits in the same PostHog project as the app (EU region), so
+"landing → App Store → first launch" sits in one place. Two files, both served
+from this site: `assets/vendor/posthog.js` (posthog-js `array.no-external`,
+vendored so the page fetches no code from anyone else's domain; MIT licence
+beside it) and `assets/analytics.js`, which initialises it and wires the events.
+The build adds both with `defer` to every page, library first.
 
-This is not a stance about measurement in general; the app is where it will
-happen instead. PostHog *was* here, wired carefully, and the reasoning behind
-each setting — the EU region, the project key, `persistence: 'memory'`,
-`person_profiles: 'identified_only'`, the `store_click` event and its
-`sendBeacon` transport — is written down in
-[`docs/posthog-config.md`](docs/posthog-config.md) rather than thrown away,
-because the same decisions come up again in the mobile app. That file also
-says which of them should *not* travel: `memory` persistence existed to keep a
-promise about cookies that an app does not make.
+What it records:
 
-The practical effect here: every asset the page loads is local, and the
-network panel on a cold load shows fonts, CSS and images and nothing else.
+| event | when | properties |
+| --- | --- | --- |
+| `$pageview`, `$pageleave` | automatically | `$referrer`, `utm_*` from the URL, plus `site`, `lang`, `page` on every event |
+| `$autocapture` | any click | element selector |
+| `store_click` | an App Store button | `place` (`hero` / `finale`), `campaign` (the `ct` tag) |
+| `section_viewed` | a section is 40 % on screen, once per load | `section` (`data-section`), `order` |
+| `language_switched` | a link in the language menu | `to` |
+
+What it does not: `persistence: 'memory'` keeps nothing in the browser — no
+cookies, no localStorage — so the footer's "no tracking cookies" stays true and
+no consent banner is needed; the cost is that every page load is a new
+anonymous visitor. `$geoip_disable` keeps PostHog from working out a city or
+country, session recording is off, and a browser that sends Do Not Track is not
+counted at all. `docs/posthog-config.md` has the reasoning behind each option.
+
+**App Store campaigns.** Independently of PostHog, `analytics.js` adds a `ct`
+campaign tag to both App Store links — `<source>-<lang>-<place>`, where source
+is `utm_campaign`, `utm_source` or `ref` from the URL, else the referring
+domain, else `direct`. Fill `APP_STORE_PROVIDER_TOKEN` in `build.js` with the
+`pt` value from App Store Connect (App Analytics → Sources → Campaigns) and
+downloads per tag show up there. Share the page with `?utm_source=instagram`
+(or `telegram`, `reddit`, …) and each channel becomes its own row in both
+PostHog and App Store Connect.
+
+Tests keep it honest: only these two local scripts and the JSON-LD blocks may
+appear on a page, no `src="http…"`, and the init must stay EU, memory-only,
+without recording and without GeoIP.
+
+## SEO
+
+- `<title>`, description, canonical and `hreflang` (with `x-default`) per page
+  and language, as before.
+- Open Graph and Twitter tags with a preview image per language
+  (`assets/og/og-<lang>.png`, 1200×630) — links pasted into Telegram,
+  Instagram or Slack show a card instead of a bare URL.
+- `apple-itunes-app` — Safari on iPhone shows the App Store smart banner.
+- JSON-LD on the home page: `MobileApplication` (iOS, free) and `FAQPage`
+  built from the `faq.*` strings, so search can show the answers directly.
+- `sitemap.xml` (all eight pages with their language alternates) and
+  `robots.txt` pointing at it, both written by the build.
 
 ## Assets
 
-Every asset is local — no CDN, no Google Fonts. That is not tidiness: the page
-promises the app talks to no server, and a call out to `fonts.gstatic.com` on
-first paint would undercut the promise on the first screen. With the analytics
-gone there is no exception left: the page fetches nothing off anyone else's
-domain.
+Every asset is local — no CDN, no Google Fonts, and the analytics library is
+vendored too. The only request that leaves for another domain is the
+analytics data itself, to `eu.i.posthog.com`.
 
 - `assets/fonts` — IBM Plex Sans, the only typeface on the page: body,
   headings (600, tighter tracking) and the places that used to be mono
