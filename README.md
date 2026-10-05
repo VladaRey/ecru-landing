@@ -220,7 +220,11 @@ without recording and without GeoIP.
   and language, as before.
 - Open Graph and Twitter tags with a preview image per language
   (`assets/og/og-<lang>.png`, 1200×630) — links pasted into Telegram,
-  Instagram or Slack show a card instead of a bare URL.
+  Instagram or Slack show a card instead of a bare URL. Each card is the
+  page's `hero.title` beside two real app screens (`outfits` and `suits`:
+  outfits with their reasons, and a score opened into its explanation), so the
+  preview shows what the app does, not just its name. Re-render them when
+  those captures are retaken.
 - `apple-itunes-app` — Safari on iPhone shows the App Store smart banner.
 - JSON-LD on the home page: `MobileApplication` (iOS, free) and `FAQPage`
   built from the `faq.*` strings, so search can show the answers directly.
