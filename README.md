@@ -254,16 +254,17 @@ analytics data itself, to `eu.i.posthog.com`.
   | file | screen | where | source |
   | --- | --- | --- | --- |
   | `today` | Today tab: weather, occasion chips, an outfit card | hero | **to retake for 1.2** — still the old wardrobe grid |
-  | `dropper` | colour screen, picked by hand | 01 | **to retake for 1.2** |
+  | `dropper` | colour screen, picked by hand | 06 | **to retake for 1.2** |
   | `suits` | a score opened into its reasoning | 02 | **to retake for 1.2** |
-  | `outfits` | Outfits tab: Suggestions · Saved · Collections | 03 | **to retake for 1.2** |
-  | `builder` | outfit builder | 03 | **to retake for 1.2** |
-  | `plan` | plan sheet: month, occasion chips | 04 | **to retake for 1.2** — still the old calendar |
-  | `colortype` | colour type result | 05 | **to retake for 1.2** |
-  | `fitcolor` | fitting room, colour read and confirmed | 06 | **to retake for 1.2** |
-  | `verdict` | fitting-room verdict with “Wishlist” | 06 | **to retake for 1.2** |
-  | `shoot` | “How to take the photo” dialog | 08 | **to retake for 1.2** |
-  | `card` | item page with the “When worn” card | 08 | **to retake for 1.2** |
+  | `outfits` | Outfits tab: Suggestions · Saved · Collections | 01 | **to retake for 1.2** |
+  | `builder` | outfit builder | 01 | **to retake for 1.2** |
+  | `plan` | plan sheet: month, occasion chips | 03 | **to retake for 1.2** — still the old calendar |
+  | `trip` | suitcase picture filling up, weather per day, list by category | 04 | **to take for 1.2** — a copy of the old calendar until then |
+  | `colortype` | colour type result | 07 | **to retake for 1.2** |
+  | `fitcolor` | fitting room, colour read and confirmed | 05 | **to retake for 1.2** |
+  | `verdict` | fitting-room verdict with “Wishlist” | 05 | **to retake for 1.2** |
+  | `shoot` | “How to take the photo” dialog | 09 | **to retake for 1.2** |
+  | `card` | item page with the “When worn” card | 09 | **to retake for 1.2** |
   | `item` | item card with pair reasons | — | Android, unused |
   | `pairs` | item card with pair reasons | — | Android, unused |
   | `wardrobe` | wardrobe grid | — | Android, unused |
@@ -271,7 +272,8 @@ analytics data itself, to `eu.i.posthog.com`.
   **App 1.2 redesigned every screen**, so every capture on the page is due
   for a retake, and the alt texts already describe the new screens. `today`
   and `plan` are renamed placeholders (the old `grid` and `calendar`) until
-  their captures land — do not ship this branch before they do. The list of
+  their captures land, and `trip` is a copy of the same placeholder — do not ship
+  this branch before all three are real. The list of
   what to capture, with the app state for each, is in the app repo's
   `docs/app-store-release.md`, section 8.
 

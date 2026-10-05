@@ -899,6 +899,13 @@ a:hover { color: var(--accent-hover); }
   margin-top: 0.625rem;
 }
 
+/* Маніфест — одна колонка: що рахує застосунок і що з даними. Ширина — як
+   у абзаців лендінгу, щоб рядок не тягнувся на весь темний блок. */
+.manifesto__body {
+  margin-top: 2rem;
+  max-width: 46rem;
+}
+
 .manifesto__coda {
   font-family: var(--mono);
   font-size: 0.875rem;
@@ -914,6 +921,7 @@ a:hover { color: var(--accent-hover); }
     margin-top: 3.5rem;
   }
 
+  .manifesto__body { margin-top: 3rem; }
   .manifesto p { margin-top: 1rem; }
   .manifesto__coda { margin-top: 3.5rem; }
 }
