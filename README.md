@@ -253,7 +253,7 @@ analytics data itself, to `eu.i.posthog.com`.
 
   | file | screen | where | source |
   | --- | --- | --- | --- |
-  | `today` | Today tab: weather, occasion chips, an outfit card | hero | **to retake for 1.2** — still the old wardrobe grid |
+  | `today` | Home tab: weather, occasion chips, an outfit card | hero | **to retake for 1.2** — still the old wardrobe grid |
   | `dropper` | colour screen, picked by hand | 06 | **to retake for 1.2** |
   | `suits` | a score opened into its reasoning | 02 | **to retake for 1.2** |
   | `outfits` | Outfits tab: Suggestions · Saved · Collections | 01 | **to retake for 1.2** |

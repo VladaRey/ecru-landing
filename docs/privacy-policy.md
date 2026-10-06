@@ -108,7 +108,7 @@ behalf. Its own policy is at posthog.com/privacy.
 
 ## Weather
 
-The Today tab can show the weather and pick outfits for it. This is
+The Home tab can show the weather and pick outfits for it. This is
 off until you turn it on, and the app works fully without it.
 
 To look up the forecast it needs a place — either this device's location, or a
