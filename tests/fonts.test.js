@@ -15,14 +15,19 @@ test('кожен @font-face вказує на файл, який справді 
   }
 });
 
-// Одна гарнітура на всю сторінку й на всі чотири мови: серифні заголовки
-// давали латиниці й кирилиці різні шрифти, і /en/ та /uk/ виглядали як дві
-// різні сторінки. Друга гарнітура тепер має бути свідомим рішенням.
-test('на сторінці одна гарнітура — IBM Plex Sans', () => {
+// Одна гарнітура тексту на всю сторінку й на всі чотири мови, плюс
+// Cormorant — лише для слова-логотипа, як і в застосунку. Третя гарнітура
+// має бути свідомим рішенням.
+test('гарнітури — Manrope для тексту й Cormorant Garamond для логотипа', () => {
   const families = new Set(Array.from(css.matchAll(/font-family:\s*'([^']+)'/g), (m) => m[1]));
-  assert.deepStrictEqual([...families], ['IBM Plex Sans']);
+  assert.deepStrictEqual([...families].sort(), ['Cormorant Garamond', 'Manrope']);
 });
 
 test('у шрифті є кирилиця — інакше українська сторінка впала б у системний шрифт', () => {
-  assert.match(css, /ibm-plex-sans-cyrillic\.woff2/);
+  assert.match(css, /manrope-cyrillic\.woff2/);
+});
+
+// Курсиву в Manrope немає: браузер синтезував би похилий і розмив штрих.
+test('наголос — вагою, а не синтезованим курсивом', () => {
+  assert.match(css, /em \{\s*font-style: normal;/);
 });

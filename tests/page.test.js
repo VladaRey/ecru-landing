@@ -42,7 +42,8 @@ test('перемикач у підвалі не стоїть усередині 
   // <details> — не phrasing content: усередині <p> парсер закриє абзац
   // перед ним, і рядок підвалу розсиплеться разом зі своїм flex.
   const html = page('index.html').replace(/<!--[\s\S]*?-->/g, '');
-  assert.doesNotMatch(html, /<p[^>]*>(?:(?!<\/p>)[\s\S])*?<details/);
+  // `<p\b` без `[^>]` одразу: інакше за абзац сходить `<path>` паростка в логотипі.
+  assert.doesNotMatch(html, /<p(?:\s[^>]*)?>(?:(?!<\/p>)[\s\S])*?<details/);
 });
 
 test('у перемикачі лишаються посилання, а не option', () => {
@@ -120,14 +121,14 @@ test('кожна мовна сторінка вказує іконку свої�
     const rel = lang === 'en' ? 'index.html' : `${lang}/index.html`;
     const base = lang === 'en' ? '' : '../';
     const html = page(rel);
-    assert.match(html, new RegExp(`rel="icon" href="${base}ecru-logo\\.svg" type="image/svg\\+xml"`), rel);
+    assert.match(html, new RegExp(`rel="icon" href="${base}lelia-logo\\.svg" type="image/svg\\+xml"`), rel);
     assert.match(html, new RegExp(`rel="icon" href="${base}apple-touch-icon\\.png"`), rel);
     assert.match(html, new RegExp(`rel="apple-touch-icon" href="${base}apple-touch-icon\\.png"`), rel);
   }
 });
 
 test('файли іконки лягають у корінь dist', () => {
-  for (const name of ['ecru-logo.svg', 'apple-touch-icon.png']) {
+  for (const name of ['lelia-logo.svg', 'apple-touch-icon.png']) {
     assert.ok(fs.existsSync(path.join(DIST, name)), `немає dist/${name}`);
   }
 });

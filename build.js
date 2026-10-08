@@ -168,7 +168,7 @@ function social(lang, langs, strings, dir) {
   const image = `${SITE}assets/og/og-${lang}.png`;
   const lines = [
     `<meta property="og:type" content="website" />`,
-    `<meta property="og:site_name" content="Ecru" />`,
+    `<meta property="og:site_name" content="Lelia" />`,
     `<meta property="og:title" content="${title}" />`,
     `<meta property="og:description" content="${description}" />`,
     `<meta property="og:url" content="${pageUrl(lang, dir)}" />`,
@@ -199,7 +199,7 @@ function structuredData(lang, strings, dir) {
   const app = {
     '@context': 'https://schema.org',
     '@type': 'MobileApplication',
-    name: 'Ecru',
+    name: 'Lelia',
     url: pageUrl(lang),
     description: stripTags(strings['meta.description']),
     operatingSystem: 'iOS',
@@ -266,7 +266,7 @@ const STATIC = [
   'style.css', 'assets', '.nojekyll',
   // Іконки лежать у корені, а не в assets: так вони віддаються з кореня
   // сайту, де їх шукають браузер і iOS, коли тега в <head> замало.
-  'ecru-logo.svg', 'apple-touch-icon.png',
+  'lelia-logo.svg', 'apple-touch-icon.png',
 ];
 
 function readStrings(root, lang) {
