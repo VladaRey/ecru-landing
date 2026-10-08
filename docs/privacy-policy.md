@@ -234,4 +234,4 @@ described in the app's release notes.
 
 ## Contact
 
-Questions about this policy: [CONTACT EMAIL]
+Questions about this policy: lelia.app.support@gmail.com

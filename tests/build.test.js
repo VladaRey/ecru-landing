@@ -58,15 +58,15 @@ test('basePrefix порожній у корені і піднімає на рі�
 });
 
 test('pageUrl кладе мову за умовчанням у корінь', () => {
-  assert.strictEqual(pageUrl('en'), 'https://vladarey.github.io/ecru-landing/');
-  assert.strictEqual(pageUrl('uk'), 'https://vladarey.github.io/ecru-landing/uk/');
+  assert.strictEqual(pageUrl('en'), 'https://lelia.app/');
+  assert.strictEqual(pageUrl('uk'), 'https://lelia.app/uk/');
 });
 
 test('alternates перелічує всі мови, включно з собою, і додає x-default', () => {
   const out = alternates(['en', 'uk']);
-  assert.match(out, /hreflang="en" href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
-  assert.match(out, /hreflang="uk" href="https:\/\/vladarey\.github\.io\/ecru-landing\/uk\/"/);
-  assert.match(out, /hreflang="x-default" href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
+  assert.match(out, /hreflang="en" href="https:\/\/lelia\.app\/"/);
+  assert.match(out, /hreflang="uk" href="https:\/\/lelia\.app\/uk\/"/);
+  assert.match(out, /hreflang="x-default" href="https:\/\/lelia\.app\/"/);
   assert.strictEqual(out.match(/<link/g).length, 3);
 });
 
@@ -101,7 +101,7 @@ test('metaFor віддає повний набір службових ключі
   const meta = metaFor('uk', ['en', 'uk'], { 'lang.aria': 'Мова сторінки' });
   assert.strictEqual(meta['@lang'], 'uk');
   assert.strictEqual(meta['@base'], '../');
-  assert.strictEqual(meta['@canonical'], 'https://vladarey.github.io/ecru-landing/uk/');
+  assert.strictEqual(meta['@canonical'], 'https://lelia.app/uk/');
   assert.ok(meta['@alternates'].includes('x-default'));
   assert.ok(meta['@langswitch'].includes('<details'));
 });
@@ -132,14 +132,14 @@ test('homePrefix веде на головну своєї мови, а не на 
 });
 
 test('pageUrl дописує теку сторінки після мови', () => {
-  assert.strictEqual(pageUrl('en', 'privacy'), 'https://vladarey.github.io/ecru-landing/privacy/');
-  assert.strictEqual(pageUrl('uk', 'privacy'), 'https://vladarey.github.io/ecru-landing/uk/privacy/');
+  assert.strictEqual(pageUrl('en', 'privacy'), 'https://lelia.app/privacy/');
+  assert.strictEqual(pageUrl('uk', 'privacy'), 'https://lelia.app/uk/privacy/');
 });
 
 test('alternates в’яжуть однакові сторінки, а не будь-які', () => {
   const out = alternates(['en', 'uk'], 'privacy');
   assert.match(out, /hreflang="uk" href="[^"]*\/uk\/privacy\/"/);
-  assert.doesNotMatch(out, /href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
+  assert.doesNotMatch(out, /href="https:\/\/lelia\.app\/"/);
 });
 
 test('langSwitch лишає людину на тій самій сторінці іншої мови', () => {
@@ -165,6 +165,6 @@ test('metaFor віддає підсторінці її власну глибин
   const meta = metaFor('uk', ['en', 'uk'], { 'lang.aria': 'Мова сторінки' }, 'privacy');
   assert.strictEqual(meta['@base'], '../../');
   assert.strictEqual(meta['@home'], '../');
-  assert.strictEqual(meta['@canonical'], 'https://vladarey.github.io/ecru-landing/uk/privacy/');
+  assert.strictEqual(meta['@canonical'], 'https://lelia.app/uk/privacy/');
   assert.ok(meta['@email']);
 });

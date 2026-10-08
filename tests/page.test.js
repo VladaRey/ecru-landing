@@ -24,7 +24,7 @@ test('кожна сторінка оголошує свою мову', () => {
 });
 
 test('кожна сторінка вказує на себе канонічним посиланням', () => {
-  assert.match(page('index.html'), /rel="canonical" href="https:\/\/vladarey\.github\.io\/ecru-landing\/"/);
+  assert.match(page('index.html'), /rel="canonical" href="https:\/\/lelia\.app\/"/);
 });
 
 test('сторінка перелічує всі мови у hreflang і додає x-default', () => {
@@ -275,7 +275,7 @@ test('кнопки App Store позначені місцем — для мітк
 
 test('у головної є теги для соцмереж, смарт-банер і структуровані дані', () => {
   const html = page('uk/index.html');
-  assert.match(html, /property="og:image" content="https:\/\/vladarey\.github\.io\/ecru-landing\/assets\/og\/og-uk\.png"/);
+  assert.match(html, /property="og:image" content="https:\/\/lelia\.app\/assets\/og\/og-uk\.png"/);
   assert.match(html, /property="og:locale" content="uk_UA"/);
   assert.match(html, /name="apple-itunes-app" content="app-id=\d+"/);
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
@@ -292,9 +292,9 @@ test('картинки прев\'ю лежать на кожну мову', () =
 test('карта сайту перелічує всі сторінки всіх мов, robots на неї вказує', () => {
   const sitemap = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8');
   assert.strictEqual(sitemap.match(/<url>/g).length, 8);
-  assert.match(sitemap, /<loc>https:\/\/vladarey\.github\.io\/ecru-landing\/uk\/privacy\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/lelia\.app\/uk\/privacy\/<\/loc>/);
   const robots = fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf8');
-  assert.match(robots, /Sitemap: https:\/\/vladarey\.github\.io\/ecru-landing\/sitemap\.xml/);
+  assert.match(robots, /Sitemap: https:\/\/lelia\.app\/sitemap\.xml/);
 });
 
 test('кожен розділ головної має назву для події section_viewed', () => {

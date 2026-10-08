@@ -5,7 +5,8 @@ The landing page for Lelia (formerly Ecru), an offline personal wardrobe app.
 Plain HTML and CSS, one page per language. `node build.js` renders
 `src/index.html` against each `i18n/<lang>.json` into `dist/` — no
 dependencies, nothing to install. Pushing to `main` builds and deploys to
-https://vladarey.github.io/ecru-landing/
+https://lelia.app/ (GitHub Pages with a custom domain, set in Settings → Pages;
+the old https://vladarey.github.io/ecru-landing/ redirects there).
 
 ## Running it
 
@@ -120,7 +121,7 @@ all four languages like everything else (`/privacy/`, `/uk/privacy/`, …), from
 `src/privacy.html` and the `privacy.*` keys.
 
 The contact address is `CONTACT_EMAIL` in `build.js` —
-`ecru.app.support@gmail.com`, a mailbox for the app rather than a personal one,
+`lelia.app.support@gmail.com`, a mailbox for the app rather than a personal one,
 because an address on a public page gets harvested. It sits in `build.js` next
 to `APP_STORE` for the same reason: an address is not a translatable string,
 and four copies of it would drift apart at the first edit. A test holds it to
@@ -311,5 +312,6 @@ Section 08 was a wall of text with no screenshot at all and now carries two.
   drawing itself is 558 bytes. Stripping the metadata would make the favicon
   fifteen times smaller, at the cost of the content credential.
 
-Asset paths are relative because the site is served from `/ecru-landing/`, not
-from a domain root.
+Asset paths are relative: the site used to be served from `/ecru-landing/`
+rather than a domain root, and relative paths keep it working both at
+lelia.app and at the old address.
