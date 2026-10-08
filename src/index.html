@@ -33,7 +33,6 @@
       <div class="wrap nav__inner">
         <a class="nav__brand" href="#top">
           <span class="wordmark nav__wordmark"><svg class="sprout" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M12 46.5V15" /><path d="M12 17C7.2 16 4.6 11.4 5 6c4.6 1 7 5 7 11Z" /><path d="M12 23.5c4-1.8 7.4-4.3 8.4-9.6-4.6.1-7.8 3.4-8.4 9.6Z" /></svg><span>lelia</span></span>
-          <span class="eyebrow">{{nav.tagline}}</span>
         </a>
         <nav class="nav__links" aria-label="{{nav.aria}}">
           <a href="#how">{{nav.how}}</a>
@@ -172,11 +171,14 @@
 
             <div class="reason-card">
               <p class="eyebrow">{{wedge.reason.eyebrow}}</p>
+              <!-- Перша причина працює на оцінку, три інші — штрафи за однією
+                   з трьох осей. Позначка повторює це кольором: галочка
+                   берези й теплий мінус. -->
               <ul>
-                <li>{{quote.reason1}}</li>
-                <li>{{quote.reason2}}</li>
-                <li>{{quote.reason3}}</li>
-                <li>{{quote.reason4}}</li>
+                <li class="reason reason--plus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.5 12.4l3 3 6-6.3" /></svg><span>{{quote.reason1}}</span></li>
+                <li class="reason reason--minus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 12h8" /></svg><span>{{quote.reason2}}</span></li>
+                <li class="reason reason--minus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 12h8" /></svg><span>{{quote.reason3}}</span></li>
+                <li class="reason reason--minus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 12h8" /></svg><span>{{quote.reason4}}</span></li>
               </ul>
             </div>
 

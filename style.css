@@ -646,66 +646,102 @@ a:hover { color: var(--accent-hover); }
   margin-top: 2rem;
 }
 
+/* «Що зазвичай показують» — навмисно бідніша картка: пунктир, без тла,
+   приглушена цифра. Вона показує число без пояснення, і має виглядати
+   порожнім місцем поруч із карткою, де пояснення є. */
 .score-card {
-  border: 1px solid var(--rule-card);
-  border-radius: 18px;
-  padding: 1.25rem 1.25rem;
+  border: 1.5px dashed #c9bfae;
+  border-radius: 16px;
+  padding: 1.125rem 1.25rem;
 }
 
 .score-card__row {
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  margin-top: 0.75rem;
+  margin-top: 0.625rem;
 }
 
-/* Раніше тут був сірий #8a8073 — 3.9:1 на білому, тобто нижче за 4.5, і
-   через це число мусило лишатися великим. Чорнилом по смузі це 12:1, тож
-   обмеження на розмір більше нічим не тримається. */
 .score-card__number {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  font-weight: 500;
-  font-size: clamp(2.125rem, 1.9018rem + 0.5714vw, 2.875rem);
+  font-weight: 700;
+  font-size: clamp(2rem, 1.7768rem + 0.5714vw, 2.625rem);
   line-height: 1;
-  color: var(--ink);
+  color: var(--muted);
   letter-spacing: -0.02em;
 }
 
 .score-card__note {
   font-size: clamp(0.875rem, 0.8378rem + 0.0952vw, 1rem);
   line-height: 1.5;
-  color: var(--ink);
+  color: var(--muted);
 }
 
+/* «Що каже Lelia» — головна картка блоку: тло `surface`, зелена смуга
+   згори, кожна причина окремим рядком із позначкою. */
 .reason-card {
   background: var(--surface);
   border: 1px solid var(--rule-card);
-  border-radius: 18px;
+  border-top: 4px solid var(--accent);
+  border-radius: 16px;
   padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(43, 39, 36, 0.04), 0 8px 24px -12px rgba(43, 39, 36, 0.12);
 }
+
+.reason-card .eyebrow { color: var(--accent-ink); }
 
 .reason-card ul {
   list-style: none;
-  margin: 0.75rem 0 0;
+  margin: 0.5rem 0 0;
   padding: 0;
-  display: grid;
-  gap: 0.6875rem;
 }
 
-.reason-card li {
-  font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.125rem);
+.reason {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.875rem 0;
+  font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.0625rem);
   line-height: 1.5;
   color: var(--ink);
 }
 
-@media (min-width: 48rem) {
-  .score-card { padding: 1.875rem 2rem; }
-  .score-card__row { gap: 1.25rem; margin-top: 1.125rem; }
-  .reason-card { padding: 1.875rem 2rem; }
-  .reason-card .eyebrow { color: var(--on-dark-muted); }
+.reason + .reason { border-top: 1px solid var(--rule); }
+.reason:last-child { padding-bottom: 0; }
 
-.reason-card ul { gap: 0.8125rem; margin-top: 1.125rem; }
+/* Позначка — коло з галочкою чи мінусом, тим самим штрихом, що й паросток.
+   Мінус — теплим «на свій розсуд» із палітри вердиктів, а не червоним:
+   це штраф за одну вісь, а не помилка. */
+.reason__mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0.3125rem;
+  border-radius: 999px;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Перший рядок тексту вищий за коло: центр кола — на його середині. */
+  margin-top: 0.0625rem;
+}
+
+.reason--plus .reason__mark {
+  background: var(--accent-soft);
+  stroke: var(--accent-ink);
+}
+
+.reason--minus .reason__mark {
+  background: #f1e6cf;
+  stroke: var(--maybe);
+}
+
+@media (min-width: 48rem) {
+  .score-card { padding: 1.5rem 2rem; }
+  .score-card__row { gap: 1.25rem; margin-top: 0.875rem; }
+  .reason-card { padding: 1.75rem 2rem 1.875rem; }
+  .reason { padding: 1rem 0; gap: 1rem; }
 }
 
 @media (min-width: 64rem) {
