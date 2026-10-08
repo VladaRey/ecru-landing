@@ -1,6 +1,6 @@
 # ecru-landing
 
-The landing page for Ecru, an offline personal wardrobe app.
+The landing page for Lelia (formerly Ecru), an offline personal wardrobe app.
 
 Plain HTML and CSS, one page per language. `node build.js` renders
 `src/index.html` against each `i18n/<lang>.json` into `dist/` — no
@@ -105,7 +105,7 @@ A few things deliberately differ from the canvas:
 - **Screenshots in section 08.** Not on any artboard — the section is pure
   prose in the canvas.
 - **The name disclaimer in the footer.** Not in the canvas, kept from the
-  previous page. It stays until the name Ecru is cleared for trademark.
+  previous page. It stays until the name Lelia is cleared for trademark.
 - **The language switcher.** On no artboard at all — the canvas was drawn
   before the page had a second language. It is kept as quiet as possible:
   small, the same colour as the nav links. It sits in the header above
@@ -237,15 +237,16 @@ Every asset is local — no CDN, no Google Fonts, and the analytics library is
 vendored too. The only request that leaves for another domain is the
 analytics data itself, to `eu.i.posthog.com`.
 
-- `assets/fonts` — IBM Plex Sans, the only typeface on the page: body,
-  headings (600, tighter tracking) and the places that used to be mono
-  (eyebrows, fine print, numbers — the same Sans with tabular figures). It
-  is variable, so one file per latin / latin-ext / cyrillic subset covers
-  every weight, and `unicode-range` fetches a subset only when the copy uses
-  it. The serif headings are gone on purpose: Instrument Serif has no
-  Cyrillic, so `/uk/` needed IBM Plex Serif instead and the four languages
-  never looked like one page. `tests/fonts.test.js` holds the page to a
-  single family. The licence sits next to the files.
+- `assets/fonts` — the Lelia design system's two typefaces, the same as in
+  the app. Manrope for every word on the page: body at 500 (400 reads thin),
+  headings at 700, and the places that used to be mono (eyebrows, fine print,
+  numbers — the same Sans with tabular figures). It is variable, so one file
+  per latin / latin-ext / cyrillic / cyrillic-ext subset covers every weight,
+  and `unicode-range` fetches a subset only when the copy uses it. Manrope has
+  no italic, so `<em>` is bold rather than a synthesised slant. Cormorant
+  Garamond, one weight and latin only, sets nothing but the word “lelia”
+  beside the sprout in the logo. `tests/fonts.test.js` holds the page to those
+  two families. The licences sit next to the files.
 - `assets/shots` — the phone captures, `.webp` next to `.jpg`, same base
   name. They are being replaced one by one with real iPhone screenshots; the
   originals were the design canvas's Android emulator screens of a seeded

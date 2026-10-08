@@ -1,24 +1,25 @@
-# Privacy Policy for Ecru
+# Privacy Policy for Lelia
 
-**Effective date:** 5 October 2026
+**Effective date:** 8 October 2026
 
 ## The short version
 
-Ecru holds nothing that identifies you. There are no accounts and no servers
+Lelia holds nothing that identifies you. There are no accounts and no servers
 keeping your things: your wardrobe, your photos and your answers live on your
 device.
 
 Three things do leave the phone, and all three are named below: the update
-check, anonymous usage statistics (which you can switch off), and — only if you
+check, anonymous usage statistics and crash reports (which you can switch off),
+and — only if you
 turn it on or plan a trip — a rounded location used to look up the weather.
 None of them carries anything from your wardrobe.
 
-The Ecru website counts anonymous visits without cookies and keeps nothing in
+The Lelia website counts anonymous visits without cookies and keeps nothing in
 your browser; **This website** below says exactly what it counts.
 
-## What Ecru stores on your device
+## What Lelia stores on your device
 
-Ecru keeps the following in a private database on your device:
+Lelia keeps the following in a private database on your device:
 
 - your answers to the colour-type questions (hair, eyes, skin tone, jewellery
   preference, veins, reaction to sun) and the colour type calculated from them.
@@ -33,13 +34,13 @@ Ecru keeps the following in a private database on your device:
 - your trips: the destination, the dates, the forecast for each day and the
   packing list with its ticks.
 
-This database lives in Ecru's own storage area on your device. It is not
-uploaded, synchronised, or shared with us or anyone else, because Ecru has no
+This database lives in Lelia's own storage area on your device. It is not
+uploaded, synchronised, or shared with us or anyone else, because Lelia has no
 server to upload it to.
 
 ## Camera, photo library and location
 
-Ecru asks for permissions, and only uses them for what you ask it to do:
+Lelia asks for permissions, and only uses them for what you ask it to do:
 
 **Camera** — to photograph an item of clothing when you add it, and, if you
 choose, to take a selfie to find your colour type. Photos are processed
@@ -50,7 +51,7 @@ selfie is not.
 yourself, and to save item photos or outfit pictures to your library when you
 choose to.
 
-Ecru does not read location data attached to your photos. It does not browse,
+Lelia does not read location data attached to your photos. It does not browse,
 index, or upload your photo library; it receives only the images you
 specifically select.
 
@@ -65,21 +66,36 @@ no server and no push token, so nothing but your device knows what to remind
 you of and when. They are silent and arrive at most once a morning — a planned
 outfit, a trip you have not started packing, or a sharp change in the weather.
 
-You can refuse or revoke any of these in your device settings. Ecru will keep
+You can refuse or revoke any of these in your device settings. Lelia will keep
 working, minus the features that need them.
+
+## Image analysis on the device
+
+On iOS 17 and later, Lelia uses Apple's Vision framework to cut a piece out of
+its background and to suggest its type — a shirt, trousers, boots. This runs
+entirely on your device: no photo and no result is sent to us, to Apple or to
+anyone else. The suggestion is only a starting point, and you can change it.
+If you remove the background, the cut-out is kept next to the original, and
+the original can be restored. Colours, scores and outfits are worked out by the
+app's own formulas, not by a model.
 
 ## Usage statistics
 
-Ecru counts how the app is used, through PostHog. The events are anonymous:
-when the app is opened and which screens are opened; when an item is added or
-removed, with its category only; whether the colour the app suggested had to be
-corrected by hand; whether the colour-type questions were finished; whether a
-suggested outfit was opened, saved, worn, planned ahead or shared (for a plan,
-only how many days ahead and whether an occasion was named, never the name);
-how trips, the weather suggestions and the
-wishlist are used — for example, how many days a trip lasts or how many outfits
-were found; whether a backup was saved or restored, with the number of items
-only; and whether notifications were turned on or off. The events themselves are numbers and short labels.
+Lelia counts how the app is used, through PostHog. The events are anonymous:
+when the app is opened and which screens are opened, including each step of the
+introduction and which way you chose to start; when adding a piece was started,
+and when an item is added or removed, with its category only; how long it took
+from the first launch to the first piece and the first outfit, in seconds;
+whether the demo wardrobe was added or removed; whether a suggested type or
+colour was kept or corrected by hand, and whether removing the background
+worked; whether the colour-type questions were finished and a score's
+explanation was opened; whether a suggested outfit was opened, saved, worn,
+planned ahead or shared (for a plan, only how many days ahead and whether an
+occasion was named, never the name); how trips, the weather suggestions, the
+wishlist and importing several photos are used — for example, how many days a
+trip lasts or how many outfits were found; whether a backup was saved or
+restored, with the number of items only; and whether notifications were turned
+on or off. The events themselves are numbers and short labels.
 
 Alongside each event, PostHog receives the standard technical details its
 library adds: a random identifier created when the app is installed and a
@@ -88,19 +104,22 @@ size, the language and region setting, and the time zone. Your connection's IP
 address reaches PostHog as with any request over the internet; the project is
 set to discard it rather than store it.
 
+**Crash reports.** If the app hits an error it did not expect, or closes
+because of one, it sends a report to the same PostHog project: the type and
+text of the error, where in the app's code it happened, and the same technical
+details as the events. Reports carry nothing from your wardrobe, and the app
+does not send what it writes to its own log.
+
 **What is never sent:** your photos or their file paths, your notes, brands or
 item names, the colours of your clothes, your name, your location and where you
 travel. PostHog is also told not to work out a country or city from your
 connection. No profile is created for you, and screen recording is switched
 off.
 
-Counting does not begin until you have been through the introduction and added
-your first item — with one exception. On the very first launch the app sends a
-single empty event that says only that it has been opened for the first time,
-so we can tell how many people leave before adding anything. It carries no
-properties and is sent once per install. You can switch counting off at any
-time in **Profile → Settings → Data and privacy → Anonymous usage
-statistics**, and that choice survives a
+Counting starts on the first launch, so we can see where people get stuck
+before their first piece and first outfit. You can switch it off at any time in
+**Profile → Settings → Data and privacy → Anonymous usage statistics**; that
+stops both the statistics and the crash reports, and the choice survives a
 profile reset.
 
 PostHog stores the events in the European Union and acts as a processor on our
@@ -125,21 +144,22 @@ All of this goes to Open-Meteo (open-meteo.com) and nowhere else, carries
 nothing from your wardrobe, and is not stored by us. Turning weather off erases
 the saved place; resetting your profile erases it together with your trips.
 
-## What Ecru does not do
+## What Lelia does not do
 
 - It does not create an account or ask for an email address.
 - It does not send anything from your wardrobe over the internet: no photos, no
   items, no colour profile.
-- It does not use crash reporting or advertising, and contains no third-party
-  tracking SDK.
+- It does not use advertising, and contains no third-party tracking SDK. Crash
+  reports go only to the same PostHog project as the statistics, and stop
+  when statistics are switched off.
 - It does not share, sell, or disclose your information to third parties.
 - It does not track you across apps or websites, and never asks for permission
   to.
 
 ## Sharing
 
-If you choose to share an outfit, Ecru hands the picture to your device's
-standard share sheet; Ecru itself uploads nothing. What happens next is governed by the privacy
+If you choose to share an outfit, Lelia hands the picture to your device's
+standard share sheet; Lelia itself uploads nothing. What happens next is governed by the privacy
 policy of whichever app or service you send it to.
 
 ## Wardrobe backups
@@ -155,8 +175,8 @@ replaces everything currently in the app.
 ## Device backups
 
 If you have device backups enabled (for example iCloud Backup), your device's
-operating system may include Ecru's data in those backups. This is handled by
-Apple, not by Ecru, and is covered by Apple's privacy policy.
+operating system may include Lelia's data in those backups. This is handled by
+Apple, not by Lelia, and is covered by Apple's privacy policy.
 
 ## Deleting your data
 
@@ -176,12 +196,12 @@ way you would delete any other photo.
 
 ## Children
 
-Ecru is not directed at children and collects nothing that identifies anyone.
+Lelia is not directed at children and collects nothing that identifies anyone.
 This holds for users of every age.
 
 ## This website
 
-Everything above describes the Ecru app. This section describes the site you
+Everything above describes the Lelia app. This section describes the site you
 are reading it on.
 
 **Visit counts, without cookies.** The site counts visits through the same
@@ -208,7 +228,7 @@ and asking will get it deleted.
 
 ## Changes to this policy
 
-If a future version of Ecru changes how it handles data, this policy will be
+If a future version of Lelia changes how it handles data, this policy will be
 updated and the effective date above will change. Material changes will be
 described in the app's release notes.
 
