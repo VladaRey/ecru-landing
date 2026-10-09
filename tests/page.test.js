@@ -63,7 +63,7 @@ test('українська сторінка зібралась і оголошу
 test('шляхи на українській сторінці піднімаються на рівень', () => {
   const uk = page('uk/index.html');
   assert.match(uk, /href="\.\.\/style\.css"/);
-  assert.match(uk, /src="\.\.\/assets\/shots\/today\.jpg\?v=[0-9a-f]{8}"/);
+  assert.match(uk, /src="\.\.\/assets\/shots\/suits\.jpg\?v=[0-9a-f]{8}"/);
   assert.doesNotMatch(uk, /src="assets\//);
 });
 
