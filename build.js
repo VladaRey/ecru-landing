@@ -77,7 +77,7 @@ const APP_ID = '6807435125';
 // «Generate a campaign link», параметр `pt=`). З ним завантаження за мітками
 // `ct`, які ставить assets/analytics.js, видно в App Store Connect окремими
 // кампаніями. Порожній — мітки однаково ставляться, але Apple їх не рахує.
-const APP_STORE_PROVIDER_TOKEN = '';
+const APP_STORE_PROVIDER_TOKEN = '129390027';
 
 // Мова → локаль для Open Graph: соцмережі розуміють лише формат ll_CC.
 const OG_LOCALES = { en: 'en_US', uk: 'uk_UA', pl: 'pl_PL', es: 'es_ES' };
