@@ -151,7 +151,8 @@ reads against this very page.
 ## The App Store link
 
 `APP_STORE` in `build.js` is the app's real listing:
-`https://apps.apple.com/ua/app/ecru-wardrobe/id6807435125`. It is one
+`https://apps.apple.com/app/id6807435125` — by id alone, with no name or
+country in it, so the Ecru → Lelia rename cannot break it. It is one
 constant, filled into both buttons on all four pages through the `{{@store}}`
 key. A test insists it point at a card with an `id…` in it, so the old
 placeholder — `apps.apple.com/app/ecru`, which led nowhere and looked fine —
