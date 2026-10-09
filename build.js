@@ -278,6 +278,24 @@ const STATIC = [
   'lelia-logo.svg', 'apple-touch-icon.png',
 ];
 
+/**
+ * Мітка версії на знімках і картках для соцмереж: `today.jpg?v=3f9a1c2e`.
+ *
+ * Імена файлів не міняються, коли міняється знімок, — а браузер, CDN GitHub
+ * Pages і месенджери тримають картинку за адресою. Новий знімок з тим самим
+ * ім'ям люди бачили старим, поки кеш не прострочиться сам. Мітка — частина
+ * хешу вмісту файла: той самий файл — та сама адреса, інший файл — нова.
+ */
+function fingerprint(html, root) {
+  const crypto = require('node:crypto');
+  return html.replace(/assets\/(shots|og)\/([\w.-]+\.(?:jpg|webp|png))(?=")/g, (match) => {
+    const file = path.join(root, match);
+    if (!fs.existsSync(file)) return match;
+    const hash = crypto.createHash('sha1').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
+    return `${match}?v=${hash}`;
+  });
+}
+
 function readStrings(root, lang) {
   const file = path.join(root, 'i18n', `${lang}.json`);
   if (!fs.existsSync(file)) throw new Error(`немає словника ${lang}: ${file}`);
@@ -316,7 +334,7 @@ function build({ root, outDir, langs = LANGS, defaultLang = DEFAULT_LANG, pages 
       // а не «/privacy.html». Так посилання не залежить від того, чи вміє
       // хостинг дописувати розширення.
       const file = path.join(dir, 'index.html');
-      fs.writeFileSync(file, render(page.html, values));
+      fs.writeFileSync(file, fingerprint(render(page.html, values), root));
       written.push(file);
     }
   }
