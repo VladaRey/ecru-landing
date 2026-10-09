@@ -222,12 +222,10 @@ without recording and without GeoIP.
   and language, as before.
 - Open Graph and Twitter tags with a preview image per language
   (`assets/og/og-<lang>.png`, 1200×630) — links pasted into Telegram,
-  Instagram or Slack show a card instead of a bare URL. For now each card is
-  the page's `hero.title` beside the Lelia sprout: the app captures on the
-  page still show the old Ecru interface, and a preview with them would show
-  an app that no longer looks like that. Once the 1.2 App Store screenshots
-  exist, re-render the cards with two of them (outfits with their reasons,
-  and a score opened into its explanation).
+  Instagram or Slack show a card instead of a bare URL. Each card is the
+  page's `hero.title` beside two 1.2 screenshots on the brand green: Home with
+  today's outfits, and a score opened into its explanation (`today` and
+  `suits` from `assets/shots`). Re-render them whenever those two shots change.
 - `apple-itunes-app` — Safari on iPhone shows the App Store smart banner.
 - JSON-LD on the home page: `MobileApplication` (iOS, free) and `FAQPage`
   built from the `faq.*` strings, so search can show the answers directly.
