@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{@lang}}">
+<html lang="{{@lang}}" data-page="{{@page}}" data-store-pt="{{@storept}}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,21 +10,24 @@
       name="description"
       content="{{privacy.meta.description}}" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f5f1e8" />
+    <meta name="theme-color" content="#f6f2ea" />
 
-    <link rel="icon" href="{{@base}}ecru-logo.svg" type="image/svg+xml" />
+    <link rel="icon" href="{{@base}}lelia-logo.svg" type="image/svg+xml" />
     <link rel="icon" href="{{@base}}apple-touch-icon.png" type="image/png" sizes="180x180" />
     <link rel="apple-touch-icon" href="{{@base}}apple-touch-icon.png" />
 
     <link rel="stylesheet" href="{{@base}}style.css" />
+
+    {{@social}}
+    {{@jsonld}}
+    {{@analytics}}
   </head>
   <body>
     <!-- ── шапка ──────────────────────────────────────────────────── -->
     <header class="nav">
       <div class="wrap nav__inner">
         <a class="nav__brand" href="{{@home}}">
-          <span class="display nav__wordmark">Ecru</span>
-          <span class="eyebrow">{{nav.tagline}}</span>
+          <span class="wordmark nav__wordmark"><svg class="sprout" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M12 46.5V15" /><path d="M12 17C7.2 16 4.6 11.4 5 6c4.6 1 7 5 7 11Z" /><path d="M12 23.5c4-1.8 7.4-4.3 8.4-9.6-4.6.1-7.8 3.4-8.4 9.6Z" /></svg><span>lelia</span></span>
         </a>
         <nav class="nav__links" aria-label="{{nav.aria}}">
           <a href="{{@home}}">{{privacy.back}}</a>
@@ -51,8 +54,9 @@
           <li>{{privacy.device.li2}}</li>
           <li>{{privacy.device.li3}}</li>
           <li>{{privacy.device.li4}}</li>
-          <li>{{privacy.device.li6}}</li>
           <li>{{privacy.device.li7}}</li>
+          <li>{{privacy.device.li8}}</li>
+          <li>{{privacy.device.li9}}</li>
           <li>{{privacy.device.li5}}</li>
         </ul>
         <p class="prose">{{privacy.device.after}}</p>
@@ -63,8 +67,12 @@
           <li>{{privacy.permissions.li2}}</li>
           <li>{{privacy.permissions.li3}}</li>
           <li>{{privacy.permissions.li4}}</li>
+          <li>{{privacy.permissions.li5}}</li>
         </ul>
         <p class="prose">{{privacy.permissions.after}}</p>
+
+        <h2 class="legal__h">{{privacy.vision.h}}</h2>
+        <p class="prose">{{privacy.vision.p}}</p>
 
         <h2 class="legal__h">{{privacy.network.h}}</h2>
         <p class="prose">{{privacy.network.p1}}</p>
@@ -82,12 +90,17 @@
         <h2 class="legal__h">{{privacy.analytics.h}}</h2>
         <p class="prose">{{privacy.analytics.p1}}</p>
         <p class="prose">{{privacy.analytics.tech}}</p>
+        <p class="prose">{{privacy.analytics.crash}}</p>
         <p class="prose">{{privacy.analytics.p2}}</p>
         <p class="prose">{{privacy.analytics.p3}}</p>
 
         <h2 class="legal__h">{{privacy.weather.h}}</h2>
         <p class="prose">{{privacy.weather.p1}}</p>
         <p class="prose">{{privacy.weather.p2}}</p>
+
+        <h2 class="legal__h">{{privacy.backup.h}}</h2>
+        <p class="prose">{{privacy.backup.p1}}</p>
+        <p class="prose">{{privacy.backup.p2}}</p>
 
         <h2 class="legal__h">{{privacy.children.h}}</h2>
         <p class="prose">{{privacy.children.p}}</p>
@@ -111,7 +124,7 @@
     <footer class="site-footer">
       <div class="wrap site-footer__inner">
         <div class="site-footer__left">
-          <span class="display site-footer__wordmark">Ecru</span>
+          <span class="wordmark site-footer__wordmark"><svg class="sprout" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M12 46.5V15" /><path d="M12 17C7.2 16 4.6 11.4 5 6c4.6 1 7 5 7 11Z" /><path d="M12 23.5c4-1.8 7.4-4.3 8.4-9.6-4.6.1-7.8 3.4-8.4 9.6Z" /></svg><span>lelia</span></span>
           <p class="site-footer__note">
             {{footer.note}}
           </p>

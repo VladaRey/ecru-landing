@@ -15,21 +15,19 @@ test('кожен @font-face вказує на файл, який справді 
   }
 });
 
-test('заголовковий стек має гарнітуру для кирилиці', () => {
-  const display = css.match(/--display:\s*([^;]+);/)[1];
-  assert.match(display, /Ecru Display Cyrillic/);
+// Одна гарнітура тексту на всю сторінку й на всі чотири мови, плюс
+// Cormorant — лише для слова-логотипа, як і в застосунку. Третя гарнітура
+// має бути свідомим рішенням.
+test('гарнітури — Manrope для тексту й Cormorant Garamond для логотипа', () => {
+  const families = new Set(Array.from(css.matchAll(/font-family:\s*'([^']+)'/g), (m) => m[1]));
+  assert.deepStrictEqual([...families].sort(), ['Cormorant Garamond', 'Manrope']);
 });
 
-test('кирилична гарнітура обмежена кириличним діапазоном', () => {
-  const face = css.match(/@font-face\s*\{[^}]*Ecru Display Cyrillic[^}]*\}/)[0];
-  assert.match(face, /U\+0400-045F/);
-  assert.match(face, /ibm-plex-serif-400-cyrillic\.woff2/);
+test('у шрифті є кирилиця — інакше українська сторінка впала б у системний шрифт', () => {
+  assert.match(css, /manrope-cyrillic\.woff2/);
 });
 
-test('Instrument Serif лишився без кирилиці — латиниця не змінилась', () => {
-  const faces = css.match(/@font-face\s*\{[^}]*Instrument Serif[^}]*\}/g);
-  assert.strictEqual(faces.length, 2);
-  for (const face of faces) {
-    assert.doesNotMatch(face, /U\+0400-045F/);
-  }
+// Курсиву в Manrope немає: браузер синтезував би похилий і розмив штрих.
+test('наголос — вагою, а не синтезованим курсивом', () => {
+  assert.match(css, /em \{\s*font-style: normal;/);
 });

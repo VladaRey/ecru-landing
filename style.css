@@ -1,7 +1,7 @@
-/* Ecru landing — plain CSS, no build step, mobile first.
-   Верстка йде за макетом Claude Design «Ecru Landing»: артборд 1440 (desktop)
-   і 390 (phone). Проміжні значення — clamp() між цими двома точками, тому
-   між 390 і 1440 сторінка тягнеться рівно так, як задумано в макеті.
+/* Lelia landing — plain CSS, no build step, mobile first.
+   Розкладка та сама, що в макеті «Ecru Landing» (артборди 1440 і 390):
+   проміжні значення — clamp() між цими двома точками. Кольори й шрифти — з
+   дизайн-системи Lelia, тих самих, що в застосунку (src/constants/theme.ts).
 
    Усе локальне: шрифти лежать у assets/fonts, з мережі не тягнеться нічого.
    Це не педантизм — сторінка обіцяє «нічого не йде на сервер», і запит до
@@ -9,171 +9,94 @@
 
 /* ── шрифти ──────────────────────────────────────────────────────────── */
 
-/* IBM Plex Sans з Google Fonts — варіативний: один файл на підмножину
-   покриває всю вагу 100–700, тому окремих файлів на 500 і 600 немає. */
+/* Manrope — варіативний: один файл на підмножину покриває вагу 200–800.
+   Текст — 500, а не 400: на 400 штрих тонкий і читається з зусиллям (той
+   самий висновок, що й у застосунку). Курсиву в Manrope немає. */
 @font-face {
-  font-family: 'IBM Plex Sans';
+  font-family: 'Manrope';
   font-style: normal;
-  font-weight: 100 700;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('assets/fonts/ibm-plex-sans-latin.woff2') format('woff2');
+  src: url('assets/fonts/manrope-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'IBM Plex Sans';
+  font-family: 'Manrope';
   font-style: normal;
-  font-weight: 100 700;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('assets/fonts/ibm-plex-sans-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* Кирилиця тут заради одного рядка в підвалі — «Українська». */
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: normal;
-  font-weight: 100 700;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-sans-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: italic;
-  font-weight: 100 700;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-sans-italic-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: italic;
-  font-weight: 100 700;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-sans-italic-latin-ext.woff2') format('woff2');
+  src: url('assets/fonts/manrope-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
     U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
-  font-family: 'IBM Plex Sans';
-  font-style: italic;
-  font-weight: 100 700;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('assets/fonts/ibm-plex-sans-italic-cyrillic.woff2') format('woff2');
+  src: url('assets/fonts/manrope-cyrillic.woff2') format('woff2');
   unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
-/* IBM Plex Mono — статичний, і лише 400: жирного моноширинного в макеті немає. */
+/* Розширена кирилиця — заради ₴. */
 @font-face {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Manrope';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url('assets/fonts/manrope-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
+/* Cormorant Garamond — лише слово «lelia» поруч із паростком. Тому одна
+   вага й одна латиниця: інших літер цим шрифтом на сторінці немає. */
 @font-face {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Cormorant Garamond';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-display: swap;
-  src: url('assets/fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-mono-400-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-
-
-
-/* Instrument Serif — тільки заголовки, тільки латиниця. */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/instrument-serif-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/instrument-serif-400-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* У Instrument Serif кирилиці немає зовсім — не підмножини бракує, а самих
-   гліфів. Без цього всі заголовки українською тихо падали б у Georgia, і
-   титульне обличчя сторінки на /uk/ було б чужим. Беремо IBM Plex Serif:
-   родина Plex уже на сторінці, тож шрифтова система лишається однією.
-   Діапазон — тільки кирилиця, тому en, pl і de не змінюються ні на піксель. */
-@font-face {
-  font-family: 'Ecru Display Cyrillic';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('assets/fonts/ibm-plex-serif-400-cyrillic.woff2') format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+  src: url('assets/fonts/cormorant-garamond-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF;
 }
 
 /* ── токени ──────────────────────────────────────────────────────────── */
 
 :root {
-  /* Ecru — небілений льон. Три тони паперу: полотно, смуга секції, смуга шапки. */
-  --paper: #f5f1e8;
-  --paper-band: #ede7d9;
-  --paper-bar: #f0ebdf;
-  --surface: #ffffff;
+  /* Lelia — льон і молода береза. Три тони паперу: полотно, смуга секції,
+     смуга шапки. */
+  --paper: #f6f2ea;
+  --paper-band: #eee8dc;
+  --paper-bar: #f2ede3;
+  --surface: #fffdf8;
 
-  --ink: #14110e;
-  --prose: #4a4239;
-  --muted: #6e6355;
-  --muted-bar: #6b6257;
+  --ink: #2b2724;
+  --prose: #4f4842;
+  --muted: #6f6760;
+  --muted-bar: #6f6760;
 
-  --rule: #e4dccb;
-  --rule-card: #e0d7c5;
-  --rule-shot: #ded6c6;
-  --rule-faq: #dfd5c1;
+  --rule: #e4ddd0;
+  --rule-card: #e0d8ca;
+  --rule-shot: #ddd5c7;
+  --rule-faq: #ddd4c4;
 
-  /* Палена глина — єдиний акцент. 4.6:1 на паперовому тлі і 5.2:1 білим
-     по акценту, тобто AA і для тексту посилань, і для напису на кнопці. */
-  --accent: #c2410c;
-  --accent-hover: #8f2f09;
+  /* Молода береза — єдиний акцент. На заливці: 4.8:1 з білим написом.
+     Як колір тексту на папері береза дає лише 4.3:1, тому посилання й
+     акцентні підписи — темнішим `--accent-ink` (7.7:1). */
+  --accent: #5e7a3e;
+  --accent-ink: #3f5229;
+  --accent-hover: #2f3e1e;
+  --accent-soft: #c9d6a8;
 
-  /* Темна секція — маніфест і картка «що каже Ecru». */
-  --on-dark: #f5f1e8;
-  --on-dark-prose: #c6bcac;
-  --on-dark-muted: #9a8f7e;
+  /* Темна секція — маніфест і картка «що каже Lelia». */
+  --on-dark: #f6f2ea;
+  --on-dark-prose: #c9c0b4;
+  --on-dark-muted: #a39a8f;
 
   /* Вердикти примірочної. Кожен перевірений на білому: 5.0, 5.4 і 6.6:1. */
   --yes: #2e7d4f;
@@ -183,9 +106,13 @@
   --no: #a33a2e;
   --no-rule: #e8d2ce;
 
-  --display: 'Instrument Serif', 'Ecru Display Cyrillic', 'Iowan Old Style', Georgia, serif;
-  --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Одна гарнітура тексту на всю сторінку й усі мови. Cormorant — тільки
+     для слова-логотипа (`--brand`), як і в застосунку. Колишні «моно»
+     місця — той самий Manrope з табличними цифрами. */
+  --sans: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --display: var(--sans);
+  --mono: var(--sans);
+  --brand: 'Cormorant Garamond', Georgia, serif;
 
   /* Вертикаль секції та горизонтальні поля — між 390 і 1440 тягнуться лінійно. */
   --section-y: clamp(3.25rem, 1.7179rem + 6.2857vw, 7.375rem);
@@ -213,6 +140,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: 16px;
+  font-weight: 500;
   line-height: 1.625;
   -webkit-font-smoothing: antialiased;
 }
@@ -237,13 +165,20 @@ picture > source { display: none; }
    балансування зсуває їх на інші рядки, ніж намальовано. */
 h1, h2, h3 {
   margin: 0;
-  font-weight: 400;
+  font-weight: 700;
+}
+
+/* Курсиву в Manrope немає, а синтезований похилий розмиває штрих. Наголос
+   — вагою. */
+em {
+  font-style: normal;
+  font-weight: 700;
 }
 
 p { margin: 0; }
 
 a {
-  color: var(--accent);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 
@@ -288,16 +223,17 @@ a:hover { color: var(--accent-hover); }
 .eyebrow {
   font-family: var(--mono);
   font-size: clamp(0.6875rem, 0.6503rem + 0.0952vw, 0.75rem);
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .display {
   font-family: var(--display);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
 }
 
 .h-section {
@@ -308,16 +244,6 @@ a:hover { color: var(--accent-hover); }
 .h-wide {
   font-size: clamp(2.125rem, 1.5679rem + 2.2857vw, 3.625rem);
   margin-top: 0.75rem;
-}
-
-/* Plex Serif має довші виносні елементи й більший x-height за Instrument
-   Serif, тож на line-height 1.06 українські рядки сходяться: хвіст «р»
-   впирається у наступний рядок, а крапки «ї» — у «д» над ними. Правка
-   тільки для української — латинські сторінки лишаються такими, як у
-   канвасі. Трекінг не чіпаємо: letter-spacing: 0 розводить рядки ще на
-   один і лишає «неї.» саме, а тіснота була вертикальна, не горизонтальна. */
-:lang(uk) .display {
-  line-height: 1.1;
 }
 
 .lede {
@@ -370,8 +296,33 @@ a:hover { color: var(--accent-hover); }
 
 .nav__brand:hover { color: var(--ink); }
 
+/* Логотип — паросток і слово, як на заставці застосунку. Паросток —
+   лінією, кольором акценту; слово — Cormorant, рядковими. */
+.wordmark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.2em;
+  font-family: var(--brand);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}
+
+.wordmark .sprout {
+  width: 0.55em;
+  height: 1.1em;
+  /* Низ стебла — на рівні низу літер, а не базової лінії. */
+  margin-bottom: -0.04em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .nav__wordmark {
-  font-size: clamp(1.4375rem, 1.3446rem + 0.381vw, 1.6875rem);
+  font-size: clamp(1.75rem, 1.6rem + 0.5vw, 2.125rem);
 }
 
 .nav__links {
@@ -386,10 +337,10 @@ a:hover { color: var(--accent-hover); }
   font-size: 0.9375rem;
 }
 
-.nav__links a:hover { color: var(--accent); }
+.nav__links a:hover { color: var(--accent-ink); }
 
 /* Перемикача мов немає в жодному артборді канваса — це третій свідомий
-   відступ від макета. Тримаємо його максимально тихим: моно, дрібно, тим
+   відступ від макета. Тримаємо його максимально тихим: дрібно, тим
    самим кольором, що й посилання навігації. */
 .langs {
   position: relative;
@@ -422,7 +373,7 @@ a:hover { color: var(--accent-hover); }
 
 .langs[open] > summary::after { transform: rotate(-135deg); }
 
-.langs > summary:hover { color: var(--accent); }
+.langs > summary:hover { color: var(--accent-ink); }
 
 /* Абсолютно, щоб відкритий список не розсовував шапку і підвал. */
 .langs > ul {
@@ -446,7 +397,7 @@ a:hover { color: var(--accent-hover); }
   font-size: inherit;
 }
 
-.langs > ul a:hover { color: var(--accent); }
+.langs > ul a:hover { color: var(--accent-ink); }
 
 /* У шапці список падає вниз від правого краю, у підвалі — вгору: під
    підвалом місця немає, і випадне меню поїхало б за край сторінки. */
@@ -511,11 +462,10 @@ a:hover { color: var(--accent-hover); }
   text-decoration: none;
 }
 
-/* Чорна кнопка — єдина темна пляма на паперовому тлі, тож наведення не
-   світлішає, а трохи відпускає: акцент на ній читався б гірше за паперовий
-   білий, а глиняний по чорному не проходить AA. */
+/* Чорна кнопка — як бейдж Apple: правила App Store просять саме чорний або
+   білий. Наведення трохи світлішає, колір напису той самий. */
 .appstore:hover {
-  background: #2c2620;
+  background: #3a3531;
   color: var(--paper);
 }
 
@@ -653,15 +603,18 @@ a:hover { color: var(--accent-hover); }
 
 /* ── 3 · знати, що маєш ──────────────────────────────────────────────── */
 
-/* Перший h3 у цій секції — підблок про виправлення кольору. Розміри ті
-   самі, що в .faq h3: обидва підписують абзац усередині довшого тексту. */
-.own h3 {
+/* h3 у цій секції — підблок про виправлення кольору. Розміри ті
+   самі, що в .faq h3: обидва підписують абзац усередині довшого тексту.
+   Календар нижче підписує так само свої «наперед» і «що носите». */
+.own h3,
+.calendar__text h3 {
   margin-top: 1.75rem;
   font-size: clamp(1rem, 0.9628rem + 0.1905vw, 1.1875rem);
   font-weight: 600;
 }
 
-.own h3 + .prose { margin-top: 0.5rem; }
+.own h3 + .prose,
+.calendar__text h3 + .prose { margin-top: 0.5rem; }
 
 .own__shots {
   display: grid;
@@ -693,64 +646,102 @@ a:hover { color: var(--accent-hover); }
   margin-top: 2rem;
 }
 
+/* «Що зазвичай показують» — навмисно бідніша картка: пунктир, без тла,
+   приглушена цифра. Вона показує число без пояснення, і має виглядати
+   порожнім місцем поруч із карткою, де пояснення є. */
 .score-card {
-  border: 1px solid var(--rule-card);
-  border-radius: 18px;
-  padding: 1.25rem 1.25rem;
+  border: 1.5px dashed #c9bfae;
+  border-radius: 16px;
+  padding: 1.125rem 1.25rem;
 }
 
 .score-card__row {
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  margin-top: 0.75rem;
+  margin-top: 0.625rem;
 }
 
-/* Раніше тут був сірий #8a8073 — 3.9:1 на білому, тобто нижче за 4.5, і
-   через це число мусило лишатися великим. Чорнилом по смузі це 12:1, тож
-   обмеження на розмір більше нічим не тримається. */
 .score-card__number {
   font-family: var(--mono);
-  font-size: clamp(2.125rem, 1.9018rem + 0.5714vw, 2.875rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: clamp(2rem, 1.7768rem + 0.5714vw, 2.625rem);
   line-height: 1;
-  color: var(--ink);
+  color: var(--muted);
   letter-spacing: -0.02em;
 }
 
 .score-card__note {
   font-size: clamp(0.875rem, 0.8378rem + 0.0952vw, 1rem);
   line-height: 1.5;
-  color: var(--ink);
+  color: var(--muted);
 }
 
+/* «Що каже Lelia» — головна картка блоку: тло `surface`, зелена смуга
+   згори, кожна причина окремим рядком із позначкою. */
 .reason-card {
   background: var(--surface);
   border: 1px solid var(--rule-card);
-  border-radius: 18px;
+  border-top: 4px solid var(--accent);
+  border-radius: 16px;
   padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(43, 39, 36, 0.04), 0 8px 24px -12px rgba(43, 39, 36, 0.12);
 }
+
+.reason-card .eyebrow { color: var(--accent-ink); }
 
 .reason-card ul {
   list-style: none;
-  margin: 0.75rem 0 0;
+  margin: 0.5rem 0 0;
   padding: 0;
-  display: grid;
-  gap: 0.6875rem;
 }
 
-.reason-card li {
-  font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.125rem);
+.reason {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.875rem 0;
+  font-size: clamp(0.9375rem, 0.9003rem + 0.1905vw, 1.0625rem);
   line-height: 1.5;
   color: var(--ink);
 }
 
-@media (min-width: 48rem) {
-  .score-card { padding: 1.875rem 2rem; }
-  .score-card__row { gap: 1.25rem; margin-top: 1.125rem; }
-  .reason-card { padding: 1.875rem 2rem; }
-  .reason-card .eyebrow { color: var(--on-dark-muted); }
+.reason + .reason { border-top: 1px solid var(--rule); }
+.reason:last-child { padding-bottom: 0; }
 
-.reason-card ul { gap: 0.8125rem; margin-top: 1.125rem; }
+/* Позначка — коло з галочкою чи мінусом, тим самим штрихом, що й паросток.
+   Мінус — теплим «на свій розсуд» із палітри вердиктів, а не червоним:
+   це штраф за одну вісь, а не помилка. */
+.reason__mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0.3125rem;
+  border-radius: 999px;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Перший рядок тексту вищий за коло: центр кола — на його середині. */
+  margin-top: 0.0625rem;
+}
+
+.reason--plus .reason__mark {
+  background: var(--accent-soft);
+  stroke: var(--accent-ink);
+}
+
+.reason--minus .reason__mark {
+  background: #f1e6cf;
+  stroke: var(--maybe);
+}
+
+@media (min-width: 48rem) {
+  .score-card { padding: 1.5rem 2rem; }
+  .score-card__row { gap: 1.25rem; margin-top: 0.875rem; }
+  .reason-card { padding: 1.75rem 2rem 1.875rem; }
+  .reason { padding: 1rem 0; gap: 1rem; }
 }
 
 @media (min-width: 64rem) {
@@ -852,8 +843,10 @@ a:hover { color: var(--accent-hover); }
 
 .points__n {
   font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
   font-size: 0.8125rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   padding-top: 0.3125rem;
   flex: none;
 }
@@ -969,6 +962,13 @@ a:hover { color: var(--accent-hover); }
   margin-top: 0.625rem;
 }
 
+/* Маніфест — одна колонка: що рахує застосунок і що з даними. Ширина — як
+   у абзаців лендінгу, щоб рядок не тягнувся на весь темний блок. */
+.manifesto__body {
+  margin-top: 2rem;
+  max-width: 46rem;
+}
+
 .manifesto__coda {
   font-family: var(--mono);
   font-size: 0.875rem;
@@ -984,6 +984,7 @@ a:hover { color: var(--accent-hover); }
     margin-top: 3.5rem;
   }
 
+  .manifesto__body { margin-top: 3rem; }
   .manifesto p { margin-top: 1rem; }
   .manifesto__coda { margin-top: 3.5rem; }
 }
@@ -1164,10 +1165,10 @@ a:hover { color: var(--accent-hover); }
 }
 
 .site-footer__wordmark {
-  font-size: 1.3125rem;
+  font-size: 1.75rem;
 }
 
-/* Рядок про назву тримається, поки назва Ecru не перевірена на знак. */
+/* Рядок про назву тримається, поки назва Lelia не перевірена на знак. */
 .site-footer__note {
   max-width: 34rem;
   font-size: 0.8125rem;
@@ -1204,7 +1205,7 @@ a:hover { color: var(--accent-hover); }
   .site-footer__fine { justify-content: flex-start; }
   .site-footer__right { justify-content: flex-end; }
 
-  .site-footer__wordmark { font-size: 1.5rem; }
+  .site-footer__wordmark { font-size: 2rem; }
   .site-footer__note { font-size: 0.875rem; }
 }
 
@@ -1253,15 +1254,14 @@ a:hover { color: var(--accent-hover); }
 }
 
 .legal a {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .legal a:hover {
   color: var(--accent-hover);
 }
 
-/* Пошта — моно й на власному рядку: адресу переписують очима, і в
-   пропорційному наборі крапка з дефісом у ній зливаються. */
+/* Пошта — на власному рядку: адресу переписують очима. */
 .legal__mail {
   font-family: var(--mono);
   margin-top: 1rem;

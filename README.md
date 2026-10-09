@@ -1,11 +1,12 @@
 # ecru-landing
 
-The landing page for Ecru, an offline personal wardrobe app.
+The landing page for Lelia (formerly Ecru), an offline personal wardrobe app.
 
 Plain HTML and CSS, one page per language. `node build.js` renders
 `src/index.html` against each `i18n/<lang>.json` into `dist/` — no
 dependencies, nothing to install. Pushing to `main` builds and deploys to
-https://vladarey.github.io/ecru-landing/
+https://lelia.app/ (GitHub Pages with a custom domain, set in Settings → Pages;
+the old https://vladarey.github.io/ecru-landing/ redirects there).
 
 ## Running it
 
@@ -105,10 +106,10 @@ A few things deliberately differ from the canvas:
 - **Screenshots in section 08.** Not on any artboard — the section is pure
   prose in the canvas.
 - **The name disclaimer in the footer.** Not in the canvas, kept from the
-  previous page. It stays until the name Ecru is cleared for trademark.
+  previous page. It stays until the name Lelia is cleared for trademark.
 - **The language switcher.** On no artboard at all — the canvas was drawn
   before the page had a second language. It is kept as quiet as possible:
-  mono, small, the same colour as the nav links. It sits in the header above
+  small, the same colour as the nav links. It sits in the header above
   64rem and in the footer at every width, because below 64rem the header hides
   its links and the footer is the only place a phone can reach it.
 
@@ -120,7 +121,7 @@ all four languages like everything else (`/privacy/`, `/uk/privacy/`, …), from
 `src/privacy.html` and the `privacy.*` keys.
 
 The contact address is `CONTACT_EMAIL` in `build.js` —
-`ecru.app.support@gmail.com`, a mailbox for the app rather than a personal one,
+`lelia.app.support@gmail.com`, a mailbox for the app rather than a personal one,
 because an address on a public page gets harvested. It sits in `build.js` next
 to `APP_STORE` for the same reason: an address is not a translatable string,
 and four copies of it would drift apart at the first edit. A test holds it to
@@ -128,16 +129,20 @@ a real address, so a placeholder cannot reach the page the way it could reach
 this file.
 
 What the page says has to keep matching what the app does, and as of app
-version 1.1 that is three places where something leaves the device: the update
+version 1.2 that is three places where something leaves the device: the update
 check against `u.expo.dev`, anonymous usage statistics through PostHog, and —
 only when the person turns weather on — a location rounded to about 11 km, sent
 to Open-Meteo. All three are named in the policy, and tests hold every mention
 in place.
 
-The site itself still counts nothing, and that is a separate promise: it had a
-PostHog page counter once, and the test that keeps the pages script-free is
-what stops it coming back. Do not read the app's analytics section as
-permission to add one here.
+App 1.2 adds no fourth. Its notifications are local — scheduled by the phone,
+with no server and no push token — and its wardrobe backup is a file the
+person hands to the iOS share sheet themselves, like a shared outfit picture.
+The policy names both anyway (**Permissions** and **Backups**), together with
+the new on-device data: the wishlist and planned outfits.
+
+The site itself counts visits too, without cookies — see **Analytics** below;
+the policy's **This website** section says the same, in all four languages.
 
 Change what the app sends and this text is wrong before it is out of date —
 along with the App Privacy declaration in App Store Connect, which the reviewer
@@ -146,7 +151,8 @@ reads against this very page.
 ## The App Store link
 
 `APP_STORE` in `build.js` is the app's real listing:
-`https://apps.apple.com/ua/app/ecru-wardrobe/id6807435125`. It is one
+`https://apps.apple.com/app/id6807435125` — by id alone, with no name or
+country in it, so the Ecru → Lelia rename cannot break it. It is one
 constant, filled into both buttons on all four pages through the `{{@store}}`
 key. A test insists it point at a card with an `id…` in it, so the old
 placeholder — `apps.apple.com/app/ecru`, which led nowhere and looked fine —
@@ -171,50 +177,79 @@ now nothing is recorded about the buttons either. They used to carry
 clicked; that attribute went out with the analytics, since nothing else read
 it.
 
-## No analytics
+## Analytics
 
-The page counts nothing. There is no `analytics.js`, no script tag on either
-template, and `node --test` holds the pages script-free: a test walks every
-built page and fails on a `<script` or on the word `posthog`. Bringing a
-counter back is therefore a deliberate act, not a quiet one — that test has to
-be rewritten first.
+The site counts visits in the same PostHog project as the app (EU region), so
+"landing → App Store → first launch" sits in one place. Two files, both served
+from this site: `assets/vendor/posthog.js` (posthog-js `array.no-external`,
+vendored so the page fetches no code from anyone else's domain; MIT licence
+beside it) and `assets/analytics.js`, which initialises it and wires the events.
+The build adds both with `defer` to every page, library first.
 
-This is not a stance about measurement in general; the app is where it will
-happen instead. PostHog *was* here, wired carefully, and the reasoning behind
-each setting — the EU region, the project key, `persistence: 'memory'`,
-`person_profiles: 'identified_only'`, the `store_click` event and its
-`sendBeacon` transport — is written down in
-[`docs/posthog-config.md`](docs/posthog-config.md) rather than thrown away,
-because the same decisions come up again in the mobile app. That file also
-says which of them should *not* travel: `memory` persistence existed to keep a
-promise about cookies that an app does not make.
+What it records:
 
-The practical effect here: every asset the page loads is local, and the
-network panel on a cold load shows fonts, CSS and images and nothing else.
+| event | when | properties |
+| --- | --- | --- |
+| `$pageview`, `$pageleave` | automatically | `$referrer`, `utm_*` from the URL, plus `site`, `lang`, `page` on every event |
+| `$autocapture` | any click | element selector |
+| `store_click` | an App Store button | `place` (`hero` / `finale`), `campaign` (the `ct` tag) |
+| `section_viewed` | a section is 40 % on screen, once per load | `section` (`data-section`), `order` |
+| `language_switched` | a link in the language menu | `to` |
+
+What it does not: `persistence: 'memory'` keeps nothing in the browser — no
+cookies, no localStorage — so the footer's "no tracking cookies" stays true and
+no consent banner is needed; the cost is that every page load is a new
+anonymous visitor. `$geoip_disable` keeps PostHog from working out a city or
+country, session recording is off, and a browser that sends Do Not Track is not
+counted at all. `docs/posthog-config.md` has the reasoning behind each option.
+
+**App Store campaigns.** Independently of PostHog, `analytics.js` adds a `ct`
+campaign tag to both App Store links — `<source>-<lang>-<place>`, where source
+is `utm_campaign`, `utm_source` or `ref` from the URL, else the referring
+domain, else `direct`. Fill `APP_STORE_PROVIDER_TOKEN` in `build.js` with the
+`pt` value from App Store Connect (App Analytics → Sources → Campaigns) and
+downloads per tag show up there. Share the page with `?utm_source=instagram`
+(or `telegram`, `reddit`, …) and each channel becomes its own row in both
+PostHog and App Store Connect.
+
+Tests keep it honest: only these two local scripts and the JSON-LD blocks may
+appear on a page, no `src="http…"`, and the init must stay EU, memory-only,
+without recording and without GeoIP.
+
+## SEO
+
+- `<title>`, description, canonical and `hreflang` (with `x-default`) per page
+  and language, as before.
+- Open Graph and Twitter tags with a preview image per language
+  (`assets/og/og-<lang>.png`, 1200×630) — links pasted into Telegram,
+  Instagram or Slack show a card instead of a bare URL. For now each card is
+  the page's `hero.title` beside the Lelia sprout: the app captures on the
+  page still show the old Ecru interface, and a preview with them would show
+  an app that no longer looks like that. Once the 1.2 App Store screenshots
+  exist, re-render the cards with two of them (outfits with their reasons,
+  and a score opened into its explanation).
+- `apple-itunes-app` — Safari on iPhone shows the App Store smart banner.
+- JSON-LD on the home page: `MobileApplication` (iOS, free) and `FAQPage`
+  built from the `faq.*` strings, so search can show the answers directly.
+- `sitemap.xml` (all eight pages with their language alternates) and
+  `robots.txt` pointing at it, both written by the build.
 
 ## Assets
 
-Every asset is local — no CDN, no Google Fonts. That is not tidiness: the page
-promises the app talks to no server, and a call out to `fonts.gstatic.com` on
-first paint would undercut the promise on the first screen. With the analytics
-gone there is no exception left: the page fetches nothing off anyone else's
-domain.
+Every asset is local — no CDN, no Google Fonts, and the analytics library is
+vendored too. The only request that leaves for another domain is the
+analytics data itself, to `eu.i.posthog.com`.
 
-- `assets/fonts` — Instrument Serif (headings), IBM Plex Sans (body), IBM Plex
-  Mono (eyebrows and fine print), sliced into the same latin / latin-ext /
-  cyrillic subsets Google Fonts serves. `unicode-range` means a subset is only
-  fetched if the page actually uses it, so latin-ext and cyrillic cost nothing
-  until the copy needs them. IBM Plex Sans is variable — one file per subset
-  covers every weight. Licences sit next to the files.
-- `assets/fonts/ibm-plex-serif-400-cyrillic.woff2` — the one exception to
-  "headings are Instrument Serif". Instrument Serif has no Cyrillic at all —
-  not a missing subset, missing glyphs — so every heading on `/uk/` would
-  quietly fall through to Georgia. IBM Plex Serif carries the Cyrillic
-  headings instead, declared as `Ecru Display Cyrillic` and restricted by
-  `unicode-range` to Cyrillic only, which is why the English, Polish and
-  German pages do not shift by a pixel. Plex is already on the page, so the
-  type system stays one family. Its OFL is the same licence file as Sans and
-  Mono.
+- `assets/fonts` — the Lelia design system's two typefaces, the same as in
+  the app. Manrope for every word on the page: body at 500 (400 reads thin),
+  headings at 700, and the places that used to be mono (eyebrows, fine print,
+  numbers — the same Sans with tabular figures). It is variable, so one file
+  per latin / latin-ext / cyrillic / cyrillic-ext subset covers every weight,
+  and `unicode-range` fetches a subset only when the copy uses it. Manrope has
+  no italic, so `<em>` is bold rather than a synthesised slant. Cormorant
+  Garamond, one weight and latin only, sets nothing but the word “lelia”
+  beside the sprout in the logo. `tests/fonts.test.js` holds the page to those
+  two families. The licences sit next to the files.
 - `assets/shots` — the phone captures, `.webp` next to `.jpg`, same base
   name. They are being replaced one by one with real iPhone screenshots; the
   originals were the design canvas's Android emulator screens of a seeded
@@ -222,23 +257,31 @@ domain.
 
   | file | screen | where | source |
   | --- | --- | --- | --- |
-  | `grid` | wardrobe grid | hero | **iPhone** |
-  | `dropper` | colour & details, picked by hand | 01 | **iPhone** |
-  | `suits` | a score opened into its reasoning | 02 | **iPhone** |
-  | `outfits` | suggestions, scored | 03 | **iPhone** |
-  | `builder` | outfit builder | 03 | **iPhone** |
-  | `calendar` | month + that day's pieces | 04 | **iPhone** |
-  | `colortype` | Cool Summer result | 05 | **iPhone** |
-  | `fitcolor` | fitting room, no colour to read | 06 | **iPhone** |
-  | `verdict` | fitting-room verdict | 06 | **iPhone** |
-  | `shoot` | how to shoot | 08 | **iPhone** |
-  | `card` | item card, formality/weather/fabric | 08 | **iPhone** |
+  | `today` | Home tab: weather, occasion chips, an outfit card | hero | **to retake for 1.2** — still the old wardrobe grid |
+  | `dropper` | colour screen, picked by hand | 06 | **to retake for 1.2** |
+  | `suits` | a score opened into its reasoning | 02 | **to retake for 1.2** |
+  | `outfits` | Outfits tab: Suggestions · Saved · Collections | 01 | **to retake for 1.2** |
+  | `builder` | outfit builder | 01 | **to retake for 1.2** |
+  | `plan` | plan sheet: month, occasion chips | 03 | **to retake for 1.2** — still the old calendar |
+  | `trip` | suitcase picture filling up, weather per day, list by category | 04 | **to take for 1.2** — a copy of the old calendar until then |
+  | `colortype` | colour type result | 07 | **to retake for 1.2** |
+  | `fitcolor` | fitting room, colour read and confirmed | 05 | **to retake for 1.2** |
+  | `verdict` | fitting-room verdict with “Wishlist” | 05 | **to retake for 1.2** |
+  | `shoot` | “How to take the photo” dialog | 09 | **to retake for 1.2** |
+  | `card` | item page with the “When worn” card | 09 | **to retake for 1.2** |
   | `item` | item card with pair reasons | — | Android, unused |
   | `pairs` | item card with pair reasons | — | Android, unused |
   | `wardrobe` | wardrobe grid | — | Android, unused |
 
-  **Every capture on the page is now a real iPhone screenshot.** The three
-  marked unused are superseded Android ones — `grid` replaced `wardrobe`,
+  **App 1.2 redesigned every screen**, so every capture on the page is due
+  for a retake, and the alt texts already describe the new screens. `today`
+  and `plan` are renamed placeholders (the old `grid` and `calendar`) until
+  their captures land, and `trip` is a copy of the same placeholder — do not ship
+  this branch before all three are real. The list of
+  what to capture, with the app state for each, is in the app repo's
+  `docs/app-store-release.md`, section 8.
+
+  The three marked unused are superseded Android ones — `grid` replaced `wardrobe`,
   `suits` replaced `pairs` and then `item` — and are kept only because an
   unreferenced file costs a visitor nothing; delete them when you are sure.
 
@@ -270,5 +313,6 @@ Section 08 was a wall of text with no screenshot at all and now carries two.
   drawing itself is 558 bytes. Stripping the metadata would make the favicon
   fifteen times smaller, at the cost of the content credential.
 
-Asset paths are relative because the site is served from `/ecru-landing/`, not
-from a domain root.
+Asset paths are relative: the site used to be served from `/ecru-landing/`
+rather than a domain root, and relative paths keep it working both at
+lelia.app and at the old address.

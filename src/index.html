@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{@lang}}">
+<html lang="{{@lang}}" data-page="{{@page}}" data-store-pt="{{@storept}}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,26 +10,29 @@
       name="description"
       content="{{meta.description}}" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f5f1e8" />
+    <meta name="theme-color" content="#f6f2ea" />
 
     <!-- SVG для сучасних браузерів, PNG для Safari до 16.4 і для iOS:
          home screen узагалі не читає SVG. Один файл на дві ролі — той
          самий, який iOS шукає за іменем, навіть без тега. Кути в PNG
          прямі: iOS накладає власну маску, і закруглення поверх
          закруглення зрізало б помаранчеві кути в прозорість. -->
-    <link rel="icon" href="{{@base}}ecru-logo.svg" type="image/svg+xml" />
+    <link rel="icon" href="{{@base}}lelia-logo.svg" type="image/svg+xml" />
     <link rel="icon" href="{{@base}}apple-touch-icon.png" type="image/png" sizes="180x180" />
     <link rel="apple-touch-icon" href="{{@base}}apple-touch-icon.png" />
 
     <link rel="stylesheet" href="{{@base}}style.css" />
+
+    {{@social}}
+    {{@jsonld}}
+    {{@analytics}}
   </head>
   <body>
     <!-- ── шапка ──────────────────────────────────────────────────── -->
     <header class="nav">
       <div class="wrap nav__inner">
         <a class="nav__brand" href="#top">
-          <span class="display nav__wordmark">Ecru</span>
-          <span class="eyebrow">{{nav.tagline}}</span>
+          <span class="wordmark nav__wordmark"><svg class="sprout" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M12 46.5V15" /><path d="M12 17C7.2 16 4.6 11.4 5 6c4.6 1 7 5 7 11Z" /><path d="M12 23.5c4-1.8 7.4-4.3 8.4-9.6-4.6.1-7.8 3.4-8.4 9.6Z" /></svg><span>lelia</span></span>
         </a>
         <nav class="nav__links" aria-label="{{nav.aria}}">
           <a href="#how">{{nav.how}}</a>
@@ -41,7 +44,7 @@
     </header>
 
     <!-- ── 1 · герой ──────────────────────────────────────────────── -->
-    <section class="section" id="top">
+    <section class="section" id="top" data-section="hero" data-order="1">
       <div class="wrap hero__inner">
         <div>
           <h1 class="display hero__title">
@@ -52,7 +55,7 @@
           </p>
 
           <div class="get get--bare">
-            <a class="appstore" href="{{@store}}">
+            <a class="appstore" href="{{@store}}" data-place="hero">
               <svg class="appstore__logo" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
                 <path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.922-.987 1.83 0 2.36.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.208-1.23-3.234-4.883-.026-3.055 2.497-4.52 2.611-4.588-1.429-2.104-3.649-2.34-4.404-2.379-2-.156-3.661 1.09-4.585 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.346.104 2.719-.688 3.56-1.701" />
               </svg>
@@ -65,10 +68,10 @@
         </div>
 
         <picture>
-          <source srcset="{{@base}}assets/shots/grid.webp" type="image/webp" />
+          <source srcset="{{@base}}assets/shots/today.webp" type="image/webp" />
           <img
             class="shot shot--lift hero__shot"
-            src="{{@base}}assets/shots/grid.jpg"
+            src="{{@base}}assets/shots/today.jpg"
             width="540" height="1169"
             loading="eager" fetchpriority="high" decoding="async"
             alt="{{hero.alt}}" />
@@ -77,7 +80,7 @@
     </section>
 
     <!-- ── 2 · смуга довіри ───────────────────────────────────────── -->
-    <section class="trust" aria-label="{{trust.aria}}">
+    <section class="trust" aria-label="{{trust.aria}}" data-section="trust" data-order="2">
       <dl class="wrap trust__inner">
         <div>
           <dt>{{trust.upload.dt}}</dt>
@@ -98,37 +101,54 @@
       </dl>
     </section>
 
-    <!-- ── 3 · знати, що маєш ─────────────────────────────────────── -->
-    <section class="section" id="how">
-      <div class="wrap own">
-        <div>
-          <p class="eyebrow">{{own.eyebrow}}</p>
-          <h2 class="display h-section">{{own.h}}</h2>
+    <!-- ── 3 · сьогодні: що вдягнути ────────────────────────────── -->
+    <section class="section" id="how" data-section="today" data-order="3">
+      <div class="wrap">
+        <div style="max-width: 43.75rem">
+          <p class="eyebrow">{{today.eyebrow}}</p>
+          <h2 class="display h-section">{{today.h}}</h2>
           <p class="lede" style="margin-top: 1rem">
-            {{own.lede}}
-          </p>
-          <h3>{{own.fix.h}}</h3>
-          <p class="prose">
-            {{own.fix.p}}
+            {{today.lede}}
           </p>
         </div>
 
-        <div class="own__shots">
-          <picture>
-            <source srcset="{{@base}}assets/shots/dropper.webp" type="image/webp" />
-            <img
-              class="shot"
-              src="{{@base}}assets/shots/dropper.jpg"
-              width="540" height="1169"
-              loading="lazy" decoding="async"
-              alt="{{own.alt}}" />
-          </picture>
+        <div class="ask">
+          <div>
+            <picture>
+              <source srcset="{{@base}}assets/shots/outfits.webp" type="image/webp" />
+              <img
+                class="shot"
+                src="{{@base}}assets/shots/outfits.jpg"
+                width="540" height="1169"
+                loading="lazy" decoding="async"
+                alt="{{outfits.alt}}" />
+            </picture>
+            <h3>{{today.picks.h}}</h3>
+            <p class="prose">
+              {{today.picks.p}}
+            </p>
+          </div>
+          <div>
+            <picture>
+              <source srcset="{{@base}}assets/shots/builder.webp" type="image/webp" />
+              <img
+                class="shot"
+                src="{{@base}}assets/shots/builder.jpg"
+                width="540" height="1169"
+                loading="lazy" decoding="async"
+                alt="{{builder.alt}}" />
+            </picture>
+            <h3>{{today.build.h}}</h3>
+            <p class="prose">
+              {{today.build.p}}
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ── 4 · число проти причини ────────────────────────────────── -->
-    <section class="section band">
+    <section class="section band" data-section="wedge" data-order="4">
       <div class="wrap">
         <div style="max-width: 47.5rem">
           <p class="eyebrow">{{wedge.eyebrow}}</p>
@@ -151,11 +171,14 @@
 
             <div class="reason-card">
               <p class="eyebrow">{{wedge.reason.eyebrow}}</p>
+              <!-- Перша причина працює на оцінку, три інші — штрафи за однією
+                   з трьох осей. Позначка повторює це кольором: галочка
+                   берези й теплий мінус. -->
               <ul>
-                <li>{{quote.reason1}}</li>
-                <li>{{quote.reason2}}</li>
-                <li>{{quote.reason3}}</li>
-                <li>{{quote.reason4}}</li>
+                <li class="reason reason--plus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7.5 12.4l3 3 6-6.3" /></svg><span>{{quote.reason1}}</span></li>
+                <li class="reason reason--minus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 12h8" /></svg><span>{{quote.reason2}}</span></li>
+                <li class="reason reason--minus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 12h8" /></svg><span>{{quote.reason3}}</span></li>
+                <li class="reason reason--minus"><svg class="reason__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 12h8" /></svg><span>{{quote.reason4}}</span></li>
               </ul>
             </div>
 
@@ -177,51 +200,8 @@
       </div>
     </section>
 
-    <!-- ── 5 · попросити або зібрати ──────────────────────────────── -->
-    <section class="section">
-      <div class="wrap">
-        <div style="max-width: 43.75rem">
-          <p class="eyebrow">{{ask.eyebrow}}</p>
-          <h2 class="display h-section">{{ask.h}}</h2>
-        </div>
-
-        <div class="ask">
-          <div>
-            <picture>
-              <source srcset="{{@base}}assets/shots/outfits.webp" type="image/webp" />
-              <img
-                class="shot"
-                src="{{@base}}assets/shots/outfits.jpg"
-                width="540" height="1169"
-                loading="lazy" decoding="async"
-                alt="{{outfits.alt}}" />
-            </picture>
-            <h3>{{ask.ask.h}}</h3>
-            <p class="prose">
-              {{ask.ask.p}}
-            </p>
-          </div>
-          <div>
-            <picture>
-              <source srcset="{{@base}}assets/shots/builder.webp" type="image/webp" />
-              <img
-                class="shot"
-                src="{{@base}}assets/shots/builder.jpg"
-                width="540" height="1169"
-                loading="lazy" decoding="async"
-                alt="{{builder.alt}}" />
-            </picture>
-            <h3>{{ask.build.h}}</h3>
-            <p class="prose">
-              {{ask.build.p}}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ── 6 · календар ───────────────────────────────────────────── -->
-    <section class="section band">
+    <section class="section" data-section="calendar" data-order="5">
       <div class="wrap calendar">
         <div class="calendar__text">
           <p class="eyebrow">{{calendar.eyebrow}}</p>
@@ -229,13 +209,21 @@
           <p class="lede" style="margin-top: 1rem">
             {{calendar.lede}}
           </p>
+          <h3>{{calendar.plan.h}}</h3>
+          <p class="prose">
+            {{calendar.plan.p}}
+          </p>
+          <h3>{{calendar.stats.h}}</h3>
+          <p class="prose">
+            {{calendar.stats.p}}
+          </p>
         </div>
 
         <picture>
-          <source srcset="{{@base}}assets/shots/calendar.webp" type="image/webp" />
+          <source srcset="{{@base}}assets/shots/plan.webp" type="image/webp" />
           <img
             class="shot shot--lift calendar__shot"
-            src="{{@base}}assets/shots/calendar.jpg"
+            src="{{@base}}assets/shots/plan.jpg"
             width="540" height="1169"
             loading="lazy" decoding="async"
             alt="{{calendar.alt}}" />
@@ -243,57 +231,39 @@
       </div>
     </section>
 
-    <!-- ── 7 · колірний тип ───────────────────────────────────────── -->
-    <section class="section">
-      <div class="wrap colortype">
-        <div>
-          <p class="eyebrow">{{colortype.eyebrow}}</p>
-          <h2 class="display h-section">
-            {{colortype.h}}
-          </h2>
-
-          <ul class="points">
-            <li>
-              <span class="points__n" aria-hidden="true">01</span>
-              <p class="prose">
-                {{colortype.point1}}
-              </p>
-            </li>
-            <li>
-              <span class="points__n" aria-hidden="true">02</span>
-              <p class="prose">
-                {{colortype.point2}}
-              </p>
-            </li>
-            <li>
-              <span class="points__n" aria-hidden="true">03</span>
-              <p class="prose">
-                {{colortype.point3}}
-              </p>
-            </li>
-            <li>
-              <span class="points__n" aria-hidden="true">04</span>
-              <p class="prose">
-                {{colortype.point4}}
-              </p>
-            </li>
-          </ul>
+    <!-- ── 7 · валіза ─────────────────────────────────────────────── -->
+    <section class="section band" data-section="trips" data-order="6">
+      <div class="wrap calendar">
+        <div class="calendar__text">
+          <p class="eyebrow">{{trips.eyebrow}}</p>
+          <h2 class="display h-section">{{trips.h}}</h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{trips.lede}}
+          </p>
+          <h3>{{trips.days.h}}</h3>
+          <p class="prose">
+            {{trips.days.p}}
+          </p>
+          <h3>{{trips.pack.h}}</h3>
+          <p class="prose">
+            {{trips.pack.p}}
+          </p>
         </div>
 
         <picture>
-          <source srcset="{{@base}}assets/shots/colortype.webp" type="image/webp" />
+          <source srcset="{{@base}}assets/shots/trip.webp" type="image/webp" />
           <img
-            class="shot shot--lift colortype__shot"
-            src="{{@base}}assets/shots/colortype.jpg"
+            class="shot shot--lift calendar__shot"
+            src="{{@base}}assets/shots/trip.jpg"
             width="540" height="1169"
             loading="lazy" decoding="async"
-            alt="{{colortype.alt}}" />
+            alt="{{trips.alt}}" />
         </picture>
       </div>
     </section>
 
     <!-- ── 8 · примірочна ─────────────────────────────────────────── -->
-    <section class="section band">
+    <section class="section" data-section="shop" data-order="7">
       <div class="wrap">
         <div style="max-width: 45rem">
           <p class="eyebrow">{{shop.eyebrow}}</p>
@@ -353,33 +323,91 @@
       </div>
     </section>
 
+    <!-- ── 8 · як почати: сфотографувати речі ──────────────────────── -->
+    <section class="section band" data-section="own" data-order="8">
+      <div class="wrap own">
+        <div>
+          <p class="eyebrow">{{own.eyebrow}}</p>
+          <h2 class="display h-section">{{own.h}}</h2>
+          <p class="lede" style="margin-top: 1rem">
+            {{own.lede}}
+          </p>
+          <h3>{{own.fix.h}}</h3>
+          <p class="prose">
+            {{own.fix.p}}
+          </p>
+          <h3>{{own.first.h}}</h3>
+          <p class="prose">
+            {{own.first.p}}
+          </p>
+        </div>
+
+        <div class="own__shots">
+          <picture>
+            <source srcset="{{@base}}assets/shots/dropper.webp" type="image/webp" />
+            <img
+              class="shot"
+              src="{{@base}}assets/shots/dropper.jpg"
+              width="540" height="1169"
+              loading="lazy" decoding="async"
+              alt="{{own.alt}}" />
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 7 · колірний тип ───────────────────────────────────────── -->
+    <section class="section" data-section="colortype" data-order="9">
+      <div class="wrap colortype">
+        <div>
+          <p class="eyebrow">{{colortype.eyebrow}}</p>
+          <h2 class="display h-section">
+            {{colortype.h}}
+          </h2>
+
+          <ul class="points">
+            <li>
+              <span class="points__n" aria-hidden="true">01</span>
+              <p class="prose">
+                {{colortype.point1}}
+              </p>
+            </li>
+            <li>
+              <span class="points__n" aria-hidden="true">02</span>
+              <p class="prose">
+                {{colortype.point2}}
+              </p>
+            </li>
+          </ul>
+        </div>
+
+        <picture>
+          <source srcset="{{@base}}assets/shots/colortype.webp" type="image/webp" />
+          <img
+            class="shot shot--lift colortype__shot"
+            src="{{@base}}assets/shots/colortype.jpg"
+            width="540" height="1169"
+            loading="lazy" decoding="async"
+            alt="{{colortype.alt}}" />
+        </picture>
+      </div>
+    </section>
+
     <!-- ── 9 · маніфест ───────────────────────────────────────────── -->
-    <section class="section dark manifesto" id="why">
+    <section class="section dark manifesto" id="why" data-section="manifesto" data-order="10">
       <div class="wrap">
         <div style="max-width: 51.25rem">
           <p class="eyebrow">{{manifesto.eyebrow}}</p>
           <h2 class="display manifesto__title">{{manifesto.h}}</h2>
         </div>
 
-        <div class="manifesto__cols">
-          <div>
-            <h3 class="display">{{manifesto.model.h}}</h3>
-            <p>
-              {{manifesto.model.p1}}
-            </p>
-            <p>
-              {{manifesto.model.p2}}
-            </p>
-          </div>
-          <div>
-            <h3 class="display">{{manifesto.server.h}}</h3>
-            <p>
-              {{manifesto.server.p1}}
-            </p>
-            <p>
-              {{manifesto.server.p2}}
-            </p>
-          </div>
+        <div class="manifesto__body">
+          <p>
+            {{manifesto.p1}}
+          </p>
+          <p>
+            {{manifesto.p2}}
+          </p>
         </div>
 
         <p class="manifesto__coda">
@@ -389,7 +417,7 @@
     </section>
 
     <!-- ── 10 · чого не робить ────────────────────────────────────── -->
-    <section class="section" id="limits">
+    <section class="section" id="limits" data-section="limits" data-order="11">
       <div class="wrap">
         <div style="max-width: 43.75rem">
           <p class="eyebrow">{{limits.eyebrow}}</p>
@@ -426,12 +454,8 @@
               <p>{{limits.fit.p}}</p>
             </li>
             <li>
-              <h3>{{limits.backup.h}}</h3>
-              <p>{{limits.backup.p}}</p>
-            </li>
-            <li>
-              <h3>{{limits.first.h}}</h3>
-              <p>{{limits.first.p}}</p>
+              <h3>{{limits.device.h}}</h3>
+              <p>{{limits.device.p}}</p>
             </li>
           </ul>
         </div>
@@ -439,7 +463,7 @@
     </section>
 
     <!-- ── 11 · питання ───────────────────────────────────────────── -->
-    <section class="section band">
+    <section class="section band" data-section="faq" data-order="12">
       <div class="wrap faq">
         <div>
           <p class="eyebrow">{{faq.eyebrow}}</p>
@@ -472,6 +496,18 @@
             </p>
           </div>
           <div>
+            <h3>{{faq.offline.q}}</h3>
+            <p class="prose">
+              {{faq.offline.a}}
+            </p>
+          </div>
+          <div>
+            <h3>{{faq.data.q}}</h3>
+            <p class="prose">
+              {{faq.data.a}}
+            </p>
+          </div>
+          <div>
             <h3>{{faq.where.q}}</h3>
             <p class="prose">
               {{faq.where.a}}
@@ -482,7 +518,7 @@
     </section>
 
     <!-- ── 12 · фінальний заклик ──────────────────────────────────── -->
-    <section class="section finale" id="get">
+    <section class="section finale" id="get" data-section="finale" data-order="13">
       <div class="wrap">
         <div class="finale__inner">
           <h2 class="display">{{finale.h}}</h2>
@@ -491,7 +527,7 @@
           </p>
 
           <div class="get">
-            <a class="appstore" href="{{@store}}">
+            <a class="appstore" href="{{@store}}" data-place="finale">
               <svg class="appstore__logo" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
                 <path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.922-.987 1.83 0 2.36.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.208-1.23-3.234-4.883-.026-3.055 2.497-4.52 2.611-4.588-1.429-2.104-3.649-2.34-4.404-2.379-2-.156-3.661 1.09-4.585 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.346.104 2.719-.688 3.56-1.701" />
               </svg>
@@ -511,7 +547,7 @@
     <footer class="site-footer">
       <div class="wrap site-footer__inner">
         <div class="site-footer__left">
-          <span class="display site-footer__wordmark">Ecru</span>
+          <span class="wordmark site-footer__wordmark"><svg class="sprout" viewBox="0 0 24 48" aria-hidden="true" focusable="false"><path d="M12 46.5V15" /><path d="M12 17C7.2 16 4.6 11.4 5 6c4.6 1 7 5 7 11Z" /><path d="M12 23.5c4-1.8 7.4-4.3 8.4-9.6-4.6.1-7.8 3.4-8.4 9.6Z" /></svg><span>lelia</span></span>
           <p class="site-footer__note">
             {{footer.note}}
           </p>
