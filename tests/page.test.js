@@ -63,7 +63,7 @@ test('українська сторінка зібралась і оголошу
 test('шляхи на українській сторінці піднімаються на рівень', () => {
   const uk = page('uk/index.html');
   assert.match(uk, /href="\.\.\/style\.css"/);
-  assert.match(uk, /src="\.\.\/assets\/shots\/today\.jpg"/);
+  assert.match(uk, /src="\.\.\/assets\/shots\/today\.jpg\?v=[0-9a-f]{8}"/);
   assert.doesNotMatch(uk, /src="assets\//);
 });
 
@@ -275,7 +275,7 @@ test('кнопки App Store позначені місцем — для мітк
 
 test('у головної є теги для соцмереж, смарт-банер і структуровані дані', () => {
   const html = page('uk/index.html');
-  assert.match(html, /property="og:image" content="https:\/\/lelia\.app\/assets\/og\/og-uk\.png"/);
+  assert.match(html, /property="og:image" content="https:\/\/lelia\.app\/assets\/og\/og-uk\.png\?v=[0-9a-f]{8}"/);
   assert.match(html, /property="og:locale" content="uk_UA"/);
   assert.match(html, /name="apple-itunes-app" content="app-id=\d+"/);
   const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
